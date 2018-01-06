@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  mail_check:
+    image: registry.yulpa.io/yulpa/check_mails
+    build:
+      context: .
+      dockerfile: Dockerfile
