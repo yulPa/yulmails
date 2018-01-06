@@ -1,6 +1,6 @@
 ### Simple Go Application
 
-The goal of this `go` application is to check mails between sender and recipients. (#TODO: UPDATE DESCRIPTION)
+The goal of this `go` application is to check mails between sender and recipients. (#TODO: Add a better description)
 
 # Getting started
 
