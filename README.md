@@ -15,7 +15,7 @@ $ cd check_mails/
 Now, you can `build` locally your `docker` image, for testing purpose:
 
 ```shell
-$ docker-compose build -f docker-compose-development.yaml --no-cache
+$ docker-compose build --no-cache
 $ docker images
 ```
 
