@@ -1,0 +1,5 @@
+db_host: "coucou.mysql.com"
+db_name: "a_db_name"
+db_user: "superman"
+db_pass: "kryptonite"
+db_port: 3306
