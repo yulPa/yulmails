@@ -1,4 +1,4 @@
-### Simple Go Application
+### YulMails Application
 [![Build Status](https://travis-ci.org/yulPa/check_mails.svg?branch=master)](https://travis-ci.org/yulPa/check_mails)
 
 The goal of this `go` application is to check mails between sender and recipients. (#TODO: Add a better description)
