@@ -1,11 +1,21 @@
-version: "3"
+version: "3.4"
 
 services:
-  mail_check:
-    image: registry.yulpa.io/yulpa/check_mails
+  yulmails:
+    image: registry.yulpa.io/yulpa/yulmails
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: yulmails
+    hostname: yulmails
+    networks:
+      - yulmails
+    ports:
+      - "${YMAILS_IP_LISTENING:-127.0.0.1}${YMAILS_PORT_LISTENING:-80}:80"
     volumes:
-      # please update OS path following your configuration
-      - "C:\\var\\log:/var/log/:rw"
+      - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
+
+
+networks:
+  yulmails:
+    driver: bridge
