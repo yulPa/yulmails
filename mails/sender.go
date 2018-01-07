@@ -2,11 +2,12 @@ package mails
 
 import (
 	"gopkg.in/gomail.v2"
-	// TODO: Add log instead of std output
-	"fmt"
+
+	"github.com/check_mails/logger"
 )
 
 /* This file has not to be tested, `gomail` has his own test series */
+var log = logger.GetLogger()
 
 func SendMail(d *gomail.Dialer, m *gomail.Message) bool {
 	/*
@@ -16,7 +17,7 @@ func SendMail(d *gomail.Dialer, m *gomail.Message) bool {
 		return: <bool> Return true if message has been sent
 	*/
 	if err := d.DialAndSend(m); err != nil {
-		fmt.Println(err)
+		log.Errorln(err)
 		return false
 	}
 	return true

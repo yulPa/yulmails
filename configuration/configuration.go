@@ -1,11 +1,14 @@
 package configuration
 
 import (
-	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"path/filepath"
+
+	"github.com/check_mails/logger"
 )
+
+var log = logger.GetLogger()
 
 type Configuration struct {
 	dbHost string `yaml:"db_host"`
@@ -44,7 +47,7 @@ func NewConfigurationFromConfFile() *Configuration {
 	absFilePath, _ := filepath.Abs("check_mail.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
-		fmt.Println(err)
+		log.Errorln(err)
 	}
 	yaml.Unmarshal(raw, &conf)
 	return &conf
