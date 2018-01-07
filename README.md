@@ -36,3 +36,39 @@ $ export YMAILS_VOLUMES_LOGS=/var/log/ymails
 $ docker-compose up -d
 $ docker-compose logs
 ```
+
+# API
+
+This is the list of available API:
+
+* Create a Pool of authorized environment
+```golang
+Route{
+  Method:      "POST",
+  Pattern:     "/api/v1/authorizedpool",
+}
+```
+Parameter:
+
+```json
+{
+  "environments": [
+    {
+      "name": "zimbra",
+      "domains": [
+        "zimbra1.com",
+        "zimbra2.com",
+        "zimbraN.com"
+      ]
+    },
+    {
+      "name": "http",
+      "domains": [
+        "http1.com",
+        "http2.com",
+        "httpN.com"
+      ]
+    }
+  ]
+}
+```
