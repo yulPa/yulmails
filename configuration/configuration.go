@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/check_mails/logger"
+	"github.com/yulPa/check_mails/logger"
 )
 
 var log = logger.GetLogger()
