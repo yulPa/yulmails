@@ -11,7 +11,7 @@ services:
     networks:
       - yulmails
     ports:
-      - "${YMAILS_IP_LISTENING:-127.0.0.1}${YMAILS_PORT_LISTENING:-80}:80"
+      - "${YMAILS_IP_LISTENING:-127.0.0.1}:${YMAILS_PORT_LISTENING:-80}:80"
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
