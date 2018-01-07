@@ -26,7 +26,13 @@ Please update `check_mail.yaml` configuration file following your installation. 
 
 # Run your application
 
+Set environment variable then run
+
 ```shell
+$ export YMAILS_IP_LISTENING=127.0.0.1
+$ export YMAILS_PORT_LISTENING=80
+$ export YMAILS_VOLUMES_LOGS=/var/log/ymails
+
 $ docker-compose up -d
 $ docker-compose logs
 ```
