@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/check_mails/logger"
 
-func main()  {
-  fmt.Println("Hello, world");
+func main() {
+	log := logger.GetLogger()
+	log.Println("Hello, world")
 }
