@@ -20,7 +20,7 @@ func GetLogger() *logrus.Logger {
 	if err == nil {
 		log.Out = file
 	} else {
-		panic("Log file is not reachable, please assert that /var/log is created and accessible")
+		log.Println("Log file is not reachable, please assert that /var/log is created and accessible")
 	}
 	return log
 }
