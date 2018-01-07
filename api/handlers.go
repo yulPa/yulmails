@@ -19,4 +19,5 @@ func CreateAuthorizedPool(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	pool := domains.CreateANewAuthorizedPoolFromJson(b)
+	log.Infoln(pool)
 }
