@@ -1,6 +1,11 @@
 package domains
 
-import "encoding/json"
+import (
+  "encoding/json"
+  "github.com/yulPa/check_mails/logger"
+)
+
+var log = logger.GetLogger()
 
 type Environment struct {
 	Name    string   `json:"name"`
@@ -24,6 +29,9 @@ func NewAuthorizedPool(env []Environment) *AuthorizedPool {
 
 func CreateANewAuthorizedPoolFromJson(data []byte) *AuthorizedPool {
 	var AuthorizedPool AuthorizedPool
-	json.Unmarshal(data, &AuthorizedPool)
+  if err := json.Unmarshal(data, &AuthorizedPool); err != nil {
+    log.Errorln(err)
+    return nil
+  }
 	return &AuthorizedPool
 }
