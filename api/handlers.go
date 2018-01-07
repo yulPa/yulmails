@@ -1,22 +1,22 @@
 package api
 
 import (
-	"github.com/yulPa/check_mails/logger"
 	"github.com/yulPa/check_mails/domains"
+	"github.com/yulPa/check_mails/logger"
 
-	"net/http"
 	"io/ioutil"
+	"net/http"
 )
 
 var log = logger.GetLogger()
 
 func CreateAuthorizedPool(w http.ResponseWriter, r *http.Request) {
-  /*
-    Create an authorized Pool from HTTP request
-  */
+	/*
+	   Create an authorized Pool from HTTP request
+	*/
 
 	b, _ := ioutil.ReadAll(r.Body)
-  defer r.Body.Close()
+	defer r.Body.Close()
 
-  pool := domains.CreateANewAuthorizedPoolFromJson(b)
+	pool := domains.CreateANewAuthorizedPoolFromJson(b)
 }
