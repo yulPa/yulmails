@@ -6,3 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      # please update OS path following your configuration
+      - "C:\\var\\log:/var/log/:rw"
