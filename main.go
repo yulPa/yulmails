@@ -1,8 +1,9 @@
 package main
 
-import "github.com/yulPa/check_mails/logger"
+import (
+	"github.com/yulPa/check_mails/api"
+)
 
 func main() {
-	log := logger.GetLogger()
-	log.Println("Hello, world")
+	api.Start()
 }
