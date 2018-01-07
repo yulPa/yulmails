@@ -1,8 +1,8 @@
 package domains
 
 import (
-  "encoding/json"
-  "github.com/yulPa/check_mails/logger"
+	"encoding/json"
+	"github.com/yulPa/check_mails/logger"
 )
 
 var log = logger.GetLogger()
@@ -28,10 +28,37 @@ func NewAuthorizedPool(env []Environment) *AuthorizedPool {
 }
 
 func CreateANewAuthorizedPoolFromJson(data []byte) *AuthorizedPool {
+	/*
+	   This function create an AuthorizedPool from a given json.
+	   parameter: <[]byte> example:
+	   ```json
+	   {
+	     "environments": [
+	       {
+	         "name": "zimbra",
+	         "domains": [
+	           "zimbra1.com",
+	           "zimbra2.com",
+	           "zimbraN.com"
+	         ]
+	       },
+	       {
+	         "name": "http",
+	         "domains": [
+	           "http1.com",
+	           "http2.com",
+	           "httpN.com"
+	         ]
+	       }
+	     ]
+	   }
+	   ```
+	   return: <AuthorizedPool> A kind of list of authorized domains
+	*/
 	var AuthorizedPool AuthorizedPool
-  if err := json.Unmarshal(data, &AuthorizedPool); err != nil {
-    log.Errorln(err)
-    return nil
-  }
+	if err := json.Unmarshal(data, &AuthorizedPool); err != nil {
+		log.Errorln(err)
+		return nil
+	}
 	return &AuthorizedPool
 }
