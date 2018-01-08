@@ -11,18 +11,7 @@ func Start() {
 
 	var log = logger.GetLogger()
 
-	var routes = Routes{
-		Route{
-			Name:        "Authorized Pool",
-			Method:      http.MethodPost,
-			Pattern:     "/api/v1/authorizedpool",
-			HandlerFunc: CreateAuthorizedPool,
-		},
-	}
-
-	var router = NewRouter(routes)
-
 	log.Infoln("Start server for API V1")
-	log.Errorln(http.ListenAndServe(":80", router))
+	log.Errorln(http.ListenAndServe(":80", GetRouterV1()))
 
 }
