@@ -1,5 +1,7 @@
 package entity
 
+import "encoding/json"
+
 type Entity struct {
 	Name         string           `json:"name"`
 	Abuse        string           `json:"abuse"`
@@ -12,7 +14,7 @@ type OptsConservation struct {
 	keep   bool `json:"keep,omitempty"`
 }
 
-func NewEntity(name string, abuse string, conservation OptsConservation) *Entity {
+func newEntity(name string, abuse string, conservation OptsConservation) *Entity {
 	/*
 	   Create a new Entity
 	   parameter: <string> Entity name
@@ -25,4 +27,15 @@ func NewEntity(name string, abuse string, conservation OptsConservation) *Entity
 		Abuse:        abuse,
 		Conservation: conservation,
 	}
+}
+
+func NewEntity(data []byte) *Entity {
+	/*
+	   Create a new Entity from a json struct
+	   parameter: <[]byte> Json struct
+	   return: <Entity> Return a new entity
+	*/
+	var entity Entity
+	json.Unmarshal(data, &entity)
+	return &entity
 }

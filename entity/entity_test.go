@@ -12,7 +12,7 @@ func TestCreateANewEntity(t *testing.T) {
 		keep:   true,
 	}
 
-	e := NewEntity(
+	e := newEntity(
 		"An Entity",
 		"entity@toto.com",
 		conservation,
@@ -28,11 +28,30 @@ func TestCreateANewEntityWithoutKeepParameter(t *testing.T) {
 		unsent: 1,
 	}
 
-	e := NewEntity(
+	e := newEntity(
 		"An Entity",
 		"entity@toto.com",
 		conservation,
 	)
 
 	assert.False(t, e.Conservation.keep)
+}
+
+func TestCreateANewEntityFromJson(t *testing.T) {
+	_data := []byte(`
+    {
+      "name": "An entity",
+      "abuse": "abuse@domain.tld",
+      "conservation":{
+        "sent": 5,
+        "unsent": 2,
+        "keep": true
+      }
+    }
+    `)
+
+	e := NewEntity(_data)
+
+	assert.Equal(t, "abuse@domain.tld", e.Abuse)
+
 }
