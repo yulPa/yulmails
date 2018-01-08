@@ -20,6 +20,8 @@ $ docker-compose build --no-cache
 $ docker images
 ```
 
+[API list](https://github.com/yulPa/yulmails/blob/master/API.md)
+
 # Configuration
 
 Please update `yulmails.yaml` configuration file following your installation. (#TODO: We could provide a MySql Database with Compose ?)
@@ -51,69 +53,3 @@ __Todo__
 - [ ] Add a Makefile to build project from sources
 
 Thanks and happy coding !
-
-# API
-
-This is the list of available API:
-
-* Get list of Entitys
-```golang
-Route{
-  Method:      "GET",
-  Pattern:     "/api/v1/entity",
-}
-```
-Return:
-
-```json
-
-{
-  "entitys":[
-    {
-      "name": "entity_name",
-      "abuse": "abuse@domain.tld",
-      "conservation":{
-        "sent": 5,
-        "unsent": 2,
-        "keep": true
-      }
-    },    
-    {
-      "name": "Another entity",
-      "abuse": "another-abuse@domain.tld",
-      "conservation":{
-        "sent": 1,
-        "unsent": 2,
-      }
-    }   
-  ]
-}
-```
-
-* Create an environment associated to an entity
-```golang
-Route{
-  Method:      "POST",
-  Pattern:     "/api/v1/entity/{entity_name}/environment",
-}
-```
-
-Parameter:
-```Json
-{
-  "ips": [
-    "192.168.0.1",
-    "192.168.0.2",
-    "192.168.0.3"
-  ],
-  "abuse": "abuse@domain.tld",
-  "open": false,
-  "quota": {
-    "tenlastminutes": 150,
-    "sixtylastminutes": 200,
-    "lastday": 1000,
-    "lastweek": 3000,
-    "lastmonth": 10000
-  }
-}
-```
