@@ -37,6 +37,21 @@ $ docker-compose up -d
 $ docker-compose logs
 ```
 
+# Contributing
+
+If you want to contribute to this project (thanks !), please fork this repo and commit following commit [style](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) by AngularJS.
+
+__Todo__
+
+- [ ] Add a NoSql test database
+- [ ] Provides data to populate NoSql test database
+- [ ] Add Mock to test server API
+- [ ] Add Mock to test Mongo DB dial
+- [ ] Create a `API.md` in order to document API
+- [ ] Add a Makefile to build project from sources
+
+Thanks and happy coding !
+
 # API
 
 This is the list of available API:
