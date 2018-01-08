@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/yulPa/check_mails/logger"
+	"github.com/yulPa/yulmails/logger"
 
 	"net/http"
 )

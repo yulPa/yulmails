@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/yulPa/check_mails/domains"
-	"github.com/yulPa/check_mails/logger"
+	"github.com/yulPa/yulmails/domains"
+	"github.com/yulPa/yulmails/logger"
 
 	"io/ioutil"
 	"net/http"

@@ -2,7 +2,7 @@ package domains
 
 import (
 	"encoding/json"
-	"github.com/yulPa/check_mails/logger"
+	"github.com/yulPa/yulmails/logger"
 )
 
 var log = logger.GetLogger()

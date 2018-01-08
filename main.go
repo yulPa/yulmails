@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/yulPa/check_mails/api"
+	"github.com/yulPa/yulmails/api"
 )
 
 func main() {

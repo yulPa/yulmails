@@ -16,7 +16,7 @@ func GetLogger() *logrus.Logger {
 	log.Formatter = new(logrus.JSONFormatter)
 	log.Level = logrus.DebugLevel
 
-	file, err := os.OpenFile("/var/log/check_mails.log", os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile("/var/log/yulmails.log", os.O_CREATE|os.O_WRONLY, 0666)
 	if err == nil {
 		log.Out = file
 	} else {
