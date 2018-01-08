@@ -50,6 +50,12 @@ func GetRouterV1() *mux.Router {
 			Pattern:     "/api/v1/entity",
 			HandlerFunc: GetEntity,
 		},
+		Route{
+			Name:        "Create a environment for entity",
+			Method:      http.MethodPost,
+			Pattern:     "/api/v1/entity/{entity}/environment",
+			HandlerFunc: CreateEnvironment,
+		},
 	}
 
 	var router = NewRouter(routes)
