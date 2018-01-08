@@ -47,7 +47,7 @@ __Todo__
 - [ ] Provides data to populate NoSql test database
 - [ ] Add Mock to test server API
 - [ ] Add Mock to test Mongo DB dial
-- [ ] Create a `API.md` in order to document API
+- [x] Create a `API.md` in order to document API
 - [ ] Add a Makefile to build project from sources
 
 Thanks and happy coding !
@@ -55,27 +55,6 @@ Thanks and happy coding !
 # API
 
 This is the list of available API:
-
-* Create an Entity
-```golang
-Route{
-  Method:      "POST",
-  Pattern:     "/api/v1/entity",
-}
-```
-Parameter:
-
-```json
-{
-  "name": "An entity",
-  "abuse": "abuse@domain.tld",
-  "conservation":{
-    "sent": 5,
-    "unsent": 2,
-    "keep": true
-  }
-}
-```
 
 * Get list of Entitys
 ```golang
