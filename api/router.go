@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/gorilla/mux"
+
 	"net/http"
 )
 
@@ -28,6 +29,30 @@ func NewRouter(routes []Route) *mux.Router {
 			Name(route.Name).
 			Handler(route.HandlerFunc)
 	}
+
+	return router
+}
+
+func GetRouterV1() *mux.Router {
+	/*
+		Retourn V1 API
+	*/
+	var routes = Routes{
+		Route{
+			Name:        "Create an entity",
+			Method:      http.MethodPost,
+			Pattern:     "/api/v1/entity",
+			HandlerFunc: CreateEntity,
+		},
+		Route{
+			Name:        "Get entitys",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1/entity",
+			HandlerFunc: GetEntity,
+		},
+	}
+
+	var router = NewRouter(routes)
 
 	return router
 }
