@@ -91,7 +91,7 @@ Return:
 {
   "entitys":[
     {
-      "name": "An entity",
+      "name": "entity_name",
       "abuse": "abuse@domain.tld",
       "conservation":{
         "sent": 5,
@@ -108,5 +108,33 @@ Return:
       }
     }   
   ]
+}
+```
+
+* Create an environment associated to an entity
+```golang
+Route{
+  Method:      "POST",
+  Pattern:     "/api/v1/entity/{entity_name}/environment",
+}
+```
+
+Parameter:
+```Json
+{
+  "ips": [
+    "192.168.0.1",
+    "192.168.0.2",
+    "192.168.0.3"
+  ],
+  "abuse": "abuse@domain.tld",
+  "open": false,
+  "quota": {
+    "tenlastminutes": 150,
+    "sixtylastminutes": 200,
+    "lastday": 1000,
+    "lastweek": 3000,
+    "lastmonth": 10000
+  }
 }
 ```
