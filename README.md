@@ -10,7 +10,7 @@ Please make sure that [Docker](https://www.docker.com/) is installed on your mac
 ```shell
 $ docker version
 $ git clone https://github.com/yulpa/yulmails
-$ cd check_mails/
+$ cd yulmails/
 ```
 
 Now, you can `build` locally your `docker` image, for testing purpose:
@@ -41,34 +41,57 @@ $ docker-compose logs
 
 This is the list of available API:
 
-* Create a Pool of authorized environment
+* Create an Entity
 ```golang
 Route{
   Method:      "POST",
-  Pattern:     "/api/v1/authorizedpool",
+  Pattern:     "/api/v1/entity",
 }
 ```
 Parameter:
 
 ```json
 {
-  "environments": [
+  "name": "An entity",
+  "abuse": "abuse@domain.tld",
+  "conservation":{
+    "sent": 5,
+    "unsent": 2,
+    "keep": true
+  }
+}
+```
+
+* Get list of Entitys
+```golang
+Route{
+  Method:      "GET",
+  Pattern:     "/api/v1/entity",
+}
+```
+Return:
+
+```json
+
+{
+  "entitys":[
     {
-      "name": "zimbra",
-      "domains": [
-        "zimbra1.com",
-        "zimbra2.com",
-        "zimbraN.com"
-      ]
-    },
+      "name": "An entity",
+      "abuse": "abuse@domain.tld",
+      "conservation":{
+        "sent": 5,
+        "unsent": 2,
+        "keep": true
+      }
+    },    
     {
-      "name": "http",
-      "domains": [
-        "http1.com",
-        "http2.com",
-        "httpN.com"
-      ]
-    }
+      "name": "Another entity",
+      "abuse": "another-abuse@domain.tld",
+      "conservation":{
+        "sent": 1,
+        "unsent": 2,
+      }
+    }   
   ]
 }
 ```
