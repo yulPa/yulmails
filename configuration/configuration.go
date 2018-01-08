@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/yulPa/check_mails/logger"
+	"github.com/yulPa/yulmails/logger"
 )
 
 var log = logger.GetLogger()
@@ -44,7 +44,7 @@ func NewConfigurationFromConfFile() *Configuration {
 	  return: <Configuration> A check mail configuration
 	*/
 	var conf Configuration
-	absFilePath, _ := filepath.Abs("check_mail.yaml")
+	absFilePath, _ := filepath.Abs("yulmails.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		log.Errorln(err)

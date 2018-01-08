@@ -3,7 +3,7 @@ package mails
 import (
 	"gopkg.in/gomail.v2"
 
-	"github.com/yulPa/check_mails/logger"
+	"github.com/yulPa/yulmails/logger"
 )
 
 /* This file has not to be tested, `gomail` has his own test series */

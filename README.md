@@ -1,5 +1,5 @@
 ### YulMails Application
-[![Build Status](https://travis-ci.org/yulPa/check_mails.svg?branch=master)](https://travis-ci.org/yulPa/check_mails)
+[![Build Status](https://travis-ci.org/yulPa/yulmails.svg?branch=master)](https://travis-ci.org/yulPa/yulmails)
 
 The goal of this `go` application is to check mails between sender and recipients. (#TODO: Add a better description)
 
@@ -9,7 +9,7 @@ Please make sure that [Docker](https://www.docker.com/) is installed on your mac
 
 ```shell
 $ docker version
-$ git clone https://github.com/yulpa/check_mails
+$ git clone https://github.com/yulpa/yulmails
 $ cd check_mails/
 ```
 
@@ -22,7 +22,7 @@ $ docker images
 
 # Configuration
 
-Please update `check_mail.yaml` configuration file following your installation. (#TODO: We could provide a MySql Database with Compose ?)
+Please update `yulmails.yaml` configuration file following your installation. (#TODO: We could provide a MySql Database with Compose ?)
 
 # Run your application
 
