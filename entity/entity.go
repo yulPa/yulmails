@@ -9,9 +9,9 @@ type Entity struct {
 }
 
 type OptsConservation struct {
-	sent   int  `json:"sent"`
-	unsent int  `json:"unsent"`
-	keep   bool `json:"keep,omitempty"`
+	Sent   int  `json:"sent"`
+	Unsent int  `json:"unsent"`
+	Keep   bool `json:"keep,omitempty"`
 }
 
 type Entities struct {

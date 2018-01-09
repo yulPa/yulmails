@@ -7,9 +7,9 @@ import (
 
 func TestCreateANewEntity(t *testing.T) {
 	conservation := OptsConservation{
-		sent:   3,
-		unsent: 1,
-		keep:   true,
+		Sent:   3,
+		Unsent: 1,
+		Keep:   true,
 	}
 
 	e := newEntity(
@@ -18,14 +18,14 @@ func TestCreateANewEntity(t *testing.T) {
 		conservation,
 	)
 
-	assert.Equal(t, e.Conservation.sent, 3)
-	assert.True(t, e.Conservation.keep)
+	assert.Equal(t, e.Conservation.Sent, 3)
+	assert.True(t, e.Conservation.Keep)
 }
 
 func TestCreateANewEntityWithoutKeepParameter(t *testing.T) {
 	conservation := OptsConservation{
-		sent:   3,
-		unsent: 1,
+		Sent:   3,
+		Unsent: 1,
 	}
 
 	e := newEntity(
@@ -34,7 +34,7 @@ func TestCreateANewEntityWithoutKeepParameter(t *testing.T) {
 		conservation,
 	)
 
-	assert.False(t, e.Conservation.keep)
+	assert.False(t, e.Conservation.Keep)
 }
 
 func TestCreateANewEntityFromJson(t *testing.T) {
@@ -53,6 +53,7 @@ func TestCreateANewEntityFromJson(t *testing.T) {
 	e := NewEntity(_data)
 
 	assert.Equal(t, "abuse@domain.tld", e.Abuse)
+	assert.Equal(t, 2, e.Conservation.Unsent)
 
 }
 
