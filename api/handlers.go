@@ -20,6 +20,8 @@ func CreateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request)
 	*/
 
 	// Open collection associated
+	sess := session.Copy()
+	defer sess.Close()
 	db := session.DB("configuration")
 	col := db.C("entity")
 
@@ -79,6 +81,8 @@ func CreateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Req
 	entityName := vars["entity"]
 
 	// Open collection associated
+	sess := session.Copy()
+	defer sess.Close()
 	db := session.DB("configuration")
 	col := db.C("environment")
 
