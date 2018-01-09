@@ -14,14 +14,16 @@ Create a new Entity in order to define your infrastructure.
 
   __Required__:
 
+    ```
     name=[string]
     abuse=[string]
     sent=[int]
     unsent=[int]
+    ```
 
   __Optional__:
 
-    keep=[boolean]
+    `keep=[boolean]`
 
   * __Data Params__:
 
@@ -94,13 +96,15 @@ Add an environment to an existing entity
 
 __Required__:
 
+  ```
   ips=[[]string]
   abuse=[string]
   open=[boolean]
+  ```
 
 __Optional__:
 
-  quote=[object]
+  `quote=[object]`
 
 * __Data Params__:
 
