@@ -11,7 +11,7 @@ func Start() {
 
 	var log = logger.GetLogger()
 
-	log.Infoln("Start server for API V1")
+	log.Info("Start server for API V1")
 	log.Errorln(http.ListenAndServe(":80", GetRouterV1()))
 
 }

@@ -23,7 +23,6 @@ func TestReadEntities(t *testing.T) {
 	body, _ := ioutil.ReadAll(res.Body)
 
 	entities := entity.NewEntities(body)
-	fmt.Println(entities)
 
 	assert.Equal(t, "abuse@domain.tld", entities.List[0].Abuse)
 }

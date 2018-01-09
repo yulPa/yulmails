@@ -23,7 +23,7 @@ func CreateEntity(w http.ResponseWriter, r *http.Request) {
 
 	entity := entity.NewEntity(b)
 	// TODO: Send entity into MONGO DB
-	log.Infoln(entity)
+	log.Info(entity)
 }
 
 func ReadEntities(w http.ResponseWriter, r *http.Request) {
@@ -76,5 +76,5 @@ func CreateEnvironment(w http.ResponseWriter, r *http.Request) {
 
 	env := environment.NewEnvironment(b)
 	// TODO: Send entity into MONGO DB
-	log.Infoln(entityName, env)
+	log.Info(entityName, env)
 }
