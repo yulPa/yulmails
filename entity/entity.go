@@ -14,7 +14,7 @@ type OptsConservation struct {
 	keep   bool `json:"keep,omitempty"`
 }
 
-type Entitys []Entity
+type Entities []Entity
 
 func newEntity(name string, abuse string, conservation OptsConservation) *Entity {
 	/*

@@ -45,7 +45,7 @@ func GetRouterV1() *mux.Router {
 			HandlerFunc: CreateEntity,
 		},
 		Route{
-			Name:        "Get entitys",
+			Name:        "Get Entities",
 			Method:      http.MethodGet,
 			Pattern:     "/api/v1/entity",
 			HandlerFunc: GetEntity,

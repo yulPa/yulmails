@@ -28,10 +28,10 @@ func CreateEntity(w http.ResponseWriter, r *http.Request) {
 
 func GetEntity(w http.ResponseWriter, r *http.Request) {
 	/*
-		Return a JSON list of present entitys
+		Return a JSON list of present Entities
 	*/
 
-	// TODO: Fetch entitys from DB
+	// TODO: Fetch Entities from DB
 	e := []byte(`
 		{
 		  "name": "An entity",
