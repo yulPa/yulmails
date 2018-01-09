@@ -3,7 +3,7 @@ language: go
 go:
   - 1.9.x
 env:
-- DOCKER_COMPOSE_VERSION=1.17.1
+- DOCKER_COMPOSE_VERSION=1.18.0
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
