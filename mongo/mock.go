@@ -38,6 +38,10 @@ func (mc MockCollection) Find(query interface{}) Query {
 	return MockQuery{}
 }
 
+func (mc MockCollection) Insert(docs ...interface{}) error {
+	return nil
+}
+
 func (mq MockQuery) All(result interface{}) error {
 	return nil
 }

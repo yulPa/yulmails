@@ -18,13 +18,21 @@ func CreateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request)
 	/*
 	   Create an entity Pool from HTTP request
 	*/
-	// TODO: Insert into DB
+
+	// Open collection associated
+	db := session.DB("configuration")
+	col := db.C("entity")
+
+	// Read raw content
 	b, _ := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 
+	// Create and push the struct
 	entity := entity.NewEntity(b)
-	// TODO: Send entity into MONGO DB
-	log.Info(entity)
+	err := col.Insert(entity)
+	if err != nil {
+		log.Error(err)
+	}
 }
 
 func ReadEntities(session mongo.Session, w http.ResponseWriter, r *http.Request) {

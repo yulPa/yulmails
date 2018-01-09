@@ -21,6 +21,7 @@ type DataLayer interface {
 type Collection interface {
 	Count() (int, error)
 	Find(interface{}) Query
+	Insert(...interface{}) error
 }
 
 type Query interface {
