@@ -75,15 +75,24 @@ func CreateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Req
 	/*
 		This method will create an environment associated to an entity
 	*/
-
-	// TODO: Insert into DB
 	vars := mux.Vars(r)
 	entityName := vars["entity"]
 
+	// Open collection associated
+	db := session.DB("configuration")
+	col := db.C("environment")
+
+	// Read raw content
 	b, _ := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
 
+	// Create and push the struct
 	env := environment.NewEnvironment(b)
-	// TODO: Send entity into MONGO DB
-	log.Info(entityName, env)
+	env.IdEntity = entityName
+	err := col.Insert(env)
+	if err != nil {
+		log.Error(err)
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
