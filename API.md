@@ -48,11 +48,11 @@ Create a new Entity in order to define your infrastructure.
 
 ## Get entities list
 
-Fetch all entity created
+Read all entity created
 
   * __URL__
 
-  /api/v1/entity
+  /api/v1/entities
 
   * __Method__:
 

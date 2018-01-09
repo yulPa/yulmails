@@ -14,7 +14,7 @@ import (
 
 var router = GetRouterV1()
 
-func TestGetEntities(t *testing.T) {
+func TestReadEntities(t *testing.T) {
 
 	ts := httptest.NewServer(router)
 	defer ts.Close()

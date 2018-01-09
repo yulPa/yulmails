@@ -26,7 +26,7 @@ func CreateEntity(w http.ResponseWriter, r *http.Request) {
 	log.Infoln(entity)
 }
 
-func GetEntity(w http.ResponseWriter, r *http.Request) {
+func ReadEntities(w http.ResponseWriter, r *http.Request) {
 	/*
 		Return a JSON list of present Entities
 	*/
@@ -34,13 +34,24 @@ func GetEntity(w http.ResponseWriter, r *http.Request) {
 	// TODO: Fetch Entities from DB
 	e := []byte(`
 		{
-		  "name": "An entity",
-		  "abuse": "abuse@domain.tld",
-		  "conservation":{
-		    "sent": 5,
-		    "unsent": 2,
-		    "keep": true
-		  }
+			"entities": [
+				{
+				  "name": "an_entity",
+				  "abuse": "abuse@domain.tld",
+				  "conservation":{
+				    "sent": 5,
+				    "unsent": 2,
+				    "keep": true
+			  },
+				{
+				  "name": "another_entity",
+				  "abuse": "another_abuse@domain.tld",
+				  "conservation":{
+				    "sent": 5,
+				    "unsent": 2,
+				    "keep": false
+			  }
+			]
 		}
 		`)
 
