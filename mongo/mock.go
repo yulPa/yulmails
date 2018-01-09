@@ -1,8 +1,14 @@
 package mongo
 
+import "fmt"
+
 type MockSession struct{}
-type MockDatabase struct{}
-type MockCollection struct{}
+type MockDatabase struct {
+	Name string
+}
+type MockCollection struct {
+	FullName string
+}
 
 func NewMockSession() Session {
 	return MockSession{}
@@ -11,12 +17,16 @@ func NewMockSession() Session {
 func (ms MockSession) Close() {}
 
 func (ms MockSession) DB(name string) DataLayer {
-	mockDatabase := MockDatabase{}
+	mockDatabase := MockDatabase{
+		Name: name,
+	}
 	return mockDatabase
 }
 
 func (md MockDatabase) C(name string) Collection {
-	return MockCollection{}
+	return MockCollection{
+		FullName: fmt.Sprintf("%s.%s", md.Name, name),
+	}
 }
 
 func (mc MockCollection) Count() (n int, err error) {

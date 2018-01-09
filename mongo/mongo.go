@@ -54,12 +54,13 @@ func (md MongoDatabase) C(name string) Collection {
 	}
 }
 
-func NewSession() Session {
+func NewSession(url string) Session {
 	/*
-	   In this method, we create a new Mongo session in order to dial with database
-	   return: <Session> A mongo db session
+		   In this method, we create a new Mongo session in order to dial with database
+			 parameter: <string> URL to reach database, in this format: mongodb://myuser:mypass@localhost:40001,otherhost:40001/mydb
+		   return: <Session> A mongo db session
 	*/
-	mgoSession, err := mgo.Dial("mongo:27017")
+	mgoSession, err := mgo.Dial(url)
 	if err != nil {
 		log.Error(err)
 		return nil
