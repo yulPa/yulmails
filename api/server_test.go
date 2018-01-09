@@ -10,13 +10,14 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/yulPa/yulmails/entity"
+	"github.com/yulPa/yulmails/mongo"
 )
-
-var router = GetRouterV1()
 
 func TestReadEntities(t *testing.T) {
 
-	ts := httptest.NewServer(router)
+	var sess = mongo.NewMockSession()
+	var router = GetRouterV1(sess)
+	var ts = httptest.NewServer(router)
 	defer ts.Close()
 
 	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entities"))

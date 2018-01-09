@@ -4,6 +4,8 @@ import (
 	"github.com/gorilla/mux"
 
 	"net/http"
+
+	"github.com/yulPa/yulmails/mongo"
 )
 
 type Route struct {
@@ -33,7 +35,7 @@ func NewRouter(routes []Route) *mux.Router {
 	return router
 }
 
-func GetRouterV1() *mux.Router {
+func GetRouterV1(session mongo.Session) *mux.Router {
 	/*
 		Retourn V1 API
 	*/
@@ -42,19 +44,19 @@ func GetRouterV1() *mux.Router {
 			Name:        "Create an entity",
 			Method:      http.MethodPost,
 			Pattern:     "/api/v1/entity",
-			HandlerFunc: CreateEntity,
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { CreateEntity(session, w, r) },
 		},
 		Route{
 			Name:        "Get Entities",
 			Method:      http.MethodGet,
 			Pattern:     "/api/v1/entities",
-			HandlerFunc: ReadEntities,
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadEntities(session, w, r) },
 		},
 		Route{
 			Name:        "Create a environment for entity",
 			Method:      http.MethodPost,
 			Pattern:     "/api/v1/entity/{entity}/environment",
-			HandlerFunc: CreateEnvironment,
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { CreateEnvironment(session, w, r) },
 		},
 	}
 

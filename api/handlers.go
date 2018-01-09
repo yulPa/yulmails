@@ -4,6 +4,7 @@ import (
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/logger"
+	"github.com/yulPa/yulmails/mongo"
 
 	"io/ioutil"
 	"net/http"
@@ -13,7 +14,7 @@ import (
 
 var log = logger.GetLogger()
 
-func CreateEntity(w http.ResponseWriter, r *http.Request) {
+func CreateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 	/*
 	   Create an entity Pool from HTTP request
 	*/
@@ -26,7 +27,7 @@ func CreateEntity(w http.ResponseWriter, r *http.Request) {
 	log.Info(entity)
 }
 
-func ReadEntities(w http.ResponseWriter, r *http.Request) {
+func ReadEntities(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 	/*
 		Return a JSON list of present Entities
 	*/
@@ -62,7 +63,7 @@ func ReadEntities(w http.ResponseWriter, r *http.Request) {
 	w.Write(e)
 }
 
-func CreateEnvironment(w http.ResponseWriter, r *http.Request) {
+func CreateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 	/*
 		This method will create an environment associated to an entity
 	*/
