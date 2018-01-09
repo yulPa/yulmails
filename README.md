@@ -45,10 +45,8 @@ If you want to contribute to this project (thanks !), please fork this repo and 
 
 __Todo__
 
-- [ ] Add a NoSql test database
 - [ ] Provides data to populate NoSql test database
-- [ ] Add Mock to test server API
-- [ ] Add Mock to test Mongo DB dial
+- [x] Add Mock to test Mongo DB dial
 - [x] Create a `API.md` in order to document API
 - [ ] Add a Makefile to build project from sources
 
