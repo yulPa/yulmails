@@ -14,7 +14,9 @@ type OptsConservation struct {
 	keep   bool `json:"keep,omitempty"`
 }
 
-type Entities []Entity
+type Entities struct {
+	List []Entity `json:"entities"`
+}
 
 func newEntity(name string, abuse string, conservation OptsConservation) *Entity {
 	/*
@@ -40,4 +42,15 @@ func NewEntity(data []byte) *Entity {
 	var entity Entity
 	json.Unmarshal(data, &entity)
 	return &entity
+}
+
+func NewEntities(data []byte) *Entities {
+	/*
+	 Create new entities from a json struct
+	 parameter: <[]byte> Json struct
+	 return: <Entites> Return a new Entites sruct
+	*/
+	var entities Entities
+	json.Unmarshal(data, &entities)
+	return &entities
 }

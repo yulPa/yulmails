@@ -55,3 +55,35 @@ func TestCreateANewEntityFromJson(t *testing.T) {
 	assert.Equal(t, "abuse@domain.tld", e.Abuse)
 
 }
+
+func TestCreateNewEntitiesFromJson(t *testing.T) {
+	_data := []byte(`
+    {
+			"entities": [
+				{
+		      "name": "An entity",
+		      "abuse": "abuse@domain.tld",
+		      "conservation":{
+		        "sent": 5,
+		        "unsent": 2,
+		        "keep": true
+		      }
+				},
+				{
+		      "name": "An entity",
+		      "abuse": "abuse@domain.tld",
+		      "conservation":{
+		        "sent": 5,
+		        "unsent": 2,
+		        "keep": true
+		      }
+				}
+			]
+    }
+    `)
+
+	e := NewEntities(_data)
+
+	assert.Len(t, e.List, 2)
+
+}
