@@ -30,3 +30,9 @@ func TestGetCountOnCollection(t *testing.T) {
 	count, _ := col.Count()
 	assert.Equal(t, count, 10)
 }
+
+func TestCopyASession(t *testing.T) {
+	conn := NewMockSession()
+	copyConn := conn.Copy()
+	assert.IsType(t, copyConn, MockSession{})
+}

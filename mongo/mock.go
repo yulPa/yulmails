@@ -24,6 +24,10 @@ func (ms MockSession) DB(name string) DataLayer {
 	return mockDatabase
 }
 
+func (ms MockSession) Copy() Session {
+	return ms
+}
+
 func (md MockDatabase) C(name string) Collection {
 	return MockCollection{
 		FullName: fmt.Sprintf("%s.%s", md.Name, name),

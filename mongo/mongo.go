@@ -12,6 +12,7 @@ var log = logger.GetLogger()
 type Session interface {
 	DB(name string) DataLayer
 	Close()
+	Copy() Session
 }
 
 type DataLayer interface {
@@ -52,6 +53,14 @@ func (ms MongoSession) DB(name string) DataLayer {
 	return &MongoDatabase{
 		Database: ms.Session.DB(name),
 	}
+}
+
+func (ms MongoSession) Copy() Session {
+	/*
+		Return a copy of MongoSession, in order to allow concurrent job
+		return: <Session> A new database session
+	*/
+	return MongoSession{ms.Session.Copy()}
 }
 
 func (md MongoDatabase) C(name string) Collection {
