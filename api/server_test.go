@@ -19,10 +19,11 @@ func TestReadEntities(t *testing.T) {
 	ts := httptest.NewServer(router)
 	defer ts.Close()
 
-	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity"))
+	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entities"))
 	body, _ := ioutil.ReadAll(res.Body)
 
-	entity := entity.NewEntity(body)
+	entities := entity.NewEntities(body)
+	fmt.Println(entities)
 
-	assert.Equal(t, "abuse@domain.tld", entity.Abuse)
+	assert.Equal(t, "abuse@domain.tld", entities.List[0].Abuse)
 }

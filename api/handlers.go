@@ -36,23 +36,25 @@ func ReadEntities(w http.ResponseWriter, r *http.Request) {
 		{
 			"entities": [
 				{
-				  "name": "an_entity",
-				  "abuse": "abuse@domain.tld",
-				  "conservation":{
-				    "sent": 5,
-				    "unsent": 2,
-				    "keep": true
-			  },
+		      "name": "an_entity",
+		      "abuse": "abuse@domain.tld",
+		      "conservation":{
+		        "sent": 5,
+		        "unsent": 2,
+		        "keep": true
+		      }
+				},
 				{
-				  "name": "another_entity",
-				  "abuse": "another_abuse@domain.tld",
-				  "conservation":{
-				    "sent": 5,
-				    "unsent": 2,
-				    "keep": false
-			  }
+		      "name": "another_entity",
+		      "abuse": "abuse1@domain.tld",
+		      "conservation":{
+		        "sent": 5,
+		        "unsent": 2,
+		        "keep": true
+		      }
+				}
 			]
-		}
+    }
 		`)
 
 	w.Header().Set("Content-Type", "application/json")
