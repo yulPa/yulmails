@@ -1,12 +1,16 @@
 package environment
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/yulPa/yulmails/entity"
+)
 
 type Environment struct {
 	IPs    []string  `json:"ips"`
 	Abuse  string    `json:"abuse,omitempty"`
 	IsOpen bool      `json:"open"`
 	Quota  OptsQuota `json:"quota,omitempty"`
+	Entity entity.Entity `json:"entity,omitempty"`
 }
 
 type OptsQuota struct {
