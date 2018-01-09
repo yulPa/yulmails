@@ -9,6 +9,7 @@ type MockDatabase struct {
 type MockCollection struct {
 	FullName string
 }
+type MockQuery struct{}
 
 func NewMockSession() Session {
 	return MockSession{}
@@ -31,4 +32,12 @@ func (md MockDatabase) C(name string) Collection {
 
 func (mc MockCollection) Count() (n int, err error) {
 	return 10, nil
+}
+
+func (mc MockCollection) Find(query interface{}) Query {
+	return MockQuery{}
+}
+
+func (mq MockQuery) All(result interface{}) error {
+	return nil
 }

@@ -20,6 +20,11 @@ type DataLayer interface {
 
 type Collection interface {
 	Count() (int, error)
+	Find(interface{}) Query
+}
+
+type Query interface {
+	All(interface{}) error
 }
 
 type MongoSession struct {
@@ -32,6 +37,10 @@ type MongoDatabase struct {
 
 type MongoCollection struct {
 	*mgo.Collection
+}
+
+type MongoQuery struct {
+	*mgo.Query
 }
 
 func (ms MongoSession) DB(name string) DataLayer {
@@ -51,6 +60,16 @@ func (md MongoDatabase) C(name string) Collection {
 	*/
 	return &MongoCollection{
 		Collection: md.Database.C(name),
+	}
+}
+
+func (mc MongoCollection) Find(query interface{}) Query {
+	/*
+	 Return real Find value from mongo
+	 return: <MongoCollection> A Mongo query
+	*/
+	return MongoQuery{
+		Query: mc.Collection.Find(query),
 	}
 }
 
