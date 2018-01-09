@@ -25,6 +25,6 @@ func TestCreateANewEnvironment(t *testing.T) {
     }
     `)
 
-  env := NewEnvironment(data)
-  assert.Equal(t, 3000, env.Quota.LastWeek)
+	env := NewEnvironment(data)
+	assert.Equal(t, 3000, env.Quota.LastWeek)
 }
