@@ -17,7 +17,7 @@ type Environment struct {
 
 type Environments []Environment
 
-func NewDefaultEnvironment(ips []string, abuse string, isOpen bool) *Environment {
+func NewDefaultEnvironment(name string, ips []string, abuse string, isOpen bool) *Environment {
 	/*
 			   Create a new default environment with default quota values
 			   parameter: <[]string> String arrays of IPs address allowed to send email
@@ -26,6 +26,7 @@ func NewDefaultEnvironment(ips []string, abuse string, isOpen bool) *Environment
 		     return: <Environment> A new environment
 	*/
 	return &Environment{
+		Name:   name,
 		IPs:    ips,
 		Abuse:  abuse,
 		IsOpen: isOpen,

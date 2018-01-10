@@ -31,3 +31,13 @@ func TestCreateANewEnvironment(t *testing.T) {
 	assert.Equal(t, 3000, env.Options.Quota.LastWeek)
 	assert.Equal(t, "an_environment", env.Name)
 }
+
+func TestCreateNewDefaultEnvironment(t *testing.T) {
+	env := NewDefaultEnvironment(
+		"a_default_environment",
+		[]string{"192.168.0.1", "192.168.0.2"},
+		"abuse@domain.tld",
+		false,
+	)
+	assert.Equal(t, "a_default_environment", env.Name)
+}
