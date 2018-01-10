@@ -8,6 +8,7 @@ import (
 func TestCreateANewEnvironment(t *testing.T) {
 	data := []byte(`
     {
+			"name": "an_environment",
       "ips": [
         "192.168.0.1",
         "192.168.0.2",
@@ -28,4 +29,5 @@ func TestCreateANewEnvironment(t *testing.T) {
     `)
 	env := NewEnvironment(data)
 	assert.Equal(t, 3000, env.Options.Quota.LastWeek)
+	assert.Equal(t, "an_environment", env.Name)
 }

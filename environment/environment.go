@@ -7,6 +7,7 @@ import (
 )
 
 type Environment struct {
+	Name     string          `json:"name"`
 	IPs      []string        `json:"ips"`
 	Abuse    string          `json:"abuse,omitempty"`
 	IsOpen   bool            `json:"open"`
