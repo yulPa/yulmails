@@ -31,10 +31,12 @@ Create a new Entity in order to define your infrastructure.
     {
       "name": "An entity",
       "abuse": "abuse@domain.tld",
-      "conservation":{
-        "sent": 5,
-        "unsent": 2,
-        "keep": true
+      "options": {
+        "conservation":{
+          "sent": 5,
+          "unsent": 2,
+          "keep": true
+        }
       }
     }
     ```
@@ -68,10 +70,12 @@ Read all entity created
       {
         "name": "An entity",
         "abuse": "abuse@domain.tld",
-        "conservation":{
-          "sent": 5,
-          "unsent": 2,
-          "keep": true
+        "options": {
+          "conservation":{
+            "sent": 5,
+            "unsent": 2,
+            "keep": true
+          }
         }
       }
       ```
@@ -117,12 +121,14 @@ __Optional__:
     ],
     "abuse": "abuse@domain.tld",
     "open": false,
-    "quota": {
-      "tenlastminutes": 150,
-      "sixtylastminutes": 200,
-      "lastday": 1000,
-      "lastweek": 3000,
-      "lastmonth": 10000
+    "options":{
+      "quota": {
+        "tenlastminutes": 150,
+        "sixtylastminutes": 200,
+        "lastday": 1000,
+        "lastweek": 3000,
+        "lastmonth": 10000
+      }
     }
   }
   ```
