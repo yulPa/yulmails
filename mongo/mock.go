@@ -2,6 +2,9 @@ package mongo
 
 import (
 	"fmt"
+	"io/ioutil"
+	"path/filepath"
+
 	"github.com/yulPa/yulmails/entity"
 )
 
@@ -37,49 +40,6 @@ func (md MockDatabase) C(name string) Collection {
 	}
 }
 
-func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
-	data := []byte(`
-		[
-			{
-				"name": "an_entity",
-				"abuse": "abuse@domain.tld",
-				"options": {
-					"conservation": {
-						"sent": 5,
-						"unsent": 2,
-						"keep": true
-					}
-				}
-			},
-			{
-				"name": "another_entity",
-				"abuse": "another_abuse@domain.tld",
-				"options": {
-					"conservation": {
-						"sent": 5,
-						"unsent": 3,
-						"keep": true
-					}
-				}
-			}
-		]
-		`)
-
-	return entity.NewEntities(data), nil
-}
-
-func (md MockDatabase) ReadEntity(name string) (entity.Entity, error) {
-	return entity.Entity{}, nil
-}
-
-func (md MockDatabase) CreateEntity(ent []byte) error {
-	return nil
-}
-
-func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
-	return nil
-}
-
 func (mc MockCollection) Count() (n int, err error) {
 	return 10, nil
 }
@@ -97,5 +57,25 @@ func (mq MockQuery) All(result interface{}) error {
 }
 
 func (mq MockQuery) One(result interface{}) error {
+	return nil
+}
+
+func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
+	absPath, _ := filepath.Abs("../mongo/fixtures/entity/entities.json")
+	data, _ := ioutil.ReadFile(absPath)
+	return entity.NewEntities(data), nil
+}
+
+func (md MockDatabase) ReadEntity(name string) (*entity.Entity, error) {
+	absPath, _ := filepath.Abs("../mongo/fixtures/entity/entity.json")
+	data, _ := ioutil.ReadFile(absPath)
+	return entity.NewEntity(data), nil
+}
+
+func (md MockDatabase) CreateEntity(ent []byte) error {
+	return nil
+}
+
+func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
 	return nil
 }

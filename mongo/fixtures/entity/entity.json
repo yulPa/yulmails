@@ -1,0 +1,11 @@
+{
+  "name": "an_entity",
+  "abuse": "abuse@domain.tld",
+  "options": {
+    "conservation":{
+      "sent": 5,
+      "unsent": 2,
+      "keep": true
+    }
+  }
+}

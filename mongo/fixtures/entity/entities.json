@@ -1,0 +1,24 @@
+[
+  {
+    "name": "an_entity",
+    "abuse": "abuse@domain.tld",
+    "options": {
+      "conservation":{
+        "sent": 5,
+        "unsent": 2,
+        "keep": true
+      }
+    }
+  },
+  {
+    "name": "another_entity",
+    "abuse": "another_abuse@domain.tld",
+    "options": {
+      "conservation":{
+        "sent": 5,
+        "unsent": 3,
+        "keep": true
+      }
+    }
+  }
+]

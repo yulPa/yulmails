@@ -26,7 +26,7 @@ type Session interface {
 type DataLayer interface {
 	C(name string) Collection
 	ReadEntities() ([]entity.Entity, error)
-	ReadEntity(name string) (entity.Entity, error)
+	ReadEntity(name string) (*entity.Entity, error)
 	CreateEnvironment(string, []byte) error
 	CreateEntity([]byte) error
 }
@@ -110,7 +110,7 @@ func NewSession(url string) Session {
 	return MongoSession{mgoSession}
 }
 
-func (md MongoDatabase) ReadEntity(name string) (entity.Entity, error) {
+func (md MongoDatabase) ReadEntity(name string) (*entity.Entity, error) {
 	/*
 		Read a specific entity into database
 		parameter: <string> ID/Name of the entity
@@ -123,9 +123,9 @@ func (md MongoDatabase) ReadEntity(name string) (entity.Entity, error) {
 	err := colEntity.Find(bson.M{"name": name}).One(&res)
 	if err != nil {
 		log.Error(err)
-		return entity.Entity{}, err
+		return &entity.Entity{}, err
 	}
-	return res, nil
+	return &res, nil
 }
 
 func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
@@ -134,7 +134,6 @@ func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
 		parameter: <[]byte> environment JSON
 		return: <error> Return `nil` if not error occured
 	*/
-	var associatedEntity entity.Entity
 	associatedEntity, err := md.ReadEntity(ent)
 	if err != nil {
 		log.Error(err)
