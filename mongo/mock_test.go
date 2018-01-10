@@ -37,9 +37,9 @@ func TestCopyASession(t *testing.T) {
 	assert.IsType(t, copyConn, MockSession{})
 }
 
-func TestInsertSomething(t *testing.T)  {
+func TestInsertSomething(t *testing.T) {
 
-	type Test struct {Yolo string}
+	type Test struct{ Yolo string }
 
 	conn := NewMockSession()
 	db := conn.DB("a_database")
@@ -48,9 +48,9 @@ func TestInsertSomething(t *testing.T)  {
 	assert.Nil(t, err)
 }
 
-func TestFindSomething(t *testing.T)  {
+func TestFindSomething(t *testing.T) {
 
-	type Test struct {Yolo string}
+	type Test struct{ Yolo string }
 
 	conn := NewMockSession()
 	db := conn.DB("a_database")
@@ -59,9 +59,9 @@ func TestFindSomething(t *testing.T)  {
 	assert.IsType(t, res, MockQuery{})
 }
 
-func TestFetchSomething(t *testing.T)  {
+func TestFetchSomething(t *testing.T) {
 
-	type Test struct {Yolo string}
+	type Test struct{ Yolo string }
 	var test Test
 
 	conn := NewMockSession()

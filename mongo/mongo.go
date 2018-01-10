@@ -1,8 +1,16 @@
 package mongo
 
 import (
-	"github.com/yulPa/yulmails/logger"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+
+	"errors"
+	"fmt"
+
+	"github.com/yulPa/yulmails/entity"
+	"github.com/yulPa/yulmails/environment"
+	"github.com/yulPa/yulmails/logger"
+	"github.com/yulPa/yulmails/options"
 )
 
 var log = logger.GetLogger()
@@ -17,6 +25,10 @@ type Session interface {
 
 type DataLayer interface {
 	C(name string) Collection
+	ReadEntities() ([]entity.Entity, error)
+	ReadEntity(name string) (entity.Entity, error)
+	CreateEnvironment(string, []byte) error
+	CreateEntity([]byte) error
 }
 
 type Collection interface {
@@ -27,6 +39,7 @@ type Collection interface {
 
 type Query interface {
 	All(interface{}) error
+	One(interface{}) error
 }
 
 type MongoSession struct {
@@ -95,4 +108,96 @@ func NewSession(url string) Session {
 		return nil
 	}
 	return MongoSession{mgoSession}
+}
+
+func (md MongoDatabase) ReadEntity(name string) (entity.Entity, error) {
+	/*
+		Read a specific entity into database
+		parameter: <string> ID/Name of the entity
+		return: <entity.Entity> Fetched entity
+		return: <error> Nil if no error
+	*/
+	var res entity.Entity
+
+	colEntity := md.C("entity")
+	err := colEntity.Find(bson.M{"name": name}).One(&res)
+	if err != nil {
+		log.Error(err)
+		return entity.Entity{}, err
+	}
+	return res, nil
+}
+
+func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
+	/*
+		This method will insert a new environment into DB after checked if options are correct
+		parameter: <[]byte> environment JSON
+		return: <error> Return `nil` if not error occured
+	*/
+	var associatedEntity entity.Entity
+	associatedEntity, err := md.ReadEntity(ent)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	nEnvironment := environment.NewEnvironment(env)
+
+	if (nEnvironment.Options.Quota == options.OptsQuota{} && associatedEntity.Options.Quota == options.OptsQuota{}) {
+		return errors.New(
+			fmt.Sprintf(
+				"Environment: Quota is not setted for %s entity. Please update %s entity or add quota to %s environment",
+				ent,
+				nEnvironment.Name,
+			),
+		)
+	} else if (nEnvironment.Options.Quota == options.OptsQuota{} && associatedEntity.Options.Quota != options.OptsQuota{}) {
+		nEnvironment.Options.Quota = associatedEntity.Options.Quota
+	}
+
+	colEnvironment := md.C("environment")
+	err = colEnvironment.Insert(nEnvironment)
+
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func (md MongoDatabase) CreateEntity(ent []byte) error {
+	/*
+		Create and push a new entity in database
+		parameter: <[]byte> entity JSON
+		return: <error> nil if no error
+	*/
+
+	nEntity := entity.NewEntity(ent)
+	colEntity := md.C("entity")
+
+	err := colEntity.Insert(nEntity)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+	return nil
+}
+
+func (md MongoDatabase) ReadEntities() ([]entity.Entity, error) {
+	/*
+		Return all entities listed in DB
+		return: <[]entity.Entity> An entites array
+		return: <error> Return nil if no errors
+	*/
+	var res []entity.Entity
+
+	colEntity := md.C("entity")
+	err := colEntity.Find(nil).All(&res)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return res, nil
 }
