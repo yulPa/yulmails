@@ -1,21 +1,17 @@
 package environment
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/yulPa/yulmails/options"
+)
 
 type Environment struct {
-	IPs      []string  `json:"ips"`
-	Abuse    string    `json:"abuse,omitempty"`
-	IsOpen   bool      `json:"open"`
-	Quota    OptsQuota `json:"quota,omitempty"`
-	IdEntity string    `json:"entity,omitempty"`
-}
-
-type OptsQuota struct {
-	TenLastMinutes   int `json:"tenlastminutes"`
-	SixtyLastMinutes int `json:"sixtylastminutes"`
-	LastDay          int `json:"lastday"`
-	LastWeek         int `json:"lastweek"`
-	LastMonth        int `json:"lastmonth"`
+	IPs      []string        `json:"ips"`
+	Abuse    string          `json:"abuse,omitempty"`
+	IsOpen   bool            `json:"open"`
+	Options  options.Options `json:"options"`
+	IdEntity string          `json:"entity,omitempty"`
 }
 
 type Environments []Environment
@@ -32,13 +28,6 @@ func NewDefaultEnvironment(ips []string, abuse string, isOpen bool) *Environment
 		IPs:    ips,
 		Abuse:  abuse,
 		IsOpen: isOpen,
-		Quota: OptsQuota{
-			TenLastMinutes:   10,
-			SixtyLastMinutes: 10,
-			LastDay:          10,
-			LastWeek:         10,
-			LastMonth:        10,
-		},
 	}
 }
 

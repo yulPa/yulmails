@@ -15,16 +15,17 @@ func TestCreateANewEnvironment(t *testing.T) {
       ],
       "abuse": "abuse@domain.tld",
       "open": false,
-      "quota": {
-        "tenlastminutes": 150,
-        "sixtylastminutes": 200,
-        "lastday": 1000,
-        "lastweek": 3000,
-        "lastmonth": 10000
-      }
+			"options": {
+				"quota": {
+					"tenlastminutes": 150,
+					"sixtylastminutes": 200,
+					"lastday": 1000,
+					"lastweek": 3000,
+					"lastmonth": 10000
+				}
+			}
     }
     `)
-
 	env := NewEnvironment(data)
-	assert.Equal(t, 3000, env.Quota.LastWeek)
+	assert.Equal(t, 3000, env.Options.Quota.LastWeek)
 }

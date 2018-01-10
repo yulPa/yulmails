@@ -3,38 +3,44 @@ package entity
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/yulPa/yulmails/options"
 )
 
 func TestCreateANewEntity(t *testing.T) {
-	conservation := OptsConservation{
-		Sent:   3,
-		Unsent: 1,
-		Keep:   true,
+	opts := options.Options{
+		Conservation: options.OptsConservation{
+			Sent:   3,
+			Unsent: 1,
+			Keep:   true,
+		},
 	}
 
 	e := newEntity(
 		"An Entity",
 		"entity@toto.com",
-		conservation,
+		opts,
 	)
 
-	assert.Equal(t, e.Conservation.Sent, 3)
-	assert.True(t, e.Conservation.Keep)
+	assert.Equal(t, e.Options.Conservation.Sent, 3)
+	assert.True(t, e.Options.Conservation.Keep)
 }
 
 func TestCreateANewEntityWithoutKeepParameter(t *testing.T) {
-	conservation := OptsConservation{
-		Sent:   3,
-		Unsent: 1,
+	opts := options.Options{
+		Conservation: options.OptsConservation{
+			Sent:   3,
+			Unsent: 1,
+		},
 	}
 
 	e := newEntity(
 		"An Entity",
 		"entity@toto.com",
-		conservation,
+		opts,
 	)
 
-	assert.False(t, e.Conservation.Keep)
+	assert.False(t, e.Options.Conservation.Keep)
 }
 
 func TestCreateANewEntityFromJson(t *testing.T) {
@@ -42,18 +48,20 @@ func TestCreateANewEntityFromJson(t *testing.T) {
     {
       "name": "An entity",
       "abuse": "abuse@domain.tld",
-      "conservation":{
-        "sent": 5,
-        "unsent": 2,
-        "keep": true
-      }
+      "options": {
+				"conservation":{
+	        "sent": 5,
+	        "unsent": 2,
+	        "keep": true
+	      }
+			}
     }
     `)
 
 	e := NewEntity(_data)
 
 	assert.Equal(t, "abuse@domain.tld", e.Abuse)
-	assert.Equal(t, 2, e.Conservation.Unsent)
+	assert.Equal(t, 2, e.Options.Conservation.Unsent)
 
 }
 

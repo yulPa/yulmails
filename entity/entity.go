@@ -1,35 +1,33 @@
 package entity
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"github.com/yulPa/yulmails/options"
+)
 
 type Entity struct {
-	Name         string           `json:"name"`
-	Abuse        string           `json:"abuse"`
-	Conservation OptsConservation `json:"conservation"`
-}
-
-type OptsConservation struct {
-	Sent   int  `json:"sent"`
-	Unsent int  `json:"unsent"`
-	Keep   bool `json:"keep,omitempty"`
+	Name    string `json:"name"`
+	Abuse   string `json:"abuse"`
+	Options options.Options `json:"options"`
 }
 
 type Entities struct {
 	List []Entity `json:"entities"`
 }
 
-func newEntity(name string, abuse string, conservation OptsConservation) *Entity {
+func newEntity(name string, abuse string, opts options.Options) *Entity {
 	/*
 	   Create a new Entity
 	   parameter: <string> Entity name
 	   parameter: <string> Default abuse address
-	   parameter: <OptsConservation> Options relating to conservation time
+	   parameter: <options.Options> Options relating
 	   return: <Entity> Return a new entity
 	*/
 	return &Entity{
-		Name:         name,
-		Abuse:        abuse,
-		Conservation: conservation,
+		Name:    name,
+		Abuse:   abuse,
+		Options: opts,
 	}
 }
 
