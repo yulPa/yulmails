@@ -12,7 +12,7 @@ type Environment struct {
 	Abuse    string          `json:"abuse,omitempty"`
 	IsOpen   bool            `json:"open"`
 	Options  options.Options `json:"options"`
-	IdEntity string          `json:"entity,omitempty"`
+	EntityId string          `json:"entity,omitempty"`
 }
 
 type Environments []Environment
