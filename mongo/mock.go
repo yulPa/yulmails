@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/yulPa/yulmails/entity"
+	"github.com/yulPa/yulmails/environment"
 )
 
 type MockSession struct{}
@@ -78,4 +79,8 @@ func (md MockDatabase) CreateEntity(ent []byte) error {
 
 func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
 	return nil
+}
+
+func (md MockDatabase) ReadEnvironment(entName string, envName string) (*environment.Environment, error) {
+	return &environment.Environment{}, nil
 }

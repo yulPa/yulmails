@@ -29,6 +29,7 @@ type DataLayer interface {
 	ReadEntity(name string) (*entity.Entity, error)
 	CreateEnvironment(string, []byte) error
 	CreateEntity([]byte) error
+	ReadEnvironment(string, string) (*environment.Environment, error)
 }
 
 type Collection interface {
@@ -141,6 +142,7 @@ func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
 	}
 
 	nEnvironment := environment.NewEnvironment(env)
+	nEnvironment.EntityId = ent
 
 	if (nEnvironment.Options.Quota == options.OptsQuota{} && associatedEntity.Options.Quota == options.OptsQuota{}) {
 		return errors.New(
@@ -199,4 +201,23 @@ func (md MongoDatabase) ReadEntities() ([]entity.Entity, error) {
 	}
 
 	return res, nil
+}
+
+func (md MongoDatabase) ReadEnvironment(entName string, envName string) (*environment.Environment, error) {
+	/*
+		Read one environment in DB
+		parameter: <string> Entity name
+		parameter: <string> Environment name
+	*/
+	var res environment.Environment
+
+	colEntity := md.C("environment")
+	err := colEntity.Find(bson.M{"name": envName, "entityid": entName}).One(&res)
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return &res, nil
 }

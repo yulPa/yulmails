@@ -47,7 +47,7 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { CreateEntity(session, w, r) },
 		},
 		Route{
-			Name:        "Get Entities",
+			Name:        "Read Entities",
 			Method:      http.MethodGet,
 			Pattern:     "/api/v1/entities",
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadEntities(session, w, r) },
@@ -57,6 +57,18 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 			Method:      http.MethodPost,
 			Pattern:     "/api/v1/entity/{entity}/environment",
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { CreateEnvironment(session, w, r) },
+		},
+		Route{
+			Name:        "Read one entity",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1/entity/{entity}",
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadEntity(session, w, r) },
+		},
+		Route{
+			Name:        "Read one environment",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1/entity/{entity}/environment/{environment}",
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadEnvironment(session, w, r) },
 		},
 	}
 
