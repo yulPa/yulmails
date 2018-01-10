@@ -38,7 +38,34 @@ func (md MockDatabase) C(name string) Collection {
 }
 
 func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
-	return []entity.Entity{entity.Entity{}}, nil
+	data := []byte(`
+		[
+			{
+				"name": "an_entity",
+				"abuse": "abuse@domain.tld",
+				"options": {
+					"conservation": {
+						"sent": 5,
+						"unsent": 2,
+						"keep": true
+					}
+				}
+			},
+			{
+				"name": "another_entity",
+				"abuse": "another_abuse@domain.tld",
+				"options": {
+					"conservation": {
+						"sent": 5,
+						"unsent": 3,
+						"keep": true
+					}
+				}
+			}
+		]
+		`)
+
+	return entity.NewEntities(data), nil
 }
 
 func (md MockDatabase) ReadEntity(name string) (entity.Entity, error) {

@@ -1,12 +1,12 @@
 package api
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"bytes"
 
 	"github.com/stretchr/testify/assert"
 
@@ -26,7 +26,7 @@ func TestReadEntities(t *testing.T) {
 
 	entities := entity.NewEntities(body)
 
-	assert.Equal(t, "abuse@domain.tld", entities.List[0].Abuse)
+	assert.Equal(t, "abuse@domain.tld", entities[0].Abuse)
 }
 
 func TestCreateANewEnvironment(t *testing.T) {
