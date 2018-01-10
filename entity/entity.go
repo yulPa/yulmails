@@ -37,3 +37,14 @@ func NewEntity(data []byte) *Entity {
 	json.Unmarshal(data, &entity)
 	return &entity
 }
+
+func NewEntities(data []byte) []Entity {
+	/*
+		Create a new array of entity fron a JSON array struct
+		parameter: <[]byte> JSON entity array
+		return: <[]entity.Entity> An array of entities
+	*/
+	entities := make([]Entity, 0)
+	json.Unmarshal(data, &entities)
+	return entities
+}
