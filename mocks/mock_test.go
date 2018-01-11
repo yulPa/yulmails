@@ -1,12 +1,15 @@
-package mongo
+package mocks
 
 import (
 	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"fmt"
 )
 
 func TestCreateAMongoInstance(t *testing.T) {
 	conn := NewMockSession()
+	fmt.Println(conn)
 	assert.IsType(t, conn, MockSession{})
 }
 

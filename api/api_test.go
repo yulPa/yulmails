@@ -12,18 +12,20 @@ import (
 
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
-	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/mocks"
 )
 
 func TestReadEntities(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
 
 	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entities"))
+	fmt.Println(res)
 	body, _ := ioutil.ReadAll(res.Body)
+	fmt.Println(body)
 
 	entities := entity.NewEntities(body)
 
@@ -32,7 +34,7 @@ func TestReadEntities(t *testing.T) {
 
 func TestCreateANewEnvironment(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -62,8 +64,8 @@ func TestCreateANewEnvironment(t *testing.T) {
 	assert.Equal(t, resp.StatusCode, 201)
 }
 
-func TestCreateANewEnvironmentWithMissingArg(t *testing.T)  {
-	var sess = mongo.NewMockSession()
+func TestCreateANewEnvironmentWithMissingArg(t *testing.T) {
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -80,9 +82,9 @@ func TestCreateANewEnvironmentWithMissingArg(t *testing.T)  {
 	assert.Equal(t, resp.StatusCode, 500)
 }
 
-func TestCreateANewEntity(t *testing.T)  {
+func TestCreateANewEntity(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -107,9 +109,9 @@ func TestCreateANewEntity(t *testing.T)  {
 	assert.Equal(t, resp.StatusCode, 201)
 }
 
-func TestReadOneEntity(t *testing.T)  {
+func TestReadOneEntity(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -117,14 +119,14 @@ func TestReadOneEntity(t *testing.T)  {
 	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity"))
 	body, _ := ioutil.ReadAll(res.Body)
 
-	ent , _:= entity.NewEntity(body)
+	ent, _ := entity.NewEntity(body)
 	assert.Equal(t, ent.Name, "an_entity")
 
 }
 
-func TestReadANonExistingEntity(t *testing.T)  {
+func TestReadANonExistingEntity(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -134,9 +136,9 @@ func TestReadANonExistingEntity(t *testing.T)  {
 	assert.Equal(t, res.StatusCode, 500)
 }
 
-func TestCreateANewEntityWithMissingArg(t *testing.T)  {
+func TestCreateANewEntityWithMissingArg(t *testing.T) {
 
-	var sess = mongo.NewMockSession()
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -153,8 +155,8 @@ func TestCreateANewEntityWithMissingArg(t *testing.T)  {
 	assert.Equal(t, resp.StatusCode, 500)
 }
 
-func TestReadOneEnvironment(t *testing.T)  {
-	var sess = mongo.NewMockSession()
+func TestReadOneEnvironment(t *testing.T) {
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()
@@ -162,13 +164,13 @@ func TestReadOneEnvironment(t *testing.T)  {
 	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity/environment/an_environment"))
 	body, _ := ioutil.ReadAll(res.Body)
 
-	env , _:= environment.NewEnvironment(body)
+	env, _ := environment.NewEnvironment(body)
 	assert.Equal(t, env.Name, "an_environment")
 	assert.Equal(t, env.EntityId, "an_entity")
 }
 
-func TestReadOneNonExistingEnvironment(t *testing.T)  {
-	var sess = mongo.NewMockSession()
+func TestReadOneNonExistingEnvironment(t *testing.T) {
+	var sess = mocks.NewMockSession()
 	var router = GetRouterV1(sess)
 	var ts = httptest.NewServer(router)
 	defer ts.Close()

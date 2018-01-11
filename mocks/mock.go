@@ -1,4 +1,4 @@
-package mongo
+package mocks
 
 import (
 	"errors"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
+	"github.com/yulPa/yulmails/mongo"
 )
 
 type MockSession struct{}
@@ -19,24 +20,24 @@ type MockCollection struct {
 }
 type MockQuery struct{}
 
-func NewMockSession() Session {
+func NewMockSession() mongo.Session {
 	return MockSession{}
 }
 
 func (ms MockSession) Close() {}
 
-func (ms MockSession) DB(name string) DataLayer {
+func (ms MockSession) DB(name string) mongo.DataLayer {
 	mockDatabase := MockDatabase{
 		Name: name,
 	}
 	return mockDatabase
 }
 
-func (ms MockSession) Copy() Session {
+func (ms MockSession) Copy() mongo.Session {
 	return ms
 }
 
-func (md MockDatabase) C(name string) Collection {
+func (md MockDatabase) C(name string) mongo.Collection {
 	return MockCollection{
 		FullName: fmt.Sprintf("%s.%s", md.Name, name),
 	}
@@ -46,7 +47,7 @@ func (mc MockCollection) Count() (n int, err error) {
 	return 10, nil
 }
 
-func (mc MockCollection) Find(query interface{}) Query {
+func (mc MockCollection) Find(query interface{}) mongo.Query {
 	return MockQuery{}
 }
 
@@ -63,14 +64,14 @@ func (mq MockQuery) One(result interface{}) error {
 }
 
 func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
-	absPath, _ := filepath.Abs("../mongo/fixtures/entity/entities.json")
+	absPath, _ := filepath.Abs("../mocks/fixtures/entity/entities.json")
 	data, _ := ioutil.ReadFile(absPath)
 	return entity.NewEntities(data), nil
 }
 
 func (md MockDatabase) ReadEntity(name string) (*entity.Entity, error) {
 	if name == "an_entity" {
-		absPath, _ := filepath.Abs("../mongo/fixtures/entity/entity.json")
+		absPath, _ := filepath.Abs("../mocks/fixtures/entity/entity.json")
 		data, _ := ioutil.ReadFile(absPath)
 		ent, _ := entity.NewEntity(data)
 		return ent, nil
@@ -98,7 +99,7 @@ func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
 
 func (md MockDatabase) ReadEnvironment(entName string, envName string) (*environment.Environment, error) {
 	if entName == "an_entity" && envName == "an_environment" {
-		absPath, _ := filepath.Abs("../mongo/fixtures/environment/environment.json")
+		absPath, _ := filepath.Abs("../mocks/fixtures/environment/environment.json")
 		data, _ := ioutil.ReadFile(absPath)
 		env, _ := environment.NewEnvironment(data)
 		return env, nil
