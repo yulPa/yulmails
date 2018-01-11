@@ -3,8 +3,11 @@ package entity
 import (
 	"encoding/json"
 
+	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/options"
 )
+
+var log = logger.GetLogger()
 
 type Entity struct {
 	Name    string          `json:"name"`
@@ -27,15 +30,19 @@ func newEntity(name string, abuse string, opts options.Options) *Entity {
 	}
 }
 
-func NewEntity(data []byte) *Entity {
+func NewEntity(data []byte) (*Entity, error) {
 	/*
 	   Create a new Entity from a json struct
 	   parameter: <[]byte> Json struct
 	   return: <Entity> Return a new entity
 	*/
 	var entity Entity
-	json.Unmarshal(data, &entity)
-	return &entity
+	err := json.Unmarshal(data, &entity)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+	return &entity, nil
 }
 
 func NewEntities(data []byte) []Entity {

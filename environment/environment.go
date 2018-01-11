@@ -3,8 +3,11 @@ package environment
 import (
 	"encoding/json"
 
+	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/options"
 )
+
+var log = logger.GetLogger()
 
 type Environment struct {
 	Name     string          `json:"name"`
@@ -33,13 +36,17 @@ func NewDefaultEnvironment(name string, ips []string, abuse string, isOpen bool)
 	}
 }
 
-func NewEnvironment(data []byte) *Environment {
+func NewEnvironment(data []byte) (*Environment, error) {
 	/*
 	   Create a new environment directly from a JSON struct
 	   parameter: <[]byte> Environment Json array
 	   return: <Environment> A new environment
 	*/
 	var env Environment
-	json.Unmarshal(data, &env)
-	return &env
+	err := json.Unmarshal(data, &env)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+	return &env, nil
 }

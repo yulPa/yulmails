@@ -27,9 +27,10 @@ func TestCreateANewEnvironment(t *testing.T) {
 			}
     }
     `)
-	env := NewEnvironment(data)
+	env, err := NewEnvironment(data)
 	assert.Equal(t, 3000, env.Options.Quota.LastWeek)
 	assert.Equal(t, "an_environment", env.Name)
+	assert.Nil(t, err)
 }
 
 func TestCreateNewDefaultEnvironment(t *testing.T) {

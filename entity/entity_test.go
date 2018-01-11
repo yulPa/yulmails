@@ -58,10 +58,11 @@ func TestCreateANewEntityFromJson(t *testing.T) {
     }
     `)
 
-	e := NewEntity(_data)
+	e, err := NewEntity(_data)
 
 	assert.Equal(t, "abuse@domain.tld", e.Abuse)
 	assert.Equal(t, 2, e.Options.Conservation.Unsent)
+	assert.Nil(t, err)
 
 }
 
