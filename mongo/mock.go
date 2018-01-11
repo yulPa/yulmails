@@ -1,6 +1,7 @@
 package mongo
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -68,19 +69,39 @@ func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
 }
 
 func (md MockDatabase) ReadEntity(name string) (*entity.Entity, error) {
-	absPath, _ := filepath.Abs("../mongo/fixtures/entity/entity.json")
-	data, _ := ioutil.ReadFile(absPath)
-	return entity.NewEntity(data), nil
+	if name == "an_entity" {
+		absPath, _ := filepath.Abs("../mongo/fixtures/entity/entity.json")
+		data, _ := ioutil.ReadFile(absPath)
+		ent, _ := entity.NewEntity(data)
+		return ent, nil
+	} else {
+		return nil, errors.New("not found")
+	}
 }
 
 func (md MockDatabase) CreateEntity(ent []byte) error {
+	_, err := entity.NewEntity(ent)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
+	_, err := environment.NewEnvironment(env)
+	if err != nil {
+		return err
+	}
 	return nil
+
 }
 
 func (md MockDatabase) ReadEnvironment(entName string, envName string) (*environment.Environment, error) {
-	return &environment.Environment{}, nil
+	if entName == "an_entity" && envName == "an_environment" {
+		absPath, _ := filepath.Abs("../mongo/fixtures/environment/environment.json")
+		data, _ := ioutil.ReadFile(absPath)
+		env, _ := environment.NewEnvironment(data)
+		return env, nil
+	}
+	return nil, errors.New("not found")
 }

@@ -15,5 +15,6 @@
       "lastweek": 3000,
       "lastmonth": 10000
     }
-  }
+  },
+  "entity": "an_entity"
 }

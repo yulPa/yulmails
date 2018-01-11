@@ -141,7 +141,10 @@ func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
 		return err
 	}
 
-	nEnvironment := environment.NewEnvironment(env)
+	nEnvironment, err := environment.NewEnvironment(env)
+	if err != nil {
+		return err
+	}
 	nEnvironment.EntityId = ent
 
 	if (nEnvironment.Options.Quota == options.OptsQuota{} && associatedEntity.Options.Quota == options.OptsQuota{}) {
@@ -174,10 +177,14 @@ func (md MongoDatabase) CreateEntity(ent []byte) error {
 		return: <error> nil if no error
 	*/
 
-	nEntity := entity.NewEntity(ent)
+	nEntity, err := entity.NewEntity(ent)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
 	colEntity := md.C("entity")
 
-	err := colEntity.Insert(nEntity)
+	err = colEntity.Insert(nEntity)
 	if err != nil {
 		log.Error(err)
 		return err
