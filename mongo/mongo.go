@@ -30,12 +30,14 @@ type DataLayer interface {
 	CreateEnvironment(string, []byte) error
 	CreateEntity([]byte) error
 	ReadEnvironment(string, string) (*environment.Environment, error)
+	DeleteEntity(string) error
 }
 
 type Collection interface {
 	Count() (int, error)
 	Find(interface{}) Query
 	Insert(...interface{}) error
+	Remove(interface{}) error
 }
 
 type Query interface {
@@ -215,11 +217,13 @@ func (md MongoDatabase) ReadEnvironment(entName string, envName string) (*enviro
 		Read one environment in DB
 		parameter: <string> Entity name
 		parameter: <string> Environment name
+		return: <environment> Wanted environment
+		return: <error> Nil if no error
 	*/
 	var res environment.Environment
 
-	colEntity := md.C("environment")
-	err := colEntity.Find(bson.M{"name": envName, "entityid": entName}).One(&res)
+	colEnvironment := md.C("environment")
+	err := colEnvironment.Find(bson.M{"name": envName, "entityid": entName}).One(&res)
 
 	if err != nil {
 		log.Error(err)
@@ -227,4 +231,22 @@ func (md MongoDatabase) ReadEnvironment(entName string, envName string) (*enviro
 	}
 
 	return &res, nil
+}
+
+func (md MongoDatabase) DeleteEntity(entName string) error {
+	/*
+		Delete one entity from DB
+		parameter: <string> Entity name
+		parameter: <string> Environment name
+		return: <error> Nil if no error
+	*/
+	colEntity := md.C("entity")
+
+	err := colEntity.Remove(bson.M{"name": entName})
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return nil
 }

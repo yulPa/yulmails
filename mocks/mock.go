@@ -63,6 +63,10 @@ func (mq MockQuery) One(result interface{}) error {
 	return nil
 }
 
+func (mc MockCollection) Remove(result interface{}) error {
+	return nil
+}
+
 func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
 	absPath, _ := filepath.Abs("../mocks/fixtures/entity/entities.json")
 	data, _ := ioutil.ReadFile(absPath)
@@ -105,4 +109,11 @@ func (md MockDatabase) ReadEnvironment(entName string, envName string) (*environ
 		return env, nil
 	}
 	return nil, errors.New("not found")
+}
+
+func (md MockDatabase) DeleteEntity(entName string) error {
+	if entName == "an_entity" {
+		return nil
+	}
+	return errors.New("not found")
 }

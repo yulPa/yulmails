@@ -132,3 +132,25 @@ func ReadEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Reque
 		w.Write(raw)
 	}
 }
+
+func DeleteEntity(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Update an entity already in database
+	*/
+	vars := mux.Vars(r)
+	entityName := vars["entity"]
+
+	// Open collection associated
+	sess := session.Copy()
+	db := sess.DB("configuration")
+	defer sess.Close()
+
+	err := db.DeleteEntity(entityName)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}
