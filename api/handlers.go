@@ -29,7 +29,6 @@ func CreateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request)
 	err := db.CreateEntity(b)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.WriteHeader(http.StatusCreated)
@@ -49,7 +48,6 @@ func ReadEntities(session mongo.Session, w http.ResponseWriter, r *http.Request)
 	raw, _ := json.Marshal(e)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		w.Header().Set("Content-Type", "application/json")
@@ -76,7 +74,6 @@ func CreateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Req
 
 	err := db.CreateEnvironment(entityName, b)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		w.WriteHeader(http.StatusCreated)
@@ -97,7 +94,6 @@ func ReadEntity(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 
 	ent, err := db.ReadEntity(entityName)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		raw, _ := json.Marshal(ent)
@@ -123,7 +119,6 @@ func ReadEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Reque
 	env, err := db.ReadEnvironment(entityName, environmentName)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		raw, _ := json.Marshal(env)
@@ -148,7 +143,6 @@ func DeleteEntity(session mongo.Session, w http.ResponseWriter, r *http.Request)
 	err := db.DeleteEntity(entityName)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		w.WriteHeader(http.StatusOK)
