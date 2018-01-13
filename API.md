@@ -1,29 +1,43 @@
+## Entity
+
+  * [Create](https://github.com/yulPa/yulmails/edit/master/API.md#create-an-entity)
+  * [Update](https://github.com/yulPa/yulmails/edit/master/API.md#update-an-entity)
+  * [Delete](https://github.com/yulPa/yulmails/edit/master/API.md#delete-an-entity)
+  * [Read](https://github.com/yulPa/yulmails/edit/master/API.md#read-an-entity)
+  * [Get entities](https://github.com/yulPa/yulmails/edit/master/API.md#get-entities)
+  
+## Environment
+
+  * [Create](https://github.com/yulPa/yulmails/edit/master/API.md#create-an-environment)
+  * [Read](https://github.com/yulPa/yulmails/edit/master/API.md#read-an-environment)
+  
+
 ## Create an Entity
 
-Create a new Entity in order to define your infrastructure.
+	Create a new Entity in order to define your infrastructure.
 
   * __URL__
 
-  /api/v1/entity
+		/api/v1/entity
 
   * __Method__:
 
-  `POST`
+  	`POST`
 
   * __URL Params__:
 
-  __Required__:
+		__Required__:
 
-    ```
-    name=[string]
-    abuse=[string]
-    sent=[int]
-    unsent=[int]
-    ```
+			```
+			name=[string]
+			abuse=[string]
+			sent=[int]
+			unsent=[int]
+			```
 
-  __Optional__:
+		__Optional__:
 
-    `keep=[boolean]`
+			`keep=[boolean]`
 
   * __Data Params__:
 
@@ -43,46 +57,135 @@ Create a new Entity in order to define your infrastructure.
 
   * __Success Response__:
 
-    * __Code__: 200
+		* __Code__: 200
 
 
   * __Error Response__:
 
-    Not implemented
+		* __Code__: 500
+   
+## Get entities
 
-## Get entities list
-
-Read all entity created
+	Read all entity created
 
   * __URL__
 
-  /api/v1/entities
+		/api/v1/entities
 
   * __Method__:
 
-  `GET`
+  	`GET`
 
   * __Success Response__:
 
-    * __Code__: 200
-      __Content__:
-      ```json
-      {
-        "name": "An entity",
-        "abuse": "abuse@domain.tld",
-        "options": {
-          "conservation":{
-            "sent": 5,
-            "unsent": 2,
-            "keep": true
-          }
+		* __Code__: 200
+		* __Content__:
+				```json
+				[
+					{
+						"name": "an_entity",
+						"abuse": "abuse@domain.tld",
+						"options": {
+							"conservation":{
+								"sent": 5,
+								"unsent": 2,
+								"keep": true
+							}
+						}
+					},
+					{
+						"name": "another_entity",
+						"abuse": "another_abuse@domain.tld",
+						"options": {
+							"conservation":{
+								"sent": 5,
+								"unsent": 3,
+								"keep": true
+							}
+						}
+					}
+				]
+				```
+
+	* __Error Response__:
+	
+		* __Code__: 500
+
+## Update entity
+
+	Update a selected entity
+
+  * __URL__
+
+		/api/v1/entity/{entity_name}
+
+  * __Method__:
+
+  	`POST`
+  
+  * __URL Params__:
+
+			__Required__:
+
+				```
+				name=[string]
+				abuse=[string]
+				sent=[int]
+				unsent=[int]
+				```
+
+			__Optional__:
+
+				`keep=[boolean]`
+ 
+ * __Data Params__:
+
+    ```json
+    {
+      "name": "An entity",
+      "abuse": "abuse@domain.tld",
+      "options": {
+        "conservation":{
+          "sent": 5,
+          "unsent": 2,
+          "keep": true
         }
       }
-      ```
+    }
+    ```
+
+
+  * __Success Response__:
+
+		* __Code__: 200
 
   * __Error Response__:
+  
+		* __Code__: 500
+		* __Content__: 
+			```json
+			{"error": "not found"}
+			```
 
-    Not implemented
+## Delete entity
+
+Delete a selected entity
+
+  * __URL__:
+
+		/api/v1/entity/{an_entity}
+
+  * __Method__:
+
+  	`DELETE`
+
+  * __Success Response__:
+
+		* __Code__: 200
+      
+  * __Error Response__:
+	
+		* __Code__: 500
 
 ## Create an environment
 
