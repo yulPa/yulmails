@@ -50,3 +50,14 @@ func NewEnvironment(data []byte) (*Environment, error) {
 	}
 	return &env, nil
 }
+
+func NewEnvironments(data []byte) []Environment {
+	/*
+		Create a new array of environment fron a JSON array struct
+		parameter: <[]byte> JSON environment array
+		return: <[]Environment> An array of environments
+	*/
+	environments := make([]Environment, 0)
+	json.Unmarshal(data, &environments)
+	return environments
+}

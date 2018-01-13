@@ -42,3 +42,52 @@ func TestCreateNewDefaultEnvironment(t *testing.T) {
 	)
 	assert.Equal(t, "a_default_environment", env.Name)
 }
+
+func TestCreateAnArrayofEnvironment(t *testing.T) {
+	data := []byte(`
+		[
+		  {
+		    "name": "environment1",
+		    "ips": [
+		      "192.168.0.1",
+		      "192.168.0.2",
+		      "192.168.0.3"
+		    ],
+		    "abuse": "abuse@domain.tld",
+		    "open": false,
+		    "options": {
+		      "quota": {
+		        "tenlastminutes": 150,
+		        "sixtylastminutes": 200,
+		        "lastday": 1000,
+		        "lastweek": 3000,
+		        "lastmonth": 10000
+		      }
+		    },
+		    "entity": "an_entity"
+		  },
+		  {
+		    "name": "environment2",
+		    "ips": [
+		      "192.168.0.1",
+		      "192.168.0.2",
+		      "192.168.0.3"
+		    ],
+		    "abuse": "abuse2@domain.tld",
+		    "open": true,
+		    "options": {
+		      "quota": {
+		        "tenlastminutes": 150,
+		        "sixtylastminutes": 200,
+		        "lastday": 1000,
+		        "lastweek": 1234,
+		        "lastmonth": 10000
+		      }
+		    },
+		    "entity": "an_entity"
+		  }
+		]
+		`)
+	envs := NewEnvironments(data)
+	assert.Equal(t, 1234, envs[1].Options.Quota.LastWeek)
+}
