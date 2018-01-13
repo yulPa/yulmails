@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/yulPa/yulmails.svg?branch=master)](https://travis-ci.org/yulPa/yulmails)
 
 The goal of this `go` application is to check mails between sender and recipients. (#TODO: Add a better description)
+[API list](https://github.com/yulPa/yulmails/blob/master/API.md)
 
 # Getting started
 
@@ -20,7 +21,6 @@ $ docker-compose build --no-cache
 $ docker images
 ```
 
-[API list](https://github.com/yulPa/yulmails/blob/master/API.md)
 
 # Configuration
 
@@ -45,9 +45,6 @@ If you want to contribute to this project (thanks !), please fork this repo and 
 
 __Todo__
 
-- [ ] Provides data to populate NoSql test database
-- [x] Add Mock to test Mongo DB dial
-- [x] Create a `API.md` in order to document API
-- [ ] Add a Makefile to build project from sources
+- [ ] Find a good way to document APIs
 
 Thanks and happy coding !

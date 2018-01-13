@@ -267,7 +267,7 @@
   * __Error Response__:
 
     * __Code__: 500
-    * __Content__:<
+    * __Content__:
 
     ```json
     {"error": "not found"}
