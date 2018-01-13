@@ -1,15 +1,15 @@
 ## Entity
 
-  * [Create](https://github.com/yulPa/yulmails/edit/master/API.md#create-an-entity)
-  * [Update](https://github.com/yulPa/yulmails/edit/master/API.md#update-an-entity)
-  * [Delete](https://github.com/yulPa/yulmails/edit/master/API.md#delete-an-entity)
-  * [Read](https://github.com/yulPa/yulmails/edit/master/API.md#read-an-entity)
-  * [Get entities](https://github.com/yulPa/yulmails/edit/master/API.md#get-entities)
+  * [Create](https://github.com/yulPa/yulmails/master/API.md#create-an-entity)
+  * [Update](https://github.com/yulPa/yulmails/master/API.md#update-an-entity)
+  * [Delete](https://github.com/yulPa/yulmails/master/API.md#delete-an-entity)
+  * [Read](https://github.com/yulPa/yulmails/master/API.md#read-an-entity)
+  * [Get entities](https://github.com/yulPa/yulmails/master/API.md#get-entities)
   
 ## Environment
 
-  * [Create](https://github.com/yulPa/yulmails/edit/master/API.md#create-an-environment)
-  * [Read](https://github.com/yulPa/yulmails/edit/master/API.md#read-an-environment)
+  * [Create](https://github.com/yulPa/yulmails/master/API.md#create-an-environment)
+  * [Read](https://github.com/yulPa/yulmails/master/API.md#read-an-environment)
   
 
 ## Create an Entity
@@ -80,6 +80,7 @@
 
 		* __Code__: 200
 		* __Content__:
+				
 				```json
 				[
 					{
@@ -163,6 +164,7 @@
   
 		* __Code__: 500
 		* __Content__: 
+			
 			```json
 			{"error": "not found"}
 			```
