@@ -244,9 +244,24 @@ func (md MongoDatabase) DeleteEntity(entName string) error {
 		parameter: <string> Entity name
 		return: <error> Nil if no error
 	*/
+
+	// We need first to remove all associated environments
+	envs, err := md.ReadEnvironments(entName)
+	if err != nil {
+		log.Info(err)
+		return err
+	}
+
+	for _, env := range envs {
+		err = md.DeleteEnvironment(entName, env.Name)
+		if err != nil {
+			log.Info(err)
+		}
+	}
+
 	colEntity := md.C("entity")
 
-	err := colEntity.Remove(bson.M{"name": entName})
+	err = colEntity.Remove(bson.M{"name": entName})
 	if err != nil {
 		log.Error(err)
 		return err
