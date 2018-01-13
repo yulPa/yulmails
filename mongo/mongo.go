@@ -34,6 +34,7 @@ type DataLayer interface {
 	UpdateEntity(string, []byte) error
 	DeleteEnvironment(string, string) error
 	UpdateEnvironment(string, string, []byte) error
+	ReadEnvironments(string) ([]environment.Environment, error)
 }
 
 type Collection interface {
@@ -311,11 +312,31 @@ func (md MongoDatabase) UpdateEnvironment(entName string, envName string, env []
 		return err
 	}
 
-	err = colEnvironment.Update(bson.M{"name": envName, "entity": entName}, &e)
+	err = colEnvironment.Update(bson.M{"name": envName, "entityid": entName}, &e)
 	if err != nil {
 		log.Error(err)
 		return err
 	}
 
 	return nil
+}
+
+func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environment, error) {
+	/*
+		Return an array of all environment associated to a given entity
+		parameter: <string> Entity name
+		return: <[]environment.Environment> Array of environment
+		return: <error> Nil if no error
+	*/
+	colEnvironment := md.C("environment")
+	var res []environment.Environment
+
+	err := colEnvironment.Find(bson.M{"entityid": entName}).All(&res)
+
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return res, nil
 }

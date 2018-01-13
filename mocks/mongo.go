@@ -142,3 +142,13 @@ func (md MockDatabase) UpdateEnvironment(entName string, envName string, env []b
 	}
 	return errors.New("not found")
 }
+
+func (md MockDatabase) ReadEnvironments(entName string) ([]environment.Environment, error) {
+	if entName == "an_entity" {
+		absPath, _ := filepath.Abs("../mocks/fixtures/environment/environments.json")
+		data, _ := ioutil.ReadFile(absPath)
+		env, _ := environment.NewEnvironments(data)
+		return env, nil
+	}
+	return nil, errors.New("not found")
+}

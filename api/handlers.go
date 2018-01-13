@@ -219,3 +219,26 @@ func UpdateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Req
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func ReadEnvironments(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Read all environments associated to an entity
+	*/
+	vars := mux.Vars(r)
+	entName := vars["entity"]
+
+	sess := session.Copy()
+	db := sess.DB("configuration")
+	defer sess.Close()
+
+	envs, err := db.ReadEnvironments(entName)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		raw, _ := json.Marshal(envs)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(raw)
+	}
+}
