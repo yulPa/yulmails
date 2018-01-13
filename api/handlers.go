@@ -194,3 +194,28 @@ func DeleteEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Req
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func UpdateEnvironment(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Update an existing environment
+	*/
+	vars := mux.Vars(r)
+	entName := vars["entity"]
+	envName := vars["environment"]
+
+	sess := session.Copy()
+	db := sess.DB("configuration")
+	defer sess.Close()
+
+	// Read raw content
+	b, _ := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+
+	err := db.UpdateEnvironment(entName, envName, b)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}

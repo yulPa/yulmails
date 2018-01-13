@@ -248,3 +248,27 @@ func TestDeleteANonExistingEnvironment(t *testing.T) {
 	assert.Equal(t, res.StatusCode, 500)
 
 }
+
+func TestUpdateEnvironment(t *testing.T) {
+	var sess = mocks.NewMockSession()
+	var router = GetRouterV1(sess)
+	var ts = httptest.NewServer(router)
+	defer ts.Close()
+
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity/environment/an_environment"), nil)
+	res, _ := http.DefaultClient.Do(req)
+	assert.Equal(t, res.StatusCode, 200)
+
+}
+
+func TestUpdateNonExistingEnvironment(t *testing.T) {
+	var sess = mocks.NewMockSession()
+	var router = GetRouterV1(sess)
+	var ts = httptest.NewServer(router)
+	defer ts.Close()
+
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity/environment/yolo"), nil)
+	res, _ := http.DefaultClient.Do(req)
+	assert.Equal(t, res.StatusCode, 500)
+
+}

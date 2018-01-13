@@ -135,3 +135,10 @@ func (md MockDatabase) DeleteEnvironment(entName string, envName string) error {
 	}
 	return errors.New("not found")
 }
+
+func (md MockDatabase) UpdateEnvironment(entName string, envName string, env []byte) error {
+	if entName == "an_entity" && envName == "an_environment" {
+		return nil
+	}
+	return errors.New("not found")
+}

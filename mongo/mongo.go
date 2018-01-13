@@ -33,6 +33,7 @@ type DataLayer interface {
 	DeleteEntity(string) error
 	UpdateEntity(string, []byte) error
 	DeleteEnvironment(string, string) error
+	UpdateEnvironment(string, string, []byte) error
 }
 
 type Collection interface {
@@ -262,7 +263,7 @@ func (md MongoDatabase) DeleteEnvironment(entName string, envName string) error 
 	*/
 	colEnv := md.C("environment")
 
-	err := colEnv.Remove(bson.M{"name": envName, "entity": entName})
+	err := colEnv.Remove(bson.M{"name": envName, "entityid": entName})
 	if err != nil {
 		log.Error(err)
 		return err
@@ -286,6 +287,31 @@ func (md MongoDatabase) UpdateEntity(entName string, ent []byte) error {
 	}
 
 	err = colEntity.Update(bson.M{"name": entName}, &e)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func (md MongoDatabase) UpdateEnvironment(entName string, envName string, env []byte) error {
+	/*
+		Update an existing environment in database
+		parameter: <string> Entity name
+		parameter: <string> Environment name
+		parameter: <[]byte> New environment
+		return: <error> Nil if no errors
+	*/
+	colEnvironment := md.C("environment")
+
+	e, err := environment.NewEnvironment(env)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	err = colEnvironment.Update(bson.M{"name": envName, "entity": entName}, &e)
 	if err != nil {
 		log.Error(err)
 		return err
