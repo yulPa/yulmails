@@ -1,24 +1,40 @@
 package mails
 
 import (
-	"gopkg.in/gomail.v2"
-
 	"github.com/yulPa/yulmails/logger"
+
+	"fmt"
+	"net/smtp"
 )
 
-/* This file has not to be tested, `gomail` has his own test series */
 var log = logger.GetLogger()
 
-func SendMail(d *gomail.Dialer, m *gomail.Message) bool {
+type EmailSender interface {
+	Send([]string, []byte) error
+}
+
+type emailSender struct {
+	conf EmailConfig
+	send func(string, smtp.Auth, string, []string, []byte) error
+}
+
+func NewMailSender(conf EmailConfig) EmailSender {
 	/*
-		Send a message with smtp server
-		parameter: <gomail.Dialer> A struct to handler communication with smtp
-		parameter: <gomail.Message> Message to send
-		return: <bool> Return true if message has been sent
+		Create a new mail sender
+		parameter: <EmailConfig> A config associated to the email sender
+		return: <EmailSender> An email sender
 	*/
-	if err := d.DialAndSend(m); err != nil {
-		log.Errorln(err)
-		return false
-	}
-	return true
+	return &emailSender{conf, smtp.SendMail}
+}
+
+func (e *emailSender) Send(to []string, body []byte) error {
+	/*
+		Send an email to a given list of recipipents
+		parameter: <[]string> Array of recipipents
+		parameter: <[]byte> Body content
+		return: <error> Return nil if no errors
+	*/
+	addr := fmt.Sprintf("%s:%s", e.conf.ServerHost, e.conf.ServerPort)
+	auth = smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
+	return e.send(addr, auth, e.conf.SenderAddr, to, body)
 }
