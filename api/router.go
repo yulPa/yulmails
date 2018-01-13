@@ -82,6 +82,12 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 			Pattern:     "/api/v1/entity/{entity}",
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { UpdateEntity(session, w, r) },
 		},
+		Route{
+			Name:        "Delete an environment",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1/entity/{entity}/environment/{environment}",
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { DeleteEnvironment(session, w, r) },
+		},
 	}
 
 	var router = NewRouter(routes)
