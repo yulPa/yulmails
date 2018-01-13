@@ -88,6 +88,6 @@ func TestCreateAnArrayofEnvironment(t *testing.T) {
 		  }
 		]
 		`)
-	envs := NewEnvironments(data)
+	envs, _ := NewEnvironments(data)
 	assert.Equal(t, 1234, envs[1].Options.Quota.LastWeek)
 }
