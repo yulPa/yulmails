@@ -1,4 +1,4 @@
-package mails
+package sender
 
 import (
 	"github.com/yulPa/yulmails/logger"
@@ -16,6 +16,13 @@ type EmailSender interface {
 type emailSender struct {
 	conf EmailConfig
 	send func(string, smtp.Auth, string, []string, []byte) error
+}
+type EmailConfig struct {
+	ServerHost string
+	ServerPort string
+	Username   string
+	Password   string
+	SenderAddr string
 }
 
 func NewMailSender(conf EmailConfig) EmailSender {
@@ -35,6 +42,6 @@ func (e *emailSender) Send(to []string, body []byte) error {
 		return: <error> Return nil if no errors
 	*/
 	addr := fmt.Sprintf("%s:%s", e.conf.ServerHost, e.conf.ServerPort)
-	auth = smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
+	auth := smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
 	return e.send(addr, auth, e.conf.SenderAddr, to, body)
 }
