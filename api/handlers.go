@@ -148,3 +148,28 @@ func DeleteEntity(session mongo.Session, w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusOK)
 	}
 }
+
+func UpdateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Update an existing entity
+	*/
+	vars := mux.Vars(r)
+	entityName := vars["entity"]
+
+	// Open collection associated
+	sess := session.Copy()
+	db := sess.DB("configuration")
+	defer sess.Close()
+
+	// Read raw content
+	b, _ := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+
+	err := db.UpdateEntity(entityName, b)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		w.WriteHeader(http.StatusOK)
+	}
+}

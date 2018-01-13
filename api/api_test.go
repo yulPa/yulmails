@@ -202,3 +202,25 @@ func TestDeleteANonExistingEntity(t *testing.T) {
 	assert.Equal(t, res.StatusCode, 500)
 
 }
+
+func TestUpdateAnEntity(t *testing.T) {
+	var sess = mocks.NewMockSession()
+	var router = GetRouterV1(sess)
+	var ts = httptest.NewServer(router)
+	defer ts.Close()
+
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity"), nil)
+	res, _ := http.DefaultClient.Do(req)
+	assert.Equal(t, res.StatusCode, 200)
+}
+
+func TestUpdateANonExistingEntity(t *testing.T) {
+	var sess = mocks.NewMockSession()
+	var router = GetRouterV1(sess)
+	var ts = httptest.NewServer(router)
+	defer ts.Close()
+
+	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/hello"), nil)
+	res, _ := http.DefaultClient.Do(req)
+	assert.Equal(t, res.StatusCode, 500)
+}

@@ -31,6 +31,7 @@ type DataLayer interface {
 	CreateEntity([]byte) error
 	ReadEnvironment(string, string) (*environment.Environment, error)
 	DeleteEntity(string) error
+	UpdateEntity(string, []byte) error
 }
 
 type Collection interface {
@@ -38,6 +39,7 @@ type Collection interface {
 	Find(interface{}) Query
 	Insert(...interface{}) error
 	Remove(interface{}) error
+	Update(interface{}, interface{}) error
 }
 
 type Query interface {
@@ -237,12 +239,34 @@ func (md MongoDatabase) DeleteEntity(entName string) error {
 	/*
 		Delete one entity from DB
 		parameter: <string> Entity name
-		parameter: <string> Environment name
 		return: <error> Nil if no error
 	*/
 	colEntity := md.C("entity")
 
 	err := colEntity.Remove(bson.M{"name": entName})
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return nil
+}
+
+func (md MongoDatabase) UpdateEntity(entName string, ent []byte) error {
+	/*
+		Update an existing entity in database
+		parameter: <string> Entity name
+		return: <error> Nil if no error
+	*/
+	colEntity := md.C("entity")
+
+	e, err := entity.NewEntity(ent)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	err = colEntity.Update(bson.M{"name": entName}, &e)
 	if err != nil {
 		log.Error(err)
 		return err
