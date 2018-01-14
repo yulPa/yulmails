@@ -361,7 +361,8 @@ func (md MongoDatabase) SaveMail(envName string, mail sender.Mail) error {
 	/*
 		This function will save an email directly into the DB.
 		parameter: <string> environment associated to this email
-
+		parameter: <sender.Mail> Mail to save
+		return: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
 	mail.Environment = envName
