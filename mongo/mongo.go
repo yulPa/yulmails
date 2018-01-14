@@ -11,6 +11,7 @@ import (
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/options"
+	"github.com/yulPa/yulmails/sender"
 )
 
 var log = logger.GetLogger()
@@ -354,4 +355,23 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	}
 
 	return res, nil
+}
+
+func (md MongoDatabase) SaveMail(envName string, mail sender.Mail) error {
+	/*
+		This function will save an email directly into the DB.
+		parameter: <string> environment associated to this email
+
+	*/
+	colMails := md.C("mails")
+	mail.Environment = envName
+
+	err := colMails.Insert(mail)
+
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return nil
 }
