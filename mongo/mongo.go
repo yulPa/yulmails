@@ -357,7 +357,7 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	return res, nil
 }
 
-func (md MongoDatabase) SaveMail(envName string, mail sender.Mail) error {
+func (md MongoDatabase) SaveMail(entName string, envName string, mail sender.Mail) error {
 	/*
 		This function will save an email directly into the DB.
 		parameter: <string> environment associated to this email
@@ -366,6 +366,15 @@ func (md MongoDatabase) SaveMail(envName string, mail sender.Mail) error {
 	*/
 	colMails := md.C("mails")
 	mail.Environment = envName
+
+	env, err := md.ReadEnvironment(entName, envName)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+	if !env.Options.Conservation.Keep {
+		mail.Content = nil
+	}
 
 	err := colMails.Insert(mail)
 
