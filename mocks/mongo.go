@@ -9,6 +9,7 @@ import (
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/sender"
 )
 
 type MockSession struct{}
@@ -151,4 +152,8 @@ func (md MockDatabase) ReadEnvironments(entName string) ([]environment.Environme
 		return env, nil
 	}
 	return nil, errors.New("not found")
+}
+
+func (md MockDatabase) SaveMail(entName string, envName string, mail sender.Mail) error {
+	return nil
 }

@@ -36,6 +36,7 @@ type DataLayer interface {
 	DeleteEnvironment(string, string) error
 	UpdateEnvironment(string, string, []byte) error
 	ReadEnvironments(string) ([]environment.Environment, error)
+	SaveMail(string, string, sender.Mail) error
 }
 
 type Collection interface {
