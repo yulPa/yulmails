@@ -373,10 +373,10 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail sender.Mai
 		return err
 	}
 	if !env.Options.Conservation.Keep {
-		mail.Content = nil
+		mail.Content = ""
 	}
 
-	err := colMails.Insert(mail)
+	err = colMails.Insert(mail)
 
 	if err != nil {
 		log.Error(err)
