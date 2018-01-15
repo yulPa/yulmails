@@ -46,5 +46,7 @@ If you want to contribute to this project (thanks !), please fork this repo and 
 __Todo__
 
 - [ ] Find a good way to document APIs
+- [ ] Add details to logger (env, ent, etc.): not only "not found"
+- [ ] Wrap mongo call with a function in order to get args function (assert.CalledWith something in this A.K.A)
 
 Thanks and happy coding !
