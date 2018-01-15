@@ -41,7 +41,7 @@ func TestSendMail(t *testing.T) {
 			"sender@address.com",
 			"sender1@address.com",
 		},
-		Object: "An object",
+		Object:  "An object",
 		Content: "A content",
 	})
 	assert.Equal(t, r.from, "sender@address.com")
