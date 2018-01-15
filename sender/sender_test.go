@@ -35,9 +35,15 @@ func TestSendMail(t *testing.T) {
 		},
 		send: f,
 	}
-	body := "Hello, World!"
-	err := sender.Send([]string{"me@example.com"}, []byte(body))
-
+	err := sender.Send(Mail{
+		From: "sender@address.com",
+		To: []string{
+			"sender@address.com",
+			"sender1@address.com",
+		},
+		Object: "An object",
+		Content: "A content",
+	})
 	assert.Equal(t, r.from, "sender@address.com")
 	assert.Nil(t, err)
 }

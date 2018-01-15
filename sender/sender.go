@@ -10,7 +10,7 @@ import (
 var log = logger.GetLogger()
 
 type EmailSender interface {
-	Send([]string, []byte) error
+	Send(Mail) error
 }
 
 type emailSender struct {
@@ -34,7 +34,7 @@ func NewMailSender(conf EmailConfig) EmailSender {
 	return &emailSender{conf, smtp.SendMail}
 }
 
-func (e *emailSender) Send(to []string, body []byte) error {
+func (e *emailSender) Send(mail Mail) error {
 	/*
 		Send an email to a given list of recipipents
 		parameter: <[]string> Array of recipipents
@@ -43,5 +43,5 @@ func (e *emailSender) Send(to []string, body []byte) error {
 	*/
 	addr := fmt.Sprintf("%s:%s", e.conf.ServerHost, e.conf.ServerPort)
 	auth := smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
-	return e.send(addr, auth, e.conf.SenderAddr, to, body)
+	return e.send(addr, auth, e.conf.SenderAddr, mail.To, []byte(fmt.Sprintf("%s%s", mail.Object, mail.Content)))
 }
