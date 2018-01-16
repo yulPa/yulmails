@@ -100,6 +100,12 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 			Pattern:     "/api/v1/entity/{entity}/environment",
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadEnvironments(session, w, r) },
 		},
+		Route{
+			Name:        "Read mails associated to an environment",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1/entity/{entity}/environment/{environment}/mails",
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadMails(session, w, r) },
+		},
 	}
 
 	var router = NewRouter(routes)

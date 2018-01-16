@@ -242,3 +242,27 @@ func ReadEnvironments(session mongo.Session, w http.ResponseWriter, r *http.Requ
 		w.Write(raw)
 	}
 }
+
+func ReadMails(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Read all stored mails associated to an environment
+	*/
+	vars := mux.Vars(r)
+	entName := vars["entity"]
+	envName := vars["environment"]
+
+	sess := session.Copy()
+	db := sess.DB("configuration")
+	defer sess.Close()
+
+	mails, err := db.ReadMails(entName, envName)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		raw, _ := json.Marshal(mails)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(raw)
+	}
+}
