@@ -157,3 +157,14 @@ func (md MockDatabase) ReadEnvironments(entName string) ([]environment.Environme
 func (md MockDatabase) SaveMail(entName string, envName string, mail sender.Mail) error {
 	return nil
 }
+
+func (md MockDatabase) ReadMails(entName string, envName string) ([]sender.Mail, error) {
+	if entName == "an_entity" && envName == "an_environment" {
+		absPath, _ := filepath.Abs("../mocks/fixtures/mail/mails.json")
+		data, _ := ioutil.ReadFile(absPath)
+		mails, err := sender.NewMails(data)
+		fmt.Println(err)
+		return mails, nil
+	}
+	return nil, errors.New("not found")
+}

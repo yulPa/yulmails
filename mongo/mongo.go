@@ -37,6 +37,7 @@ type DataLayer interface {
 	UpdateEnvironment(string, string, []byte) error
 	ReadEnvironments(string) ([]environment.Environment, error)
 	SaveMail(string, string, sender.Mail) error
+	ReadMails(string, string) ([]sender.Mail, error)
 }
 
 type Collection interface {
@@ -385,4 +386,25 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail sender.Mai
 	}
 
 	return nil
+}
+
+func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.Mail, error) {
+	/*
+		Return all mails stored in a DB associated to an environment and an entity
+		parameter: <string> Entity name
+		parameter: <string> Environment name
+		return: <[]sender.Mail> An array of mails
+		retur: <error> Nil if no errors
+	*/
+	colMails := md.C("mails")
+	var res []sender.Mail
+
+	// TODO: Add entity name filter
+	err := colMails.Find(bson.M{"environment": envName}).All(&res)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return res, nil
 }
