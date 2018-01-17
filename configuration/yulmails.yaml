@@ -1,5 +1,37 @@
-db_host: "coucou.mysql.com"
-db_name: "a_db_name"
-db_user: "superman"
-db_pass: "kryptonite"
-db_port: 3306
+version: "1"
+
+services:
+
+  archiving_db:
+    name: "archiving_db"
+    host: "mongo.archiving.db"
+    port: "3306"
+    username: "toto"
+    password: "tata"
+
+  senders:
+    - name: "sender1"
+      host: "localhost"
+      port: "12800"
+
+    - name: "sender2"
+      host: "192.168.2.12"
+      port: "12800"
+
+  computes:
+    - name: "slave1"
+      host: "localhost"
+      port: "12800"
+
+    - name: "slave2"
+      host: "192.168.3.12"
+      port: "12800"
+
+  entrypoints:
+    - name: "entry1"
+      host: "localhost"
+      port: "1234"
+
+    - name: "entry2"
+      host: "192.168.3.4"
+      port: "4567"

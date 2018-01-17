@@ -10,40 +10,39 @@ import (
 
 var log = logger.GetLogger()
 
-type Configuration struct {
-	dbHost string `yaml:"db_host"`
-	dbName string `yaml:"db_name"`
-	DbUser string `yaml:"db_user"`
-	dbPass string `yaml:"db_pass"`
-	dbPort int    `yaml:"db_port"`
+type configuration struct {
+	S services `yaml:"services"`
+	V string   `yaml:"version"`
 }
 
-func NewConfiguration(dbHost string, dbName string, dbUser string, dbPass string, dbPort int) *Configuration {
-	/*
-	   Create a new configuration
-	   parameter: <string> Database hostname
-	   parameter: <string> Database name
-	   parameter: <string> Database username
-	   parameter: <string> Database password
-	   parameter: <int> Database port
-	   returm: <Configuration> A check mail configuration
-	*/
-	return &Configuration{
-		dbHost: dbHost,
-		dbName: dbName,
-		DbUser: dbUser,
-		dbPass: dbPass,
-		dbPort: dbPort,
-	}
+type services struct {
+	Archiving   optsArchiving `yaml:"archiving_db"`
+	Senders     []node        `yaml:"senders"`
+	Computes    []node        `yaml:"computes"`
+	Entrypoints []node        `yaml:"entrypoints"`
 }
 
-func NewConfigurationFromConfFile() *Configuration {
+type optsArchiving struct {
+	Name     string `yaml:"name"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+}
+
+type node struct {
+	Name string `yaml:"name"`
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+}
+
+func NewConfigurationFromConfFile() *configuration {
 
 	/*
 	  Create a new Configuration from a conf file
 	  return: <Configuration> A check mail configuration
 	*/
-	var conf Configuration
+	var conf configuration
 	absFilePath, _ := filepath.Abs("yulmails.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {

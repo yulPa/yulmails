@@ -7,5 +7,6 @@ import (
 
 func TestCreateNewConfigurationFromFile(t *testing.T) {
 	conf := NewConfigurationFromConfFile()
-	assert.Equal(t, conf.DbUser, "superman")
+	assert.Equal(t, "1", conf.V)
+	assert.Equal(t, "archiving_db", conf.S.Archiving.Name)
 }
