@@ -24,7 +24,17 @@ $ docker images
 
 # Configuration
 
-Please update `yulmails.yaml` configuration file following your installation. (#TODO: We could provide a MySql Database with Compose ?)
+Please update `yulmails.yaml` configuration file following your installation:
+
+`version` is the current running version of `yulmails` configuration.
+`services` is an array of 4 services:
+
+  * `entrypoint`: This is the interface between `yulmails` and your system
+  * `compute`: This service will check if a mail is considered as a spam
+  * `sender`: This service will send mails to recipients
+  * `archiving_db`: Archiving database is provided by `yulmails` but you can use your own, you just need to use a mongo DB database.
+
+A default configuration file is already provided in order to run `yulmails` on a single machine.
 
 # Run your application
 
