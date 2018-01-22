@@ -13,7 +13,6 @@ import (
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/mocks"
-	"github.com/yulPa/yulmails/sender"
 )
 
 func TestReadEntities(t *testing.T) {
@@ -287,21 +286,5 @@ func TestReadEnvironments(t *testing.T) {
 	defer res.Body.Close()
 
 	env, _ := environment.NewEnvironments(body)
-	assert.Len(t, env, 2)
-}
-
-func TestReadMails(t *testing.T) {
-	var sess = mocks.NewMockSession()
-	var router = GetRouterV1(sess)
-	var ts = httptest.NewServer(router)
-	defer ts.Close()
-
-	res, _ := http.Get(fmt.Sprintf("%s/%s", ts.URL, "api/v1/entity/an_entity/environment/an_environment/mails"))
-	assert.Equal(t, res.StatusCode, 200)
-
-	body, _ := ioutil.ReadAll(res.Body)
-	defer res.Body.Close()
-
-	env, _ := sender.NewMails(body)
 	assert.Len(t, env, 2)
 }

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
+	pb "github.com/yulPa/yulmails/api/mongopb/proto"
 	"github.com/yulPa/yulmails/entity"
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/mongo"
@@ -158,13 +159,6 @@ func (md MockDatabase) SaveMail(entName string, envName string, mail sender.Mail
 	return nil
 }
 
-func (md MockDatabase) ReadMails(entName string, envName string) ([]sender.Mail, error) {
-	if entName == "an_entity" && envName == "an_environment" {
-		absPath, _ := filepath.Abs("../mocks/fixtures/mail/mails.json")
-		data, _ := ioutil.ReadFile(absPath)
-		mails, err := sender.NewMails(data)
-		fmt.Println(err)
-		return mails, nil
-	}
+func (md MockDatabase) ReadMails(entName string, envName string) ([]pb.MailResponse, error) {
 	return nil, errors.New("not found")
 }

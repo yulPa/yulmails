@@ -1,0 +1,22 @@
+syntax="proto3";
+package mongopb;
+
+message MailResponse {
+  string          from        = 1;
+  repeated string to          = 2;
+  string          object      = 3;
+  string          content     = 4;
+  string          hash        = 5;
+  string          timestamp   = 6;
+  string          environment = 7;
+  string          entity      = 8;
+}
+
+message MailRequest {
+  string  environment = 1;
+  string  entity      = 2;
+}
+
+service Mail {
+  rpc ReadMails (MailRequest) returns (stream MailResponse);
+}
