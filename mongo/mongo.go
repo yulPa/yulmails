@@ -12,7 +12,6 @@ import (
 	"github.com/yulPa/yulmails/environment"
 	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/options"
-	"github.com/yulPa/yulmails/sender"
 )
 
 var log = logger.GetLogger()
@@ -37,8 +36,8 @@ type DataLayer interface {
 	DeleteEnvironment(string, string) error
 	UpdateEnvironment(string, string, []byte) error
 	ReadEnvironments(string) ([]environment.Environment, error)
-	SaveMail(string, string, sender.Mail) error
-	ReadMails(string, string) ([]pb.MailResponse, error)
+	SaveMail(string, string, *pb.MailMessage) error
+	ReadMails(string, string) ([]pb.MailMessage, error)
 }
 
 type Collection interface {
@@ -360,7 +359,7 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	return res, nil
 }
 
-func (md MongoDatabase) SaveMail(entName string, envName string, mail sender.Mail) error {
+func (md MongoDatabase) SaveMail(entName string, envName string, mail *pb.MailMessage) error {
 	/*
 		This function will save an email directly into the DB.
 		parameter: <string> environment associated to this email
@@ -389,7 +388,7 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail sender.Mai
 	return nil
 }
 
-func (md MongoDatabase) ReadMails(entName string, envName string) ([]pb.MailResponse, error) {
+func (md MongoDatabase) ReadMails(entName string, envName string) ([]pb.MailMessage, error) {
 	/*
 		Return all mails stored in a DB associated to an environment and an entity
 		parameter: <string> Entity name
@@ -398,7 +397,7 @@ func (md MongoDatabase) ReadMails(entName string, envName string) ([]pb.MailResp
 		retur: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
-	var res []pb.MailResponse
+	var res []pb.MailMessage
 
 	// TODO: Add entity name filter
 	err := colMails.Find(bson.M{"environment": envName}).All(&res)
