@@ -2,8 +2,10 @@ package main
 
 import (
 	"net"
+	"context"
 
 	"google.golang.org/grpc"
+	"github.com/golang/protobuf/ptypes/empty"
 
 	pb "github.com/yulPa/yulmails/api/mongopb/proto"
 	"github.com/yulPa/yulmails/logger"
@@ -20,7 +22,7 @@ func newMailServer(mgo mongo.Session) pb.MailServer {
 	return mailServer{mgo}
 }
 
-func (s mailServer) ReadMails(req *pb.MailRequest, res pb.Mail_ReadMailsServer) error {
+func (s mailServer) ReadMails(req *pb.ContextMessage, res pb.Mail_ReadMailsServer) error {
 
 	sess := s.Copy()
 	db := sess.DB("mails")
@@ -36,6 +38,19 @@ func (s mailServer) ReadMails(req *pb.MailRequest, res pb.Mail_ReadMailsServer) 
 		}
 	}
 	return nil
+}
+
+func (s mailServer) CreateMail(ctx context.Context, req *pb.MailRequestMessage) (*empty.Empty, error){
+
+		sess := s.Copy()
+		db := sess.DB("mails")
+		err := db.SaveMail(req.GetContext().GetEntity(), req.GetContext().GetEnvironment(), req.GetMail())
+
+		if err != nil {
+			log.Errorln(err)
+			return new(empty.Empty), err
+		}
+		return new(empty.Empty), nil
 }
 
 func main() {

@@ -1,7 +1,9 @@
 syntax="proto3";
 package mongopb;
 
-message MailResponse {
+import "google/protobuf/empty.proto";
+
+message MailMessage {
   string          from        = 1;
   repeated string to          = 2;
   string          object      = 3;
@@ -12,11 +14,17 @@ message MailResponse {
   string          entity      = 8;
 }
 
-message MailRequest {
+message ContextMessage {
   string  environment = 1;
   string  entity      = 2;
 }
 
+message MailRequestMessage {
+  MailMessage     mail    = 1;
+  ContextMessage  context = 2;
+}
+
 service Mail {
-  rpc ReadMails (MailRequest) returns (stream MailResponse);
+  rpc ReadMails (ContextMessage) returns (stream MailMessage);
+  rpc CreateMail (MailRequestMessage) returns (google.protobuf.Empty);
 }
