@@ -5,7 +5,7 @@ COPY . ./
 RUN go get ./... && GOOS=linux GOARCH=amd64 go build -o main
 
 FROM alpine:3.6
-WORKDIR /root/
+WORKDIR /etc/yulmails
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
 RUN chmod +x main
 CMD ["./main"]
