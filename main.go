@@ -1,21 +1,30 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/yulPa/yulmails/api"
 	"github.com/yulPa/yulmails/configuration"
-	"github.com/yulPa/yulmails/entrypoint"
+	"github.com/yulPa/yulmails/logger"
+	"github.com/yulPa/yulmails/mongo"
 )
 
+var log = logger.GetLogger()
+
 func main() {
-	conf := configuration.NewConfigurationFromConfFile()
-	fmt.Println(conf)
+
+	// var workdb = mongo.NewSession("mongodb://workdb:27017")
+	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
+
+	err := configuration.NewConfigurationFromConfFile(archivingdb)
+
+	if err != nil {
+		log.Errorln(err)
+		panic(err)
+	}
 
 	/*
 		Start Go Subroutines
 	*/
-	go entrypoint.Run()
+	// go entrypoint.Run()
 
 	api.Start()
 }
