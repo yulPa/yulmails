@@ -6,48 +6,63 @@ import (
 	"path/filepath"
 
 	"github.com/yulPa/yulmails/logger"
+	"github.com/yulPa/yulmails/mongo"
 )
 
 var log = logger.GetLogger()
 
-type configuration struct {
-	S services `yaml:"services"`
-	V string   `yaml:"version"`
+type Configuration struct {
+	S Services `yaml:"services",json:"services"`
+	V string   `yaml:"version",json:"version"`
 }
 
-type services struct {
-	Archiving   optsArchiving `yaml:"archiving_db"`
-	Senders     []node        `yaml:"senders"`
-	Computes    []node        `yaml:"computes"`
-	Entrypoints []node        `yaml:"entrypoints"`
+type Services struct {
+	Archiving   OptsArchiving `yaml:"archiving_db",json:"archiving_db"`
+	Senders     []Node        `yaml:"senders",json:"senders"`
+	Computes    []Node        `yaml:"computes",json:"computes"`
+	Entrypoints []Node        `yaml:"entrypoints",json:"entrypoints"`
 }
 
-type optsArchiving struct {
-	Name     string `yaml:"name"`
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	Username string `yaml:"username"`
-	Password string `yaml:"password"`
+type OptsArchiving struct {
+	Name     string `yaml:"name",json:"name"`
+	Host     string `yaml:"host",json:"host"`
+	Port     string `yaml:"port",json:"port"`
+	Username string `yaml:"username",json:"username"`
+	Password string `yaml:"password",json:"password"`
 }
 
-type node struct {
-	Name string `yaml:"name"`
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
+type Node struct {
+	Name string `yaml:"name",json:"name"`
+	Host string `yaml:"host",json:"host"`
+	Port string `yaml:"port",json:"port"`
 }
 
-func NewConfigurationFromConfFile() *configuration {
-
+func NewConfigurationFromConfFile(session mongo.Session) error {
 	/*
 	  Create a new Configuration from a conf file
 	  return: <Configuration> A check mail configuration
 	*/
-	var conf configuration
-	absFilePath, _ := filepath.Abs("yulmails.yaml")
+	var conf Configuration
+	absFilePath, _ := filepath.Abs("./conf/yulmails.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		log.Errorln(err)
 	}
 	yaml.Unmarshal(raw, &conf)
-	return &conf
+	return conf.saveConfiguration(session)
+}
+
+func (this Configuration) saveConfiguration(session mongo.Session) error {
+	/*
+		This private method will save configuration into an archivingdb
+	*/
+
+	sess := session.Copy()
+	defer sess.Close()
+	db := sess.DB("global")
+	col := db.C("configuration")
+
+	err := col.Insert(this)
+
+	return err
 }
