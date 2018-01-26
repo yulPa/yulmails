@@ -10,9 +10,6 @@ services:
     hostname: yulmails
     networks:
       - yulmails
-    links:
-      - workdb:workdb
-      - archivingdb:archivingdb
     ports:
       - "${YMAILS_IP_LISTENING:-127.0.0.1}:${YMAILS_PORT_LISTENING:-80}:80"
     volumes:
