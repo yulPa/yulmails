@@ -13,6 +13,7 @@ func main() {
 
 	// var workdb = mongo.NewSession("mongodb://workdb:27017")
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
+	defer archivingdb.Close()
 
 	err := configuration.NewConfigurationFromConfFile(archivingdb)
 
