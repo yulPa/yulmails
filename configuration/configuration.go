@@ -1,6 +1,7 @@
 package configuration
 
 import (
+	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"path/filepath"
@@ -43,7 +44,7 @@ func NewConfigurationFromConfFile(session mongo.Session) error {
 	  return: <Configuration> A check mail configuration
 	*/
 	var conf Configuration
-	absFilePath, _ := filepath.Abs("./conf/yulmails.yaml")
+	absFilePath, _ := filepath.Abs("yulmails.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		log.Errorln(err)
