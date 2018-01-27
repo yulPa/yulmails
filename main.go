@@ -5,6 +5,7 @@ import (
 	"github.com/yulPa/yulmails/configuration"
 	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/sender"
 )
 
 var log = logger.GetLogger()
@@ -27,5 +28,6 @@ func main() {
 	*/
 	// go entrypoint.Run()
 
+	go sender.Run()
 	api.Start()
 }

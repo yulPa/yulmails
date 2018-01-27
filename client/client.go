@@ -7,3 +7,7 @@ type SimpleHTTPClient interface {
 }
 
 type HTTPClient struct{ SimpleHTTPClient }
+
+func NewHTTPClient() *HTTPClient {
+	return new(HTTPClient)
+}
