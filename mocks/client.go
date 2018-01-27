@@ -1,17 +1,17 @@
-package client
+package mocks
 
 import (
-	"github.com/yulPa/yulmails/client"
-
 	"net/http"
+
+	"github.com/yulPa/yulmails/client"
 )
 
 type MockHttpClient struct{}
 
-func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
+func (m MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 	return nil, nil
 }
 
-func NewMockClient() mongo.Session {
+func NewMockClient() client.SimpleHTTPClient {
 	return MockHttpClient{}
 }
