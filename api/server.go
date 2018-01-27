@@ -11,9 +11,11 @@ func Start() {
 	/* This method will start v1 API server */
 
 	var log = logger.GetLogger()
-	var session = mongo.NewSession("mongodb://database:27017")
+	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
+	var workdb = mongo.NewSession("mongodb://archivingdb:27017")
 
 	log.Info("Start server for API V1")
-	log.Errorln(http.ListenAndServe(":80", GetRouterV1(session)))
+	log.Errorln(http.ListenAndServe(":80", GetRouterV1(archivingdb)))
+	log.Errorln(http.ListenAndServe(":9252", GetDockerRouterV1(workdb)))
 
 }
