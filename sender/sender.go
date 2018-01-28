@@ -7,6 +7,7 @@ import (
 	"github.com/robfig/cron"
 
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/smtp"
 )
@@ -50,27 +51,32 @@ func (e *emailSender) Send(mail Mail) error {
 	return e.send(addr, auth, e.conf.SenderAddr, mail.To, []byte(fmt.Sprintf("%s%s", mail.Object, mail.Content)))
 }
 
-func sendMail(cli *client.HTTPClient) {
+func sendMail() {
 	/*
 		Request mails that are ready to be sent
 	*/
-	req, err := http.NewRequest(http.MethodGet, "localhost:9252/v1/mails")
+	var cli = client.NewHTTPClient()
+	defer cli.Close()
+
+	req, _ := http.NewRequest(http.MethodGet, "localhost:9252/v1/mails", nil)
 	res, err := cli.Do(req)
 
-	body, _ := ioutil.ReadAll(res.Body)
-	defer body.Close()
+	if err != nil {
+		log.Infoln(err)
+	}
 
-	mails := mail.NewMails(body)
+	body, _ := ioutil.ReadAll(res.Body)
+	defer res.Body.Close()
+
+	mails, _ := NewMails(body)
 
 	for _, m := range mails {
-		fmt.Println("Send mail")
+		fmt.Println("Send mail", m)
 	}
 }
 
 func Run() {
 	var c = cron.New()
-	var cli = client.NewHTTPClient()
-	defer cli.Close()
 
 	c.AddFunc("@every 5s", sendMail)
 
