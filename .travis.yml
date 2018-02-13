@@ -18,4 +18,5 @@ before_install:
 script:
   - docker-compose config
   - godep go install
+  - go test ./...
   - docker build -t registry.yulpa.io/yulmails:${TRAVIS_BRANCH} .
