@@ -11,7 +11,9 @@ Please make sure that [Docker](https://www.docker.com/) is installed on your mac
 ```shell
 $ docker version
 $ git clone https://github.com/yulpa/yulmails
+$ go get -u github.com/tools/godep
 $ cd yulmails/
+$ godep go install
 ```
 
 Now, you can `build` locally your `docker` image, for testing purpose:
