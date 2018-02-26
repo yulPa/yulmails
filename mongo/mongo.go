@@ -162,6 +162,7 @@ func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
 			fmt.Sprintf(
 				"Environment: Quota is not setted for %s entity. Please update %s entity or add quota to %s environment",
 				ent,
+				ent,
 				nEnvironment.Name,
 			),
 		)
