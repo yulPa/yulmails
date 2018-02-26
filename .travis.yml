@@ -3,7 +3,7 @@ services:
   - docker
 sudo: required
 go:
-  - 1.9.x
+  - 1.10.x
 
 env:
 - DOCKER_COMPOSE_VERSION=1.18.0
