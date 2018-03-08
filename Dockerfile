@@ -1,9 +1,11 @@
 FROM golang:1.9.2-alpine3.6 as builder
-RUN apk add git --update
+
+RUN apk add git --update curl
+RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 && chmod +x /usr/local/bin/dep
+
 WORKDIR /go/src/github.com/yulPa/yulmails
 COPY . ./
-RUN  go get -u github.com/tools/godep; \
-  godep go install; \
+RUN dep ensure -vendor-only; \
   GOOS=linux GOARCH=amd64 go build -o main
 
 FROM alpine:3.6
