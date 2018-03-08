@@ -6,17 +6,19 @@ go:
   - 1.10.x
 
 env:
-- DOCKER_COMPOSE_VERSION=1.19.0
+  - DOCKER_COMPOSE_VERSION=1.19.0
+  - DEP_VERSION="0.4.1"
 
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - go get -u github.com/tools/godep
+  - curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
+  - chmod +x $GOPATH/bin/dep
 
 script:
   - docker-compose config
-  - godep go install
+  - dep ensure
   - go test ./...
   - docker build -t registry.yulpa.io/yulmails:${TRAVIS_BRANCH} .
