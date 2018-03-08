@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+
 	"github.com/yulPa/yulmails/api"
 	"github.com/yulPa/yulmails/configuration"
 	"github.com/yulPa/yulmails/logger"
@@ -8,7 +10,11 @@ import (
 	"github.com/yulPa/yulmails/sender"
 )
 
-var log = logger.GetLogger()
+var (
+	log      = logger.GetLogger()
+	certFile = flag.String("tls-crt-file", "domain.tld.crt", "A certificate file")
+	keyFile  = flag.String("tls-key-file", "domain.tld.key", "A key file")
+)
 
 func main() {
 
@@ -29,5 +35,5 @@ func main() {
 	// go entrypoint.Run()
 
 	go sender.Run()
-	api.Start()
+	api.Start(*certFile, *keyFile)
 }

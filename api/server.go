@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func Start() {
+func Start(certFile string, keyFile string) {
 	/* This method will start v1 API server */
 
 	var log = logger.GetLogger()
@@ -15,7 +15,6 @@ func Start() {
 	var workdb = mongo.NewSession("mongodb://archivingdb:27017")
 
 	log.Info("Start server for API V1")
-	log.Errorln(http.ListenAndServe(":80", GetRouterV1(archivingdb)))
+	log.Errorln(http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb)))
 	log.Errorln(http.ListenAndServe(":9252", GetDockerRouterV1(workdb)))
-
 }
