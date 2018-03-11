@@ -2,39 +2,34 @@ version: "3.4"
 
 services:
   yulmails:
-    image: registry.yulpa.io/yulpa/yulmails
+    image: registry.local.tld/yulmails:develop
     build:
       context: .
       dockerfile: Dockerfile
     container_name: yulmails
     hostname: yulmails
-    networks:
-      - yulmails
     ports:
-      - "${YMAILS_IP_LISTENING:-127.0.0.1}:${YMAILS_PORT_LISTENING:-80}:80"
+      - "${YMAILS_IP_LISTENING:-127.0.0.1}:${YMAILS_PORT_LISTENING:-443}:443"
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
-      - "./yulmails.yaml:/etc/yulmails/yulmails.yaml:ro"
-      
+      - "./conf:/etc/yulmails/conf:ro"
+
   workdb:
     image: mongo:3.6.1
     container_name: workdb
     hostname: workdb
-    networks:
-      - yulmails
 
   archivingdb:
     image: mongo:3.6.1
     container_name: archivingdb
     hostname: archivingdb
-    networks:
-      - yulmails
     volumes:
       - "database_data:/data/db"
 
 networks:
-  yulmails:
-    driver: bridge
+  default:
+    external:
+      name: net-yulmails
 
 volumes:
   database_data: {}

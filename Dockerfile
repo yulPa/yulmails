@@ -11,6 +11,8 @@ RUN dep ensure -vendor-only; \
 FROM alpine:3.6
 WORKDIR /etc/yulmails
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
-COPY --from=builder /go/src/github.com/yulPa/yulmails/conf/ .
 RUN chmod +x main
-CMD ["./main"]
+CMD ["./main", \
+  "-tls-crt-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.crt", \
+  "-tls-key-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.key" \
+]

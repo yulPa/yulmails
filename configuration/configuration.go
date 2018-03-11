@@ -43,7 +43,7 @@ func NewConfigurationFromConfFile(session mongo.Session) error {
 	  return: <Configuration> A check mail configuration
 	*/
 	var conf Configuration
-	absFilePath, _ := filepath.Abs("yulmails.yaml")
+	absFilePath, _ := filepath.Abs("./conf/yulmails.yaml")
 	raw, err := ioutil.ReadFile(absFilePath)
 	if err != nil {
 		log.Errorln(err)
