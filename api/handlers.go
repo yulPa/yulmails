@@ -1,7 +1,6 @@
 package api
 
 import (
-	"github.com/yulPa/yulmails/logger"
 	"github.com/yulPa/yulmails/mongo"
 
 	"encoding/json"
@@ -10,8 +9,6 @@ import (
 
 	"github.com/gorilla/mux"
 )
-
-var log = logger.GetLogger()
 
 func CreateEntity(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 	/*
