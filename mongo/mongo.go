@@ -3,6 +3,7 @@ package mongo
 import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/sirupsen/logrus"
 
 	"errors"
 	"fmt"
@@ -133,7 +134,9 @@ func (md MongoDatabase) ReadEntity(name string) (*entity.Entity, error) {
 	colEntity := md.C("entity")
 	err := colEntity.Find(bson.M{"name": name}).One(&res)
 	if err != nil {
-		log.Error(err)
+		log.WithFields(logrus.Fields{
+			"entity": name,
+		}).Error(err)
 		return &entity.Entity{}, err
 	}
 	return &res, nil
@@ -147,7 +150,6 @@ func (md MongoDatabase) CreateEnvironment(ent string, env []byte) error {
 	*/
 	associatedEntity, err := md.ReadEntity(ent)
 	if err != nil {
-		log.Error(err)
 		return err
 	}
 
@@ -190,7 +192,6 @@ func (md MongoDatabase) CreateEntity(ent []byte) error {
 
 	nEntity, err := entity.NewEntity(ent)
 	if err != nil {
-		log.Error(err)
 		return err
 	}
 	colEntity := md.C("entity")
@@ -235,7 +236,10 @@ func (md MongoDatabase) ReadEnvironment(entName string, envName string) (*enviro
 	err := colEnvironment.Find(bson.M{"name": envName, "entityid": entName}).One(&res)
 
 	if err != nil {
-		log.Error(err)
+		log.WithFields(logrus.Fields{
+			"entity": entName,
+			"environment": envName,
+		}).Error(err)
 		return nil, err
 	}
 
@@ -252,15 +256,11 @@ func (md MongoDatabase) DeleteEntity(entName string) error {
 	// We need first to remove all associated environments
 	envs, err := md.ReadEnvironments(entName)
 	if err != nil {
-		log.Info(err)
 		return err
 	}
 
 	for _, env := range envs {
 		err = md.DeleteEnvironment(entName, env.Name)
-		if err != nil {
-			log.Info(err)
-		}
 	}
 
 	colEntity := md.C("entity")
@@ -302,7 +302,6 @@ func (md MongoDatabase) UpdateEntity(entName string, ent []byte) error {
 
 	e, err := entity.NewEntity(ent)
 	if err != nil {
-		log.Error(err)
 		return err
 	}
 
@@ -327,7 +326,6 @@ func (md MongoDatabase) UpdateEnvironment(entName string, envName string, env []
 
 	e, err := environment.NewEnvironment(env)
 	if err != nil {
-		log.Error(err)
 		return err
 	}
 
@@ -353,7 +351,9 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	err := colEnvironment.Find(bson.M{"entityid": entName}).All(&res)
 
 	if err != nil {
-		log.Error(err)
+		log.WithFields(logrus.Fields{
+			"entity": entName,
+		}).Error(err)
 		return nil, err
 	}
 
@@ -403,7 +403,10 @@ func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.Mail
 	// TODO: Add entity name filter
 	err := colMails.Find(bson.M{"environment": envName}).All(&res)
 	if err != nil {
-		log.Error(err)
+		log.WithFields(logrus.Fields{
+			"entity": entName,
+			"environment": envName,
+		}).Error(err)
 		return nil, err
 	}
 
