@@ -12,9 +12,9 @@ func Start(certFile string, keyFile string) {
 
 	var log = logger.GetLogger()
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
-	var workdb = mongo.NewSession("mongodb://archivingdb:27017")
+	var workdb = mongo.NewSession("mongodb://workdb:27017")
 
 	log.Info("Start server for API V1")
-	log.Errorln(http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb)))
-	log.Errorln(http.ListenAndServe(":9252", GetDockerRouterV1(workdb)))
+	go http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb))
+	go http.ListenAndServe(":9252", GetDockerRouterV1(workdb))
 }
