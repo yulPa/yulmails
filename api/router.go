@@ -106,6 +106,12 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 			Pattern:     "/api/v1/entity/{entity}/environment/{environment}/mails",
 			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { ReadMails(session, w, r) },
 		},
+		Route{
+			Name:        "Ping the service",
+			Method:      http.MethodGet,
+			Pattern:     "/api/v1",
+			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { Ping(session, w, r) },
+		},
 	}
 
 	var router = NewRouter(routes)

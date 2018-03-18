@@ -263,3 +263,15 @@ func ReadMails(session mongo.Session, w http.ResponseWriter, r *http.Request) {
 		w.Write(raw)
 	}
 }
+
+func Ping(session mongo.Session, w http.ResponseWriter, r *http.Request) {
+	/*
+		Return an `{"healthy": "true"}`
+	*/
+
+		raw, _ := json.Marshal(mails)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(`{"healthy": true}`)
+	}
+}
