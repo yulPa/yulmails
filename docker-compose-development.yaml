@@ -3,6 +3,9 @@ version: "3.4"
 services:
   yulmails-api:
     image: registry.local.tld/yulmails-api:develop
+    build:
+      context: .
+      dockerfile: Dockerfile.api
     container_name: yulmails-api
     hostname: yulmails-api
     ports:
@@ -11,24 +14,33 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
       - "./conf:/etc/yulmails/conf:ro"
 
-  yulmails-sender:
-    image: registry.local.tld/yulmails-sender:develop
-    container_name: yulmails-sender
-    hostname: yulmails-sender
+  yulmails-entrypoint:
+    image: registry.local.tld/yulmails-entrypoint:develop
+    build:
+      context: .
+      dockerfile: Dockerfile.entrypoint
+    container_name: yulmails-entrypoint
+    hostname: yulmails-entrypoint
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-compute:
     image: registry.local.tld/yulmails-compute:develop
+    build:
+      context: .
+      dockerfile: Dockerfile.compute
     container_name: yulmails-compute
     hostname: yulmails-compute
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
-  yulmails-entrypoint:
-    image: registry.local.tld/yulmails-entrypoint:develop
-    container_name: yulmails-entrypoint
-    hostname: yulmails-entrypoint
+  yulmails-sender:
+    image: registry.local.tld/yulmails-sender:develop
+    build:
+      context: .
+      dockerfile: Dockerfile.sender
+    container_name: yulmails-sender
+    hostname: yulmails-sender
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
