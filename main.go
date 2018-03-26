@@ -8,6 +8,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/logger"
 	"github.com/yulPa/yulmails/pkg/mongo"
 	"github.com/yulPa/yulmails/pkg/sender"
+	"github.com/yulPa/yulmails/pkg/entrypoint"
 )
 
 var (
@@ -23,7 +24,12 @@ func main() {
 
 	var workdb = mongo.NewSession("mongodb://workdb:27017")
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
+
+	log.Info(workdb)
+	log.Info(archivingdb)
+
 	defer archivingdb.Close()
+	defer workdb.Close()
 
 	err := configuration.NewConfigurationFromConfFile(archivingdb)
 
