@@ -4,10 +4,10 @@ import (
 	"flag"
 
 	"github.com/yulPa/yulmails/api"
-	// "github.com/yulPa/yulmails/configuration"
-	"github.com/yulPa/yulmails/logger"
-	// "github.com/yulPa/yulmails/mongo"
-	// "github.com/yulPa/yulmails/sender"
+	"github.com/yulPa/yulmails/pkg/configuration"
+	"github.com/yulPa/yulmails/pkg/logger"
+	"github.com/yulPa/yulmails/pkg/mongo"
+	"github.com/yulPa/yulmails/pkg/sender"
 )
 
 var (
@@ -20,24 +20,24 @@ func main() {
 
 	flag.Parse()
 
-	/*
-		var workdb = mongo.NewSession("mongodb://workdb:27017")
-		var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
-		defer archivingdb.Close()
 
-		err := configuration.NewConfigurationFromConfFile(archivingdb)
+	var workdb = mongo.NewSession("mongodb://workdb:27017")
+	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
+	defer archivingdb.Close()
 
-		if err != nil {
-			log.Errorln(err)
-			panic(err)
-		}
-	*/
+	err := configuration.NewConfigurationFromConfFile(archivingdb)
+
+	if err != nil {
+		log.Errorln(err)
+		panic(err)
+	}
+
 
 	/*
 		Start Go Subroutines
 	*/
-	// go entrypoint.Run()
+	go entrypoint.Run()
 
-	// go sender.Run()
+	go sender.Run()
 	api.Start(*certFile, *keyFile)
 }
