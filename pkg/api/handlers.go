@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/pkg/mongo"
 
 	"encoding/json"
 	"io/ioutil"

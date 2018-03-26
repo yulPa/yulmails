@@ -4,7 +4,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	"github.com/yulPa/yulmails/options"
+	"github.com/yulPa/yulmails/pkg/options"
 )
 
 func TestCreateANewEntity(t *testing.T) {

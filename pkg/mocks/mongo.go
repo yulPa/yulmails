@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/yulPa/yulmails/entity"
-	"github.com/yulPa/yulmails/environment"
-	"github.com/yulPa/yulmails/mongo"
-	"github.com/yulPa/yulmails/sender"
+	"github.com/yulPa/yulmails/pkg/entity"
+	"github.com/yulPa/yulmails/pkg/environment"
+	"github.com/yulPa/yulmails/pkg/mongo"
+	"github.com/yulPa/yulmails/pkg/sender"
 )
 
 type MockSession struct{}

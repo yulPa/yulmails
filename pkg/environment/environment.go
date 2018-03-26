@@ -3,8 +3,8 @@ package environment
 import (
 	"encoding/json"
 
-	"github.com/yulPa/yulmails/logger"
-	"github.com/yulPa/yulmails/options"
+	"github.com/yulPa/yulmails/pkg/logger"
+	"github.com/yulPa/yulmails/pkg/options"
 )
 
 var log = logger.GetLogger()

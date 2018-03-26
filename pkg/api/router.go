@@ -5,7 +5,7 @@ import (
 
 	"net/http"
 
-	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/pkg/mongo"
 )
 
 type Route struct {

@@ -4,7 +4,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	"github.com/yulPa/yulmails/mocks"
+	"github.com/yulPa/yulmails/pkg/mocks"
 )
 
 func TestCreateNewConfigurationFromFile(t *testing.T) {

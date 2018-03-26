@@ -10,9 +10,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/yulPa/yulmails/entity"
-	"github.com/yulPa/yulmails/environment"
-	"github.com/yulPa/yulmails/mocks"
+	"github.com/yulPa/yulmails/pkg/entity"
+	"github.com/yulPa/yulmails/pkg/environment"
+	"github.com/yulPa/yulmails/pkg/mocks"
 )
 
 func TestReadEntities(t *testing.T) {

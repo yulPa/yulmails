@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/yulPa/yulmails/logger"
-	"github.com/yulPa/yulmails/mongo"
+	"github.com/yulPa/yulmails/pkg/logger"
+	"github.com/yulPa/yulmails/pkg/mongo"
 )
 
 var log = logger.GetLogger()

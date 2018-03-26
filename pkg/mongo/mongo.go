@@ -8,11 +8,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/yulPa/yulmails/entity"
-	"github.com/yulPa/yulmails/environment"
-	"github.com/yulPa/yulmails/logger"
-	"github.com/yulPa/yulmails/options"
-	"github.com/yulPa/yulmails/sender"
+	"github.com/yulPa/yulmails/pkg/entity"
+	"github.com/yulPa/yulmails/pkg/environment"
+	"github.com/yulPa/yulmails/pkg/logger"
+	"github.com/yulPa/yulmails/pkg/options"
+	"github.com/yulPa/yulmails/pkg/sender"
 )
 
 var log = logger.GetLogger()

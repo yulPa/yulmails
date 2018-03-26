@@ -1,8 +1,8 @@
 package sender
 
 import (
-	"github.com/yulPa/yulmails/client"
-	"github.com/yulPa/yulmails/logger"
+	"github.com/yulPa/yulmails/pkg/client"
+	"github.com/yulPa/yulmails/pkg/logger"
 
 	"github.com/robfig/cron"
 

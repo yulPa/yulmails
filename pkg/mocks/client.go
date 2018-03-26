@@ -3,7 +3,7 @@ package mocks
 import (
 	"net/http"
 
-	"github.com/yulPa/yulmails/client"
+	"github.com/yulPa/yulmails/pkg/client"
 )
 
 type MockHttpClient struct{}
