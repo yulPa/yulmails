@@ -12,7 +12,7 @@ import (
 	"net/smtp"
 )
 
-var log = logger.GetLogger()
+var log = logger.GetLogger("ym-sender")
 
 type EmailSender interface {
 	Send(Mail) error

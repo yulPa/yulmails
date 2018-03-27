@@ -10,7 +10,7 @@ import (
 func Start(certFile string, keyFile string) {
 	/* This method will start v1 API server */
 
-	var log = logger.GetLogger()
+	var log = logger.GetLogger("server-ym")
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
 	var workdb = mongo.NewSession("mongodb://workdb:27017")
 

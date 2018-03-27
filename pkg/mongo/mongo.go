@@ -15,7 +15,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/sender"
 )
 
-var log = logger.GetLogger()
+var log = logger.GetLogger("mongo-ym")
 
 // Create interface Session -> DataLayer -> Collection
 

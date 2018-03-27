@@ -9,7 +9,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/mongo"
 )
 
-var log = logger.GetLogger()
+var log = logger.GetLogger("configuration-ym")
 
 type Configuration struct {
 	S Services `yaml:"services",json:"services"`

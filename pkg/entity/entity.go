@@ -7,7 +7,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/options"
 )
 
-var log = logger.GetLogger()
+var log = logger.GetLogger("entity-ym")
 
 type Entity struct {
 	Name    string          `json:"name"`

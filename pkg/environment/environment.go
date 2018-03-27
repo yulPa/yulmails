@@ -7,7 +7,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/options"
 )
 
-var log = logger.GetLogger()
+var log = logger.GetLogger("environment-ym")
 
 type Environment struct {
 	Name     string          `json:"name"`
