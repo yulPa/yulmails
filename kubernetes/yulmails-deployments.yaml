@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: yulmails-001
+
+spec:
+  selector:
+    matchLabels:
+      run: yulmails-001
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: yulmails-001
+    spec:
+      volumes:
+      - name: certificates
+        secret:
+          secretName: yulmails-secret
+      containers:
+      - name: yulmails-001
+        image: registry.local.tld/yulpa/yulmails:develop
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - mountPath: /etc/yulmails/conf/yulmails.local.tld
+          name: certificates
+      imagePullSecrets:
+      - name: credreg
+

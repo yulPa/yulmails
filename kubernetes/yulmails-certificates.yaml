@@ -1,0 +1,9 @@
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  name: "yulmails-secret"
+  namespace: "default"
+data:
+  yulmails.local.tld.key: <base64 encoded key>
+
+  yulmails.local.tld.crt: <base64 encoded certificate>
