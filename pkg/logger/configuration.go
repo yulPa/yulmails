@@ -2,11 +2,12 @@ package logger
 
 import (
 	"os"
+	"fmt"
 
 	"github.com/sirupsen/logrus"
 )
 
-func GetLogger() *logrus.Logger {
+func GetLogger(name string) *logrus.Logger {
 	/*
 	   This method create a new custom logger
 	   return: <logrus> A custom logrus logger
@@ -16,7 +17,7 @@ func GetLogger() *logrus.Logger {
 	log.Formatter = new(logrus.JSONFormatter)
 	log.Level = logrus.DebugLevel
 
-	file, err := os.OpenFile("/var/log/yulmails.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile(fmt.Sprintf("/var/log/%s.log", name), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		log.Out = file
 	} else {
