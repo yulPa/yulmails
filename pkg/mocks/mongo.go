@@ -73,14 +73,14 @@ func (mc MockCollection) Update(selector interface{}, update interface{}) error 
 }
 
 func (md MockDatabase) ReadEntities() ([]entity.Entity, error) {
-	absPath, _ := filepath.Abs("../mocks/fixtures/entity/entities.json")
+	absPath, _ := filepath.Abs("../pkg/mocks/fixtures/entity/entities.json")
 	data, _ := ioutil.ReadFile(absPath)
 	return entity.NewEntities(data), nil
 }
 
 func (md MockDatabase) ReadEntity(name string) (*entity.Entity, error) {
 	if name == "an_entity" {
-		absPath, _ := filepath.Abs("../mocks/fixtures/entity/entity.json")
+		absPath, _ := filepath.Abs("../pkg/mocks/fixtures/entity/entity.json")
 		data, _ := ioutil.ReadFile(absPath)
 		ent, _ := entity.NewEntity(data)
 		return ent, nil
@@ -108,7 +108,7 @@ func (md MockDatabase) CreateEnvironment(ent string, env []byte) error {
 
 func (md MockDatabase) ReadEnvironment(entName string, envName string) (*environment.Environment, error) {
 	if entName == "an_entity" && envName == "an_environment" {
-		absPath, _ := filepath.Abs("../mocks/fixtures/environment/environment.json")
+		absPath, _ := filepath.Abs("../pkg/mocks/fixtures/environment/environment.json")
 		data, _ := ioutil.ReadFile(absPath)
 		env, _ := environment.NewEnvironment(data)
 		return env, nil
@@ -146,7 +146,7 @@ func (md MockDatabase) UpdateEnvironment(entName string, envName string, env []b
 
 func (md MockDatabase) ReadEnvironments(entName string) ([]environment.Environment, error) {
 	if entName == "an_entity" {
-		absPath, _ := filepath.Abs("../mocks/fixtures/environment/environments.json")
+		absPath, _ := filepath.Abs("../pkg/mocks/fixtures/environment/environments.json")
 		data, _ := ioutil.ReadFile(absPath)
 		env, _ := environment.NewEnvironments(data)
 		return env, nil
