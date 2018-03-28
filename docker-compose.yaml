@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   yulmails-api:
-    image: registry.local.tld/yulmails-api:develop
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-api
     hostname: yulmails-api
     ports:
@@ -12,23 +12,26 @@ services:
       - "./conf:/etc/yulmails/conf:ro"
 
   yulmails-sender:
-    image: registry.local.tld/yulmails-sender:develop
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-sender
     hostname: yulmails-sender
+    command: yulmails sender
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-compute:
-    image: registry.local.tld/yulmails-compute:develop
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-compute
     hostname: yulmails-compute
+    command: yulmails compute
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-entrypoint:
-    image: registry.local.tld/yulmails-entrypoint:develop
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-entrypoint
     hostname: yulmails-entrypoint
+    command: yulmails entrypoint
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 

@@ -6,13 +6,13 @@ RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/down
 WORKDIR /go/src/github.com/yulPa/yulmails
 COPY . ./
 RUN dep ensure -vendor-only; \
-  GOOS=linux GOARCH=amd64 go build -o main entrypoint.go 
+  GOOS=linux GOARCH=amd64 go build -o main
 
 FROM alpine:3.6
 WORKDIR /etc/yulmails
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
-RUN chmod +x main
-CMD ["./main", \
+RUN mv main /usr/bin/yulmails && chmod +x /usr/bin/yulmails
+CMD ["yulmails api", \
   "-tls-crt-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.crt", \
   "-tls-key-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.key" \
 ]

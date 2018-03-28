@@ -19,6 +19,12 @@
   revision = "5bbbb5b2b5729b132181cc7f4aa3b3c973e9a0ed"
 
 [[projects]]
+  name = "github.com/inconshreveable/mousetrap"
+  packages = ["."]
+  revision = "76626ae9c91c4f2a10f34cad8ce83ea42c93bb75"
+  version = "v1.0"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -34,6 +40,18 @@
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "95cd2b9c79aa5e72ab0bc69b7ccc2be15bf850f6"
+
+[[projects]]
+  name = "github.com/spf13/cobra"
+  packages = ["."]
+  revision = "7b2c5ac9fc04fc5efafb60700713d4fa609b777b"
+  version = "v0.0.1"
+
+[[projects]]
+  name = "github.com/spf13/pflag"
+  packages = ["."]
+  revision = "e57e3eeb33f795204c1ca35f56c44f83227c6e66"
+  version = "v1.0.0"
 
 [[projects]]
   name = "github.com/stretchr/testify"
@@ -74,6 +92,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ec66cf7d62616d10c69557e2df5fa7ff571b2b02fc31ce2a3b4064dbd4a9f222"
+  inputs-digest = "38d16e6ad1e340a797f94f69b792306f7d22e969bc2421a00efc90dc4a46a5af"
   solver-name = "gps-cdcl"
   solver-version = 1
