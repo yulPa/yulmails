@@ -14,5 +14,4 @@ func main() {
 	var workdb = mongo.NewSession("mongodb://workdb:27017")
 	log.Infoln(workdb)
 
-
 }
