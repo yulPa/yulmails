@@ -15,32 +15,27 @@ services:
       - "./conf:/etc/yulmails/conf:ro"
 
   yulmails-entrypoint:
-    image: registry.local.tld/yulmails-entrypoint:develop
-    build:
-      context: .
-      dockerfile: Dockerfile.entrypoint
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-entrypoint
     hostname: yulmails-entrypoint
+    command: yulmails
+    command: yulmails entrypoint
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-compute:
-    image: registry.local.tld/yulmails-compute:develop
-    build:
-      context: .
-      dockerfile: Dockerfile.compute
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-compute
     hostname: yulmails-compute
+    command: yulmails compute
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-sender:
-    image: registry.local.tld/yulmails-sender:develop
-    build:
-      context: .
-      dockerfile: Dockerfile.sender
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-sender
     hostname: yulmails-sender
+    command: yulmails sender
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
