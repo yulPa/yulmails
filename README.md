@@ -1,7 +1,6 @@
 ### YulMails Application
 [![Build Status](https://travis-ci.org/yulPa/yulmails.svg?branch=master)](https://travis-ci.org/yulPa/yulmails)
 
-The goal of this `go` application is to check mails between sender and recipients. (#TODO: Add a better description)
 [API list](https://github.com/yulPa/yulmails/blob/master/API.md)
 
 # Getting started - Docker
@@ -29,27 +28,16 @@ $ docker version
 $ git clone git@github.com:yulpa/yulmails.git
 $ cd yulmails/
 $ dep ensure -vendor-only
-$ go build -o main
+$ go build -o yulmails main.go
+$ chmod +x yulmails
+$ sudo mv yulmails /usr/bin/yulmails
 ```
 
-
-# Configuration
-
-Please update `yulmails.yaml` configuration file following your installation:
-
-`version` is the current running version of `yulmails` configuration.
-`services` is an array of 4 services:
-
-  * `entrypoint`: This is the interface between `yulmails` and your system
-  * `compute`: This service will check if a mail is considered as a spam
-  * `sender`: This service will send mails to recipients
-  * `archiving_db`: Archiving database is provided by `yulmails` but you can use your own, you just need to use a mongo DB database.
-
-A default configuration file is already provided in order to run `yulmails` on a single machine.
-
-If you are planning to use `yulmails` with Docker, please update `docker-compose.yaml` and `dockerfile` with your own certs.
-
 # Run your application
+
+YulMails is split following four services: an api server for configuration, an entrypoint, a compute node and a sender node. So you need to start at least one of this services to have a ready to production YulMails.
+
+`docker-compose` will start each service with the good command.
 
 Set environment variable then run
 
@@ -60,14 +48,32 @@ $ export YMAILS_VOLUMES_LOGS=/var/log/ymails
 $ docker-compose up -d
 ```
 
-of from sources:
+or from sources:
 
 ```shell
 $ export YMAILS_IP_LISTENING=127.0.0.1
 $ export YMAILS_PORT_LISTENING=443
 $ export YMAILS_VOLUMES_LOGS=/var/log/ymails
-$ ./main -tls-ca-file /path/to/cert-file.crt -tls-key-file /path/to/cert-file.key
+$ #start the api service
+$ yulmails api \
+-tls-ca-file=/path/to/cert-file.crt \
+-tls-key-file /path/to/cert-file.key
+$ yulmails api -h
+Start the API configuration server
+
+Usage:
+  yulmails api  [flags]
+
+Flags:
+  -h, --help                  help for api
+      --tls-crt-file string   A certificate file (default "domain.tld.crt")
+      --tls-key-file string   A key file (default "domain.tld.key")
 ```
+
+# Kubernetes
+
+Yulmails on Kubernets is currently under development. Documentation will come soon :smiley: :fire: :whale:
+
 
 # Contributing
 
@@ -75,7 +81,6 @@ If you want to contribute to this project (thanks !), please fork this repo and 
 
 __Todo__
 
-- [ ] Add details to logger (env, ent, etc.): not only "not found"
 - [ ] Wrap mongo call with a function in order to get args function (assert.CalledWith something in this A.K.A)
 
 Thanks and happy coding !
