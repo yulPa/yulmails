@@ -1,10 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 
-	"gitub.com/yulPa/yulmails/api"
+	"github.com/yulPa/yulmails/api"
 )
 
 var certFile string
@@ -14,9 +13,9 @@ func main() {
 	var cmdApi = &cobra.Command{
 		Use:   "api ",
 		Short: "Start the API configuration server",
-		Args: cobra.MinimumNArgs(1),
+		Args: cobra.MinimumNArgs(2),
 		Run: func(cmd *cobra.Command, args []string) {
-			api.Start(*certFile, *keyFile)
+			api.Start(certFile, keyFile)
 		},
 	}
 	cmdApi.Flags().StringVarP(&certFile, "tls-crt-file", "", "domain.tld.crt", "A certificate file")
@@ -24,6 +23,6 @@ func main() {
 
 
 	var rootCmd = &cobra.Command{Use: "yulmails"}
-	rootCmd.AddCommand(cmdApi, cmdToto)
+	rootCmd.AddCommand(cmdApi)
 	rootCmd.Execute()
 }
