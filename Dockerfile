@@ -9,10 +9,10 @@ RUN dep ensure -vendor-only; \
   GOOS=linux GOARCH=amd64 go build -o main
 
 FROM alpine:3.6
-WORKDIR /etc/yulmails
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
 RUN mv main /usr/bin/yulmails && chmod +x /usr/bin/yulmails
-CMD ["yulmails api", \
-  "-tls-crt-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.crt", \
-  "-tls-key-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.key" \
+CMD ["yulmails", \
+  "api", \
+  "--tls-crt-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.crt", \
+  "--tls-key-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.key" \
 ]
