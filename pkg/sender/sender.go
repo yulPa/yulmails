@@ -1,15 +1,13 @@
 package sender
 
 import (
-	"github.com/yulPa/yulmails/pkg/client"
 	"github.com/yulPa/yulmails/pkg/logger"
 
 	"github.com/robfig/cron"
 
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"net/smtp"
+	"time"
 )
 
 var log = logger.GetLogger("ym-sender")
@@ -55,23 +53,30 @@ func sendMail() {
 	/*
 		Request mails that are ready to be sent
 	*/
+	/*
 	var cli = client.NewHTTPClient()
-	defer cli.Close()
 
-	req, _ := http.NewRequest(http.MethodGet, "localhost:9252/v1/mails", nil)
+	req, _ := http.NewRequest(http.MethodGet, "yulmails-api:9252/v1/mails", nil)
 	res, err := cli.Do(req)
 
 	if err != nil {
 		log.Infoln(err)
 	}
-
+	log.Infoln(res)
+	
 	body, _ := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
 
-	mails, _ := NewMails(body)
+
+	
+	mails, err := NewMails(body)
 
 	for _, m := range mails {
 		fmt.Println("Send mail", m)
+	}
+	*/
+	for i := 0; i < 5; i++ {
+		fmt.Println("Sending mail")
 	}
 }
 
@@ -83,4 +88,7 @@ func Run() {
 	log.Infoln("Sender Cron has started")
 	c.Start()
 
+	for {
+		time.Sleep(1000*time.Millisecond)
+	}
 }
