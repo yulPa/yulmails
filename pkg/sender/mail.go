@@ -2,52 +2,27 @@ package sender
 
 import (
 	"crypto/sha256"
-	"encoding/json"
 	"strconv"
 	"time"
-
 	"fmt"
+	"net/mail"
 )
 
-type Mail struct {
-	From        string   `json:"from"`
-	To          []string `json:"to"`
-	Object      string   `json:"object"`
-	Content     string   `json:"content"`
+type MailEntry struct {
+	*mail.Message
 	Hash        string   `json:"hash,omitempty"`
 	Timestamp   string   `json:"timestamp"`
 	Environment string   `json:"environment,omitempty"`
 }
 
-func NewMail(from string, to []string, object string, content string) *Mail {
+func NewMailEntry(message *mail.Message) *MailEntry {
 	/*
 	   Create a new mail
-	   parameter: <string> Sender
-	   parameter: <[]string> recipipents
-	   parameter: <string> Object
-	   parameter: <string> content
+		 parameter: <mail.Message> A simple message following this struct : Headers + Body
 	*/
-	return &Mail{
-		From:      from,
-		To:        to,
-		Object:    object,
-		Content:   content,
-		Hash:      fmt.Sprintf("%s", sha256.Sum256([]byte(fmt.Sprintf("%s:%s:%s", from, object, content)))),
+	return &MailEntry{
+		Message: 	message,
+		Hash:      fmt.Sprintf("%s", sha256.Sum256([]byte(fmt.Sprintf("%s:%s:%s", message.Header.Get("From"), message.Header.Get("Object"), message.Body)))),
 		Timestamp: strconv.Itoa(int(time.Now().Unix())),
 	}
-}
-
-func NewMails(data []byte) ([]Mail, error) {
-	/*
-		Create a new array from a given json
-		parameter: <[]byte> Json array
-		return: <[]Mail> A new array of mail
-	*/
-	mails := make([]Mail, 0)
-	err := json.Unmarshal(data, &mails)
-	if err != nil {
-		log.Error(err)
-		return nil, err
-	}
-	return mails, nil
 }
