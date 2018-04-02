@@ -8,12 +8,13 @@ import (
 	"fmt"
 	"net/smtp"
 	"time"
+	"strings"
 )
 
 var log = logger.GetLogger("ym-sender")
 
 type EmailSender interface {
-	Send(Mail) error
+	Send(MailEntry) error
 }
 
 type emailSender struct {
@@ -37,7 +38,7 @@ func NewMailSender(conf EmailConfig) EmailSender {
 	return &emailSender{conf, smtp.SendMail}
 }
 
-func (e *emailSender) Send(mail Mail) error {
+func (e *emailSender) Send(mailEntry MailEntry) error {
 	/*
 		Send an email to a given list of recipipents
 		parameter: <[]string> Array of recipipents
@@ -46,7 +47,15 @@ func (e *emailSender) Send(mail Mail) error {
 	*/
 	addr := fmt.Sprintf("%s:%s", e.conf.ServerHost, e.conf.ServerPort)
 	auth := smtp.PlainAuth("", e.conf.Username, e.conf.Password, e.conf.ServerHost)
-	return e.send(addr, auth, e.conf.SenderAddr, mail.To, []byte(fmt.Sprintf("%s%s", mail.Object, mail.Content)))
+	return e.send(addr, auth, e.conf.SenderAddr, getListOfRecipients(mailEntry), []byte(fmt.Sprintf("%s%s", mailEntry.Message.Header.Get("Subject"), mailEntry.Message.Body)))
+}
+
+func getListOfRecipients(mailEntry MailEntry) []string {
+	/*
+		Return all recipipents for a given email
+		parameter: <mailEntry> The given email
+	*/
+	return strings.Split(mailEntry.Message.Header.Get("To"),",")
 }
 
 func sendMail() {
@@ -63,12 +72,12 @@ func sendMail() {
 		log.Infoln(err)
 	}
 	log.Infoln(res)
-	
+
 	body, _ := ioutil.ReadAll(res.Body)
 	defer res.Body.Close()
 
 
-	
+
 	mails, err := NewMails(body)
 
 	for _, m := range mails {
