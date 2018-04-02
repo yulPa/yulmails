@@ -154,10 +154,10 @@ func (md MockDatabase) ReadEnvironments(entName string) ([]environment.Environme
 	return nil, errors.New("not found")
 }
 
-func (md MockDatabase) SaveMail(entName string, envName string, mail *sender.Mail) error {
+func (md MockDatabase) SaveMail(entName string, envName string, mail *sender.MailEntry) error {
 	return nil
 }
 
-func (md MockDatabase) ReadMails(entName string, envName string) ([]sender.Mail, error) {
+func (md MockDatabase) ReadMails(entName string, envName string) ([]sender.MailEntry, error) {
 	return nil, errors.New("not found")
 }

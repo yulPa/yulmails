@@ -37,8 +37,8 @@ type DataLayer interface {
 	DeleteEnvironment(string, string) error
 	UpdateEnvironment(string, string, []byte) error
 	ReadEnvironments(string) ([]environment.Environment, error)
-	SaveMail(string, string, *sender.Mail) error
-	ReadMails(string, string) ([]sender.Mail, error)
+	SaveMail(string, string, *sender.MailEntry) error
+	ReadMails(string, string) ([]sender.MailEntry, error)
 }
 
 type Collection interface {
@@ -360,11 +360,11 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	return res, nil
 }
 
-func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.Mail) error {
+func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.MailEntry) error {
 	/*
 		This function will save an email directly into the DB.
 		parameter: <string> environment associated to this email
-		parameter: <sender.Mail> Mail to save
+		parameter: <sender.MailEntry> Mail to save
 		return: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
@@ -376,7 +376,7 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.Ma
 		return err
 	}
 	if !env.Options.Conservation.Keep {
-		mail.Content = ""
+		mail.Message.Body = nil
 	}
 
 	err = colMails.Insert(mail)
@@ -389,16 +389,16 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.Ma
 	return nil
 }
 
-func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.Mail, error) {
+func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.MailEntry, error) {
 	/*
 		Return all mails stored in a DB associated to an environment and an entity
 		parameter: <string> Entity name
 		parameter: <string> Environment name
-		return: <[]sender.Mail> An array of mails
+		return: <[]sender.MailEntry> An array of mails
 		retur: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
-	var res []sender.Mail
+	var res []sender.MailEntry
 
 	// TODO: Add entity name filter
 	err := colMails.Find(bson.M{"environment": envName}).All(&res)
