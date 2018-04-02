@@ -10,6 +10,7 @@ RUN dep ensure -vendor-only; \
 
 FROM alpine:3.6
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
+RUN apk --update add spamassassin
 RUN mv main /usr/bin/yulmails && chmod +x /usr/bin/yulmails
 CMD ["yulmails", \
   "api", \
