@@ -7,6 +7,10 @@ import (
 )
 
 func init()  {
+  /*
+    This init method is called each time this package is loaded
+    We check if `spamassassin` is installed on the machine
+  */
   cmd := exec.Command("which", "spamassassin")
 	var out bytes.Buffer
 	cmd.Stdout = &out
