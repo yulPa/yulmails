@@ -2,16 +2,25 @@ package sender
 
 import (
 	"github.com/yulPa/yulmails/pkg/logger"
+	"github.com/yulPa/yulmails/pkg/mongo"
 
 	"github.com/robfig/cron"
+	"github.com/sirupsen/logrus"
 
 	"fmt"
 	"net/smtp"
-	"time"
 	"strings"
+	"time"
 )
 
 var log = logger.GetLogger("ym-sender")
+var mailSender = NewMailSender(EmailConfig{
+	ServerHost: "server.local.tld",
+	ServerPort: "25",
+	Username:   "username",
+	Password:   "password",
+	SenderAddr: "sender@local.tld",
+})
 
 type EmailSender interface {
 	Send(MailEntry) error
@@ -55,38 +64,26 @@ func getListOfRecipients(mailEntry MailEntry) []string {
 		Return all recipipents for a given email
 		parameter: <mailEntry> The given email
 	*/
-	return strings.Split(mailEntry.Message.Header.Get("To"),",")
+	return strings.Split(mailEntry.Message.Header.Get("To"), ",")
 }
 
 func sendMail() {
 	/*
 		Request mails that are ready to be sent
 	*/
-	/*
-	var cli = client.NewHTTPClient()
+	var workdb = mongo.NewSession("mongodb://workdb:27017")
+	dbMails := workdb.DB("buffer")
 
-	req, _ := http.NewRequest(http.MethodGet, "yulmails-api:9252/v1/mails", nil)
-	res, err := cli.Do(req)
+	mailsToSend := dbMails.GetSendableMails()
 
-	if err != nil {
-		log.Infoln(err)
+	for _, mail := range mailsToSend {
+		if err = mailSender.Send(mail); err != nil {
+			log.WithFields(logrus.Fields{
+				"subject": mail.Message.Header.Get("subject"),
+			}).Error("Error while sending mail. ", err)
+		}
 	}
-	log.Infoln(res)
 
-	body, _ := ioutil.ReadAll(res.Body)
-	defer res.Body.Close()
-
-
-
-	mails, err := NewMails(body)
-
-	for _, m := range mails {
-		fmt.Println("Send mail", m)
-	}
-	*/
-	for i := 0; i < 5; i++ {
-		fmt.Println("Sending mail")
-	}
 }
 
 func Run() {
@@ -98,6 +95,6 @@ func Run() {
 	c.Start()
 
 	for {
-		time.Sleep(1000*time.Millisecond)
+		time.Sleep(1000 * time.Millisecond)
 	}
 }
