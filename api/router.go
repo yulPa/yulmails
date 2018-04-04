@@ -118,21 +118,3 @@ func GetRouterV1(session mongo.Session) *mux.Router {
 
 	return router
 }
-
-func GetDockerRouterV1(session mongo.Session) *mux.Router {
-	/*
-		Retourn V1 API. Those APIs are not public
-	*/
-	var routes = Routes{
-		Route{
-			Name:        "Get mails to send",
-			Method:      http.MethodGet,
-			Pattern:     "/v1/mails",
-			HandlerFunc: func(w http.ResponseWriter, r *http.Request) { CreateEntity(session, w, r) },
-		},
-	}
-
-	var router = NewRouter(routes)
-
-	return router
-}
