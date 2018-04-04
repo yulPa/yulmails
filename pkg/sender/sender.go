@@ -3,6 +3,7 @@ package sender
 import (
 	"github.com/yulPa/yulmails/pkg/logger"
 	"github.com/yulPa/yulmails/pkg/mongo"
+	"github.com/yulPa/yulmails/pkg/mail"
 
 	"github.com/robfig/cron"
 	"github.com/sirupsen/logrus"
@@ -23,7 +24,7 @@ var mailSender = NewMailSender(EmailConfig{
 })
 
 type EmailSender interface {
-	Send(MailEntry) error
+	Send(mail.MailEntry) error
 }
 
 type emailSender struct {
@@ -47,7 +48,7 @@ func NewMailSender(conf EmailConfig) EmailSender {
 	return &emailSender{conf, smtp.SendMail}
 }
 
-func (e *emailSender) Send(mailEntry MailEntry) error {
+func (e *emailSender) Send(mailEntry mail.MailEntry) error {
 	/*
 		Send an email to a given list of recipipents
 		parameter: <[]string> Array of recipipents
@@ -59,7 +60,7 @@ func (e *emailSender) Send(mailEntry MailEntry) error {
 	return e.send(addr, auth, e.conf.SenderAddr, getListOfRecipients(mailEntry), []byte(fmt.Sprintf("%s%s", mailEntry.Message.Header.Get("Subject"), mailEntry.Message.Body)))
 }
 
-func getListOfRecipients(mailEntry MailEntry) []string {
+func getListOfRecipients(mailEntry mail.MailEntry) []string {
 	/*
 		Return all recipipents for a given email
 		parameter: <mailEntry> The given email
@@ -74,10 +75,10 @@ func sendMail() {
 	var workdb = mongo.NewSession("mongodb://workdb:27017")
 	dbMails := workdb.DB("buffer")
 
-	mailsToSend := dbMails.GetSendableMails()
+	mailsToSend, _ := dbMails.GetSendableMails()
 
 	for _, mail := range mailsToSend {
-		if err = mailSender.Send(mail); err != nil {
+		if err := mailSender.Send(mail); err != nil {
 			log.WithFields(logrus.Fields{
 				"subject": mail.Message.Header.Get("subject"),
 			}).Error("Error while sending mail. ", err)

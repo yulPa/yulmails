@@ -12,7 +12,7 @@ import (
 	"github.com/yulPa/yulmails/pkg/environment"
 	"github.com/yulPa/yulmails/pkg/logger"
 	"github.com/yulPa/yulmails/pkg/options"
-	"github.com/yulPa/yulmails/pkg/sender"
+	"github.com/yulPa/yulmails/pkg/mail"
 )
 
 var log = logger.GetLogger("mongo-ym")
@@ -37,8 +37,9 @@ type DataLayer interface {
 	DeleteEnvironment(string, string) error
 	UpdateEnvironment(string, string, []byte) error
 	ReadEnvironments(string) ([]environment.Environment, error)
-	SaveMail(string, string, *sender.MailEntry) error
-	ReadMails(string, string) ([]sender.MailEntry, error)
+	SaveMail(string, string, *mail.MailEntry) error
+	ReadMails(string, string) ([]mail.MailEntry, error)
+	GetSendableMails() ([]mail.MailEntry, error)
 }
 
 type Collection interface {
@@ -360,11 +361,11 @@ func (md MongoDatabase) ReadEnvironments(entName string) ([]environment.Environm
 	return res, nil
 }
 
-func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.MailEntry) error {
+func (md MongoDatabase) SaveMail(entName string, envName string, mail *mail.MailEntry) error {
 	/*
 		This function will save an email directly into the DB.
 		parameter: <string> environment associated to this email
-		parameter: <sender.MailEntry> Mail to save
+		parameter: <mail.MailEntry> Mail to save
 		return: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
@@ -389,16 +390,16 @@ func (md MongoDatabase) SaveMail(entName string, envName string, mail *sender.Ma
 	return nil
 }
 
-func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.MailEntry, error) {
+func (md MongoDatabase) ReadMails(entName string, envName string) ([]mail.MailEntry, error) {
 	/*
 		Return all mails stored in a DB associated to an environment and an entity
 		parameter: <string> Entity name
 		parameter: <string> Environment name
-		return: <[]sender.MailEntry> An array of mails
+		return: <[]mail.MailEntry> An array of mails
 		retur: <error> Nil if no errors
 	*/
 	colMails := md.C("mails")
-	var res []sender.MailEntry
+	var res []mail.MailEntry
 
 	// TODO: Add entity name filter
 	err := colMails.Find(bson.M{"environment": envName}).All(&res)
@@ -410,5 +411,24 @@ func (md MongoDatabase) ReadMails(entName string, envName string) ([]sender.Mail
 		return nil, err
 	}
 
+	return res, nil
+}
+
+func (md MongoDatabase) GetSendableMails() ([]mail.MailEntry, error){
+	/*
+		Return all mails with `sendable` flag
+		return: <[]mail.MailEntry> An array of mails
+		return: <error> Nil if no errors
+	*/
+	colMails := md.C("mails")
+	var res []mail.MailEntry
+
+	err := colMails.Find(bson.M{"sendable": true}).All(&res)
+	if err != nil {
+		log.WithFields(logrus.Fields{
+			"sendable": true,
+		}).Error(err)
+		return nil, err
+	}
 	return res, nil
 }
