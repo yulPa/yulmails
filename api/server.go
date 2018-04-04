@@ -16,9 +16,8 @@ func Start(certFile string, keyFile string) {
 
 	log.Info("Start server for API V1")
 	if certFile == ""|| keyFile == ""{
-		go http.ListenAndServe(":80", GetRouterV1(archivingdb))
+		http.ListenAndServe(":80", GetRouterV1(archivingdb))
 	}else{
-		go http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb))
+		http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb))
 	}
-	http.ListenAndServe(":9252", GetDockerRouterV1(workdb))
 }
