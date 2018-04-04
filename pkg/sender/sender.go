@@ -1,8 +1,8 @@
 package sender
 
 import (
+	"github.com/yulPa/yulmails/pkg/domain"
 	"github.com/yulPa/yulmails/pkg/logger"
-	"github.com/yulPa/yulmails/pkg/mongo"
 	"github.com/yulPa/yulmails/pkg/mail"
 
 	"github.com/robfig/cron"
@@ -72,10 +72,8 @@ func sendMail() {
 	/*
 		Request mails that are ready to be sent
 	*/
-	var workdb = mongo.NewSession("mongodb://workdb:27017")
-	dbMails := workdb.DB("buffer")
 
-	mailsToSend, _ := dbMails.GetSendableMails()
+	mailsToSend, _ := domain.GetMailToSend()
 
 	for _, mail := range mailsToSend {
 		if err := mailSender.Send(mail); err != nil {
