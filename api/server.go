@@ -12,7 +12,6 @@ func Start(certFile string, keyFile string) {
 
 	var log = logger.GetLogger("server-ym")
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
-	var workdb = mongo.NewSession("mongodb://workdb:27017")
 
 	log.Info("Start server for API V1")
 	if certFile == ""|| keyFile == ""{
