@@ -4,9 +4,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"fmt"
-	"testing"
 	"net/mail"
 	"strings"
+	"testing"
 )
 
 func TestCreateAMail(t *testing.T) {
