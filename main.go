@@ -6,10 +6,10 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/yulPa/yulmails/api"
+	"github.com/yulPa/yulmails/pkg/entrypoint"
 	"github.com/yulPa/yulmails/pkg/sender"
 	"github.com/yulPa/yulmails/pkg/spam"
 )
-
 
 func main() {
 
@@ -19,7 +19,7 @@ func main() {
 	var cmdApi = &cobra.Command{
 		Use:   "api ",
 		Short: "Start the API configuration server",
-		Long: "Before starting the API you will need to provider SSL certificate",
+		Long:  "Before starting the API you will need to provider SSL certificate",
 		Run: func(cmd *cobra.Command, args []string) {
 			log.Print("Certs given: ", certFile)
 			api.Start(certFile, keyFile)
@@ -39,13 +39,22 @@ func main() {
 	var cmdCompute = &cobra.Command{
 		Use:   "compute ",
 		Short: "Start the compute node",
-		Long: "By starting this compute node, you'll perform a check spam with `spamassassin`",
+		Long:  "By starting this compute node, you'll perform a check spam with `spamassassin`",
 		Run: func(cmd *cobra.Command, args []string) {
 			spam.Run()
 		},
 	}
 
+	var cmdEntrypoint = &cobra.Command{
+		Use:   "entrypoint ",
+		Short: "Start the entrypoint node",
+		Long:  "By starting this entrypoint node, emails will be parsed and saved into a buffer database",
+		Run: func(cmd *cobra.Command, args []string) {
+			entrypoint.Run()
+		},
+	}
+
 	var rootCmd = &cobra.Command{Use: "yulmails"}
-	rootCmd.AddCommand(cmdApi, cmdSender, cmdCompute)
+	rootCmd.AddCommand(cmdApi, cmdSender, cmdCompute, cmdEntrypoint)
 	rootCmd.Execute()
 }
