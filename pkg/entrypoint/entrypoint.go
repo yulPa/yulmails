@@ -2,12 +2,14 @@ package entrypoint
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 )
 
 func Run() {
-	reader := bufio.NewReader(os.Stdin)
-	emails, err := reader.ReadString('\n')
-	fmt.Println(emails, err)
+	reader := bufio.NewScanner(os.Stdin)
+	for reader.Scan() {
+		log.Print(reader.Text())
+	}
+
 }
