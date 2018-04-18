@@ -16,3 +16,11 @@ func GetMailToSend() ([]mail.MailEntry, error) {
 	var mg = mongo.NewSession("mongodb://workdb:27017")
 	return mg.DB(BUFFER_DATABASE_NAME).GetSendableMails()
 }
+
+func GetMailToCompute() ([]mail.MailEntry, error) {
+	/*
+	   This domain object will return mail ready to be sent
+	*/
+	var mg = mongo.NewSession("mongodb://workdb:27017")
+	return mg.DB(BUFFER_DATABASE_NAME).GetMailToCompute()
+}

@@ -2,6 +2,7 @@ package spam
 
 import (
 	"bytes"
+	"fmt"
 	"net/mail"
 	"os/exec"
 	"strings"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/robfig/cron"
 
+	"github.com/yulPa/yulmails/pkg/domain"
 	"github.com/yulPa/yulmails/pkg/logger"
 )
 
@@ -51,6 +53,13 @@ func Run() {
 	c.Start()
 
 	for {
+		mails, err := domain.GetMailToCompute()
+		if err != nil {
+			log.Error("Error while fetching a batch to compute", err)
+		}
+		for _, mail := range mails {
+			checkSpamAssassin(fmt.Sprintf("%s\n%s", mail.Header, mail.Body))
+		}
 		time.Sleep(1000 * time.Millisecond)
 	}
 }

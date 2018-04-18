@@ -8,8 +8,8 @@ import (
 
 	"github.com/yulPa/yulmails/pkg/entity"
 	"github.com/yulPa/yulmails/pkg/environment"
-	"github.com/yulPa/yulmails/pkg/mongo"
 	"github.com/yulPa/yulmails/pkg/mail"
+	"github.com/yulPa/yulmails/pkg/mongo"
 )
 
 type MockSession struct{}
@@ -163,5 +163,9 @@ func (md MockDatabase) ReadMails(entName string, envName string) ([]mail.MailEnt
 }
 
 func (md MockDatabase) GetSendableMails() ([]mail.MailEntry, error) {
+	return nil, errors.New("not found")
+}
+
+func (md MockDatabase) GetMailToCompute() ([]mail.MailEntry, error) {
 	return nil, errors.New("not found")
 }

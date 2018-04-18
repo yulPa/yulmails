@@ -1,9 +1,9 @@
 package mongo
 
 import (
+	"github.com/sirupsen/logrus"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"github.com/sirupsen/logrus"
 
 	"errors"
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/yulPa/yulmails/pkg/entity"
 	"github.com/yulPa/yulmails/pkg/environment"
 	"github.com/yulPa/yulmails/pkg/logger"
-	"github.com/yulPa/yulmails/pkg/options"
 	"github.com/yulPa/yulmails/pkg/mail"
+	"github.com/yulPa/yulmails/pkg/options"
 )
 
 var log = logger.GetLogger("mongo-ym")
@@ -40,6 +40,7 @@ type DataLayer interface {
 	SaveMail(string, string, *mail.MailEntry) error
 	ReadMails(string, string) ([]mail.MailEntry, error)
 	GetSendableMails() ([]mail.MailEntry, error)
+	GetMailToCompute() ([]mail.MailEntry, error)
 }
 
 type Collection interface {
@@ -238,7 +239,7 @@ func (md MongoDatabase) ReadEnvironment(entName string, envName string) (*enviro
 
 	if err != nil {
 		log.WithFields(logrus.Fields{
-			"entity": entName,
+			"entity":      entName,
 			"environment": envName,
 		}).Error(err)
 		return nil, err
@@ -405,7 +406,7 @@ func (md MongoDatabase) ReadMails(entName string, envName string) ([]mail.MailEn
 	err := colMails.Find(bson.M{"environment": envName}).All(&res)
 	if err != nil {
 		log.WithFields(logrus.Fields{
-			"entity": entName,
+			"entity":      entName,
 			"environment": envName,
 		}).Error(err)
 		return nil, err
@@ -414,7 +415,7 @@ func (md MongoDatabase) ReadMails(entName string, envName string) ([]mail.MailEn
 	return res, nil
 }
 
-func (md MongoDatabase) GetSendableMails() ([]mail.MailEntry, error){
+func (md MongoDatabase) GetSendableMails() ([]mail.MailEntry, error) {
 	/*
 		Return all mails with `sendable` flag
 		return: <[]mail.MailEntry> An array of mails
@@ -427,6 +428,25 @@ func (md MongoDatabase) GetSendableMails() ([]mail.MailEntry, error){
 	if err != nil {
 		log.WithFields(logrus.Fields{
 			"sendable": true,
+		}).Error(err)
+		return nil, err
+	}
+	return res, nil
+}
+
+func (md MongoDatabase) GetMailToCompute() ([]mail.MailEntry, error) {
+	/*
+		Return all mails without `sendable` flag
+		return: <[]mail.MailEntry> An array of mails
+		return: <error> Nil if no errors
+	*/
+	colMails := md.C("mails")
+	var res []mail.MailEntry
+
+	err := colMails.Find(bson.M{"sendable": true}).All(&res)
+	if err != nil {
+		log.WithFields(logrus.Fields{
+			"sendable": false,
 		}).Error(err)
 		return nil, err
 	}
