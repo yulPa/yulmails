@@ -14,9 +14,5 @@ func Start(certFile string, keyFile string) {
 	var archivingdb = mongo.NewSession("mongodb://archivingdb:27017")
 
 	log.Info("Start server for API V1")
-	if certFile == ""|| keyFile == ""{
-		http.ListenAndServe(":80", GetRouterV1(archivingdb))
-	}else{
-		http.ListenAndServeTLS(":443", certFile, keyFile, GetRouterV1(archivingdb))
-	}
+	http.ListenAndServe(":8080", GetRouterV1(archivingdb))
 }
