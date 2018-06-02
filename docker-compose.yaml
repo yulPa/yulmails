@@ -1,12 +1,23 @@
 version: "3.4"
 
 services:
+  nginx:
+    image: nginx:1.13-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      "./nginx:/etc/nginx/conf.d/"
+    restart: always
+    hostname: nginx
+    container_name: nginx
+
   yulmails-api:
     image: registry.local.tld/yulmails:develop
     container_name: yulmails-api
     hostname: yulmails-api
     ports:
-      - "${YMAILS_IP_LISTENING:-127.0.0.1}:${YMAILS_PORT_LISTENING:-443}:443"
+      - "8080:8080"
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
       - "./conf:/etc/yulmails/conf:ro"
