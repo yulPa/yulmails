@@ -1,0 +1,444 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "YulMails API documentation",
+    "version": "1.0.0",
+    "title": "Swagger Yulmails",
+    "contact": {
+      "email": "mathieu.tortuyaux@yulpa.io"
+    }
+  },
+  "host": "yulmails.local.tld",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "entity",
+      "description": "Everything about entities"
+    },
+    {
+      "name": "environment",
+      "description": "Everything about environments"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/entity": {
+      "post": {
+        "tags": [
+          "entity"
+        ],
+        "summary": "Create an entity",
+        "description": "",
+        "operationId": "addEntity",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Entity object that need to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Entity"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Status created"
+          }
+        }
+      }
+    },
+    "/entity/{entity}": {
+      "parameters": [
+        {
+          "name": "entity",
+          "in": "path",
+          "description": "Entity name requested",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get one entity",
+        "tags": [
+          "entity"
+        ],
+        "responses": {
+          "200": {
+            "description": "status ok",
+            "schema": {
+              "$ref": "#/definitions/Entity"
+            }
+          },
+          "404": {
+            "description": "entity not found"
+          },
+          "500": {
+            "description": "error while getting entity"
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Entity object that need to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Entity"
+            }
+          }
+        ],
+        "tags": [
+          "entity"
+        ],
+        "summary": "Update an existing entity",
+        "description": "",
+        "operationId": "updateEntity",
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "status ok"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "entity"
+        ],
+        "summary": "Delete an existing entity",
+        "operationId": "deleteEntity",
+        "responses": {
+          "200": {
+            "description": "status ok"
+          },
+          "404": {
+            "description": "entity not found"
+          },
+          "500": {
+            "description": "error while deliting entity"
+          }
+        }
+      }
+    },
+    "/entities": {
+      "get": {
+        "tags": [
+          "entity"
+        ],
+        "summary": "Get all entities",
+        "description": "Return all the entities save on the database",
+        "operationId": "getAllEntities",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Entities"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entity/{entity}/environment": {
+      "parameters": [
+        {
+          "name": "entity",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "name of the entity"
+        }
+      ],
+      "post": {
+        "summary": "create an environment",
+        "tags": [
+          "environment"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Environment"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "status created"
+          },
+          "500": {
+            "description": "error while creating environment"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "environment"
+        ],
+        "summary": "get all environments",
+        "description": "get all environments  associated to one entity",
+        "responses": {
+          "200": {
+            "description": "status ok",
+            "schema": {
+              "$ref": "#/definitions/Environments"
+            }
+          }
+        }
+      }
+    },
+    "/entity/{entity}/environment/{environment}": {
+      "parameters": [
+        {
+          "name": "entity",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Name of the entity"
+        },
+        {
+          "name": "environment",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "description": "Name of the environment"
+        }
+      ],
+      "get": {
+        "summary": "get one environment",
+        "tags": [
+          "environment"
+        ],
+        "responses": {
+          "200": {
+            "description": "status ok",
+            "schema": {
+              "$ref": "#/definitions/Environment"
+            }
+          },
+          "404": {
+            "description": "environment not found"
+          },
+          "500": {
+            "description": "error while getting environment"
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete one environment",
+        "tags": [
+          "environment"
+        ],
+        "responses": {
+          "200": {
+            "description": "status ok"
+          },
+          "404": {
+            "description": "environment not found"
+          },
+          "500": {
+            "description": "error while deleting environment"
+          }
+        }
+      },
+      "post": {
+        "summary": "update an existing environment",
+        "tags": [
+          "environment"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Entity object that need to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Entity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "status ok"
+          },
+          "404": {
+            "description": "environment not found"
+          },
+          "500": {
+            "description": "error while deleting environment"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "description": "ping the service",
+        "responses": {
+          "200": {
+            "description": "status ok",
+            "schema": {
+              "$ref": "#/definitions/Health"
+            }
+          }
+        },
+        "tags": [
+          "utils"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Options": {
+      "properties": {
+        "quota": {
+          "items": {
+            "$ref": "#/definitions/OptionsQuota"
+          }
+        },
+        "conservation": {
+          "items": {
+            "$ref": "#/definitions/OptionsConservation"
+          }
+        }
+      }
+    },
+    "Entity": {
+      "type": "object",
+      "required": [
+        "name",
+        "abuse",
+        "options"
+      ],
+      "properties": {
+        "options": {
+          "$ref": "#/definitions/Options"
+        },
+        "name": {
+          "type": "string",
+          "example": "yulpa"
+        },
+        "abuse": {
+          "type": "string",
+          "description": "abuse address",
+          "example": "abuse@domain.tld"
+        }
+      }
+    },
+    "Entities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Entity"
+      }
+    },
+    "Environment": {
+      "type": "object",
+      "required": [
+        "name",
+        "ips",
+        "abuse",
+        "open",
+        "options"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "name of the environment"
+        },
+        "ips": {
+          "description": "list of allowed ips",
+          "items": {
+            "type": "string"
+          }
+        },
+        "abuse": {
+          "type": "string",
+          "example": "abuse@domain.tld",
+          "description": "abuse address for this environment. Default: the entity abuse address"
+        },
+        "open": {
+          "type": "boolean",
+          "example": true
+        },
+        "options": {
+          "type": "object",
+          "items": {
+            "$ref": "#/definitions/Options"
+          }
+        }
+      }
+    },
+    "Environments": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Entity"
+      }
+    },
+    "Health": {
+      "type": "object",
+      "properties": {
+        "healthy": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "OptionsQuota": {
+      "type": "object",
+      "properties": {
+        "TenLastMinutes": {
+          "type": "integer",
+          "example": 5
+        },
+        "SixtyLastMinutes": {
+          "type": "integer",
+          "example": 12
+        },
+        "LastDay": {
+          "type": "integer",
+          "example": 20
+        },
+        "LastWeek": {
+          "type": "integer",
+          "example": 13
+        },
+        "LastMonth": {
+          "type": "integer",
+          "example": 50
+        }
+      }
+    },
+    "OptionsConservation": {
+      "type": "object",
+      "properties": {
+        "sent": {
+          "type": "integer",
+          "example": 2
+        },
+        "unsent": {
+          "type": "integer",
+          "example": 12
+        },
+        "keep": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    }
+  }
+}
