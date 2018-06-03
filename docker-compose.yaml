@@ -7,7 +7,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      "./nginx:/etc/nginx/conf.d/"
+      - "./nginx:/etc/nginx/conf.d/"
     restart: always
     hostname: nginx
     container_name: nginx
@@ -16,8 +16,6 @@ services:
     image: registry.local.tld/yulmails:develop
     container_name: yulmails-api
     hostname: yulmails-api
-    ports:
-      - "8080:8080"
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
       - "./conf:/etc/yulmails/conf:ro"
