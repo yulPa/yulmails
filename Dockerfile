@@ -17,3 +17,5 @@ CMD ["yulmails", \
   "--tls-crt-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.crt", \
   "--tls-key-file", "/etc/yulmails/conf/yulmails.local.tld/yulmails.local.tld.key" \
 ]
+
+EXPOSE 8080
