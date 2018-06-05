@@ -1,9 +1,12 @@
 package entrypoint
 
 import (
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/mail"
+	"os/exec"
+	"strings"
 
 	"github.com/yulPa/yulmails/pkg/environment"
 	"github.com/yulPa/yulmails/pkg/mongo"
@@ -19,6 +22,9 @@ func Run() {
 			}
 
 			log.Print(checkIfAuthorize(email.Header.Get("from")))
+
+			raw, _ := ioutil.ReadAll(req.Body)
+			checkSpamAssassin(string(raw))
 		}
 	})
 	http.ListenAndServe(":8080", nil)
@@ -47,4 +53,30 @@ func contains(s string, a []environment.Environment) bool {
 		}
 	}
 	return false
+}
+
+func checkSpamAssassin(content string) {
+	/*
+	   This method will call SA in order to determine if mails are spams
+	*/
+	subProcess := exec.Command("spamassassin")
+	subProcess.Stdin = strings.NewReader(content)
+
+	raw, err := subProcess.Output()
+	log.Print(string(raw))
+	if err != nil {
+		log.Fatalf("unable to get output: %v", err)
+	}
+
+	r := strings.NewReader(string(raw))
+	m, err := mail.ReadMessage(r)
+	if err != nil {
+		log.Fatalf("unable to read message: %v", err)
+	}
+	if strings.Split(m.Header.Get("X-Spam-Status"), ",")[0] == "Yes" {
+		log.Println("Spam")
+		log.Print(m.Header.Get("X-Spam-Status"))
+	} else {
+		log.Println("not spam")
+	}
 }
