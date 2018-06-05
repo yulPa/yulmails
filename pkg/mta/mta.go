@@ -1,4 +1,4 @@
-package main
+package mta
 
 import (
 	"log"
@@ -22,7 +22,8 @@ var (
 	d = guerrilla.Daemon{Config: cfg}
 )
 
-func main() {
+// Run will start the server
+func Run() {
 	if err := d.Start(); err != nil {
 		log.Fatalf("unable to start mta: %v", err)
 	}

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/yulPa/yulmails/api"
-	"github.com/yulPa/yulmails/pkg/entrypoint"
+	"github.com/yulPa/yulmails/pkg/mta"
 	"github.com/yulPa/yulmails/pkg/sender"
 	"github.com/yulPa/yulmails/pkg/spam"
 )
@@ -50,7 +50,7 @@ func main() {
 		Short: "Start the entrypoint node",
 		Long:  "By starting this entrypoint node, emails will be parsed and saved into a buffer database",
 		Run: func(cmd *cobra.Command, args []string) {
-			entrypoint.Run()
+			mta.Run()
 		},
 	}
 
