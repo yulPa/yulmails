@@ -1,0 +1,19 @@
+language: go
+sudo: false
+go:
+  - 1.7
+  - 1.8
+  - 1.9
+  - 1.10.x
+  - master
+
+install:
+  - export GO15VENDOREXPERIMENT=1
+  - go get github.com/Masterminds/glide
+  - go install github.com/Masterminds/glide
+  - glide up
+
+script:
+  - ./.travis.gofmt.sh
+  - make guerrillad
+  - make test
