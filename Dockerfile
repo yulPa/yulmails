@@ -4,13 +4,14 @@ RUN apk add git --update curl
 RUN curl -fsSL -o /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.4.1/dep-linux-amd64 && chmod +x /usr/local/bin/dep
 
 WORKDIR /go/src/github.com/yulPa/yulmails
+COPY Gopkg.lock Gopkg.toml ./
+RUN dep ensure -vendor-only;
 COPY . ./
-RUN dep ensure -vendor-only; \
-  GOOS=linux GOARCH=amd64 go build -o main
+RUN GOOS=linux GOARCH=amd64 go build -o main
 
 FROM alpine:3.6
 COPY --from=builder /go/src/github.com/yulPa/yulmails/main .
-RUN apk --update add spamassassin
+RUN apk --update add spamassassin && sa-update
 RUN mv main /usr/bin/yulmails && chmod +x /usr/bin/yulmails
 CMD ["yulmails", \
   "api", \
