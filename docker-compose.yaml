@@ -37,14 +37,14 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-entrypoint:
-    image: registry.local.tld/yulmails:develop-entrypoint
+    image: registry.local.tld/yulmails:add-smtp
     container_name: yulmails-entrypoint
     hostname: yulmails-entrypoint
     command: yulmails entrypoint
     volumes:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
     ports: 
-      - "12800:8080"
+      - "2525:25"
 
   workdb:
     image: mongo:3.6.1
@@ -57,6 +57,11 @@ services:
     hostname: archivingdb
     volumes:
       - "database_data:/data/db"
+
+  redis:
+    image: redis:3.2.11-alpine
+    container_name: redis
+    hostname: redis
 
 networks:
   default:
