@@ -7,8 +7,8 @@ import (
 
 	"github.com/yulPa/yulmails/api"
 	"github.com/yulPa/yulmails/pkg/mta"
+	"github.com/yulPa/yulmails/pkg/processing"
 	"github.com/yulPa/yulmails/pkg/sender"
-	"github.com/yulPa/yulmails/pkg/spam"
 )
 
 func main() {
@@ -41,7 +41,7 @@ func main() {
 		Short: "Start the compute node",
 		Long:  "By starting this compute node, you'll perform a check spam with `spamassassin`",
 		Run: func(cmd *cobra.Command, args []string) {
-			spam.Run()
+			processing.Run()
 		},
 	}
 

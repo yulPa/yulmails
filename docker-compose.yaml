@@ -29,7 +29,7 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-compute:
-    image: registry.local.tld/yulmails:develop
+    image: registry.local.tld/yulmails:query-redis
     container_name: yulmails-compute
     hostname: yulmails-compute
     command: yulmails compute
@@ -37,7 +37,7 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-entrypoint:
-    image: registry.local.tld/yulmails:add-smtp
+    image: registry.local.tld/yulmails:query-redis
     container_name: yulmails-entrypoint
     hostname: yulmails-entrypoint
     command: yulmails entrypoint

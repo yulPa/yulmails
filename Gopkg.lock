@@ -2,6 +2,18 @@
 
 
 [[projects]]
+  name = "github.com/adjust/rmq"
+  packages = ["."]
+  revision = "99798ba09475383696d53071bd9885ac41694a7b"
+  version = "v1.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/adjust/uniuri"
+  packages = ["."]
+  revision = "498743145e60c272b71d377c4e456335e4ef7524"
+
+[[projects]]
   branch = "master"
   name = "github.com/asaskevich/EventBus"
   packages = ["."]
@@ -33,6 +45,21 @@
   ]
   revision = "a69d19351219b6dd56f274f96d85a7014a2ec34e"
   version = "v1.6.0"
+
+[[projects]]
+  name = "github.com/go-redis/redis"
+  packages = [
+    ".",
+    "internal",
+    "internal/consistenthash",
+    "internal/hashtag",
+    "internal/pool",
+    "internal/proto",
+    "internal/singleflight",
+    "internal/util"
+  ]
+  revision = "83fb42932f6145ce52df09860384a4653d2d332a"
+  version = "v6.12.0"
 
 [[projects]]
   name = "github.com/gorilla/context"
@@ -100,6 +127,12 @@
   revision = "a13efeb2fd213cf4be7227992aa54519af3b2ac0"
 
 [[projects]]
+  branch = "v1"
+  name = "gopkg.in/bsm/ratelimit.v1"
+  packages = ["."]
+  revision = "db14e161995a5177acef654cb0dd785e8ee8bc22"
+
+[[projects]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
   packages = [
@@ -112,6 +145,18 @@
   revision = "3f83fa5005286a7fe593b055f0d7771a7dce4655"
 
 [[projects]]
+  name = "gopkg.in/redis.v3"
+  packages = [
+    ".",
+    "internal",
+    "internal/consistenthash",
+    "internal/hashtag",
+    "internal/pool"
+  ]
+  revision = "b5e368500d0a508ef8f16e9c2d4025a8a46bcc29"
+  version = "v3.6.4"
+
+[[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   revision = "287cf08546ab5e7e37d55a84f7ed3fd1db036de5"
@@ -119,6 +164,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fdc88b7f7e1fc0d0d54fe4e9020a2901a5d19f0092f51afe6339b0f378b06db9"
+  inputs-digest = "e39366c8e97ba7433e9d358bf304d00984b2bbb1b05ef6251f469969ff34ea97"
   solver-name = "gps-cdcl"
   solver-version = 1
