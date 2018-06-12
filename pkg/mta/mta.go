@@ -18,6 +18,10 @@ var (
 			"redis_interface":      "redis:6379",
 			"redis_expire_seconds": 7200,
 		},
+		Servers: []guerrilla.ServerConfig{guerrilla.ServerConfig{
+			ListenInterface: "0.0.0.0:25",
+			IsEnabled:       true,
+		}},
 	}
 	d = guerrilla.Daemon{Config: cfg}
 )
