@@ -15,32 +15,26 @@ var (
 	connection rmq.Connection
 )
 
-type consumer struct {
+type batchConsumer struct {
 	name   string
 	count  int
 	before time.Time
 }
 
-func newConsumer(tag int) *consumer {
-	return &consumer{
+func newBatchConsumer(tag int) *batchConsumer {
+	return &batchConsumer{
 		name:   fmt.Sprintf("consumer-%d", tag),
 		count:  0,
 		before: time.Now(),
 	}
 }
 
-func (cons *consumer) Consume(delivery rmq.Delivery) {
-	cons.count++
-	if cons.count%10 == 0 {
-		cons.before = time.Now()
+func (cons *batchConsumer) Consume(deliveries rmq.Deliveries) {
+	for _, delivery := range deliveries {
 		log.Println(delivery.Payload())
-	}
-	time.Sleep(time.Millisecond)
-	if cons.count%10 == 0 {
-		delivery.Reject()
-	} else {
 		delivery.Ack()
 	}
+	time.Sleep(time.Millisecond)
 }
 
 func init() {
@@ -66,6 +60,6 @@ func checkSpamAssassin(content string) {
 func Run() {
 	queue := connection.OpenQueue("emails")
 	queue.StartConsuming(100, 500*time.Millisecond)
-	queue.AddConsumer("batch-consumer", newConsumer(1))
+	queue.AddBatchConsumer("batch-consumer", 10, newBatchConsumer(1))
 	select {}
 }
