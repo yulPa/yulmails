@@ -6,7 +6,7 @@ The code is split in a few independants modules:
 
 * `pkg/client/`: a simple http client in order to post data on different services (ex: iWal notifications)
 * `pkg/configuration/`: read the configuration from a YAML file with different services (archiving, senders, computes, entrypoints) and the different options belonging to these services. This configuration can be save on a database into the schema `global/configuration`
-* `api/`: the main configuration package, this api server will expose a bunch of *CRUD* (Create Read Update Delete) api in order to manage entities, environments, etc. 
+* `api/`: the main configuration package, this api server will expose a bunch of *CRUD* (Create Read Update Delete) api in order to manage entities, environments, etc.[more informations](./modules/api.md) 
 * `pkg/domain,entity,environment`: utils structure to serialize data into the database [more informations](./modules/domain-entity-environment.md)
 * `pkg/logger`: custom logger configuration to call at each new modules, in order to have a split log.
 * `pkg/mail`: mail structure in order to serialize them into the database
