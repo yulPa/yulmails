@@ -11,7 +11,7 @@ The code is split in a few independants modules:
 * `pkg/logger`: custom logger configuration to call at each new modules, in order to have a split log.
 * `pkg/mail`: mail structure in order to serialize them into the database
 * `pkg/mocks`: main package to create mocks and fixtures in order to test our apis call and database manipulation without use them for real
-* `pkg/mongo`: main module with DAO implementation in order to use database resource without managing session creation and factory
+* `pkg/mongo`: main module with DAO implementation in order to use database resource without managing session creation and factory. [more informations](./modules/mongo.md)
 * `pkg/options`: saving options 
 * `pkg/sender`: module to use when you want to sent an email trough a given smtp server
 * `pkg/mta`: entrypoint to get email to analyze, a simple MTA server with a redis behind
