@@ -14,7 +14,7 @@ The code is split in a few independants modules:
 * `pkg/mongo`: main module with DAO implementation in order to use database resource without managing session creation and factory. [more informations](./modules/mongo.md)
 * `pkg/options`: saving options 
 * `pkg/sender`: module to use when you want to sent an email trough a given smtp server
-* `pkg/mta`: entrypoint to get email to analyze, a simple MTA server with a redis behind
+* `pkg/mta`: entrypoint to get email to analyze, a simple MTA server with a redis behind. [more informations](./modules/mta)
 * `pkg/processing`: this module will consume redis queue and process the email against anti-spam services
 
 ## development workflow
