@@ -307,14 +307,10 @@
     "Options": {
       "properties": {
         "quota": {
-          "items": {
-            "$ref": "#/definitions/OptionsQuota"
-          }
+          "$ref": "#/definitions/OptionsQuota"
         },
         "conservation": {
-          "items": {
-            "$ref": "#/definitions/OptionsConservation"
-          }
+          "$ref": "#/definitions/OptionsConservation"
         }
       }
     },
