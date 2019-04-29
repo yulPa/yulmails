@@ -90,8 +90,9 @@ func checkSpamAssassin(content string) {
 		m, _ := mail.ReadMessage(r)
 		if strings.Split(m.Header.Get("X-Spam-Status"), ",")[0] == "Yes" {
 			log.Println("Spam")
+		} else {
+			log.Println("not spam")
 		}
-		log.Println("not spam")
 	}
 	// delete file
 	err = os.Remove(id)
