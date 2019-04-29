@@ -13,6 +13,9 @@ services:
     container_name: nginx
 
   yulmails-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: registry.local.tld/yulmails:develop
     container_name: yulmails-api
     hostname: yulmails-api
@@ -21,6 +24,9 @@ services:
       - "./conf:/etc/yulmails/conf:ro"
 
   yulmails-sender:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: registry.local.tld/yulmails:develop
     container_name: yulmails-sender
     hostname: yulmails-sender
@@ -29,7 +35,10 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-compute:
-    image: registry.local.tld/yulmails:query-redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-compute
     hostname: yulmails-compute
     command: yulmails compute
@@ -37,7 +46,10 @@ services:
       - "${YMAILS_VOLUMES_LOGS:-/var/log/}:/var/log/:rw"
 
   yulmails-entrypoint:
-    image: registry.local.tld/yulmails:query-redis
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: registry.local.tld/yulmails:develop
     container_name: yulmails-entrypoint
     hostname: yulmails-entrypoint
     command: yulmails entrypoint
@@ -63,10 +75,6 @@ services:
     container_name: redis
     hostname: redis
 
-networks:
-  default:
-    external:
-      name: net-yulmails
 
 volumes:
   database_data: {}
