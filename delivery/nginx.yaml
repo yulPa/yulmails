@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: yulmails-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: api.yulmails.fr
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dataccess
+          servicePort: 8080
