@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
   database:
-    image: yulmails/database:1.0
+    image: registry.gitlab.com/tortuemat/yulmails/services/database
     container_name: database
     hostname: database
     environment:
@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   dataccess:
-    image: yulpa/yulmails/services/dataccess:latest
+    image: registry.gitlab.com/tortuemat/yulmails/services/dataccess
     container_name: dataccess
     ports:
       - "8080:8080"
