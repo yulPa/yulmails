@@ -1,0 +1,24 @@
+version: "3.6"
+
+services:
+  database:
+    image: yulmails/database:1.0
+    container_name: database
+    hostname: database
+    environment:
+      - POSTGRES_DB=yulmails
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  dataccess:
+    image: yulpa/yulmails/services/dataccess:latest
+    container_name: dataccess
+    ports:
+      - "8080:8080"
+    hostname: dataccess 
+    environment:
+      - POSTGRES_DB=yulmails
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=database
+
+
