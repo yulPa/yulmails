@@ -24,3 +24,11 @@ generate-swagger:
 		-I $${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--swagger_out=logtostderr=true:v1beta1 \
 		$${PWD}/v1beta1/api.proto
+
+generate-reverse-proxy:
+	@$(protoc) -I /usr/local/include \
+		-I $${PWD}/v1beta1 \
+		-I $${GOPATH}/src \
+		-I $${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+		--grpc-gateway_out=logtostderr=true:v1beta1 \
+		$${PWD}/v1beta1/api.proto

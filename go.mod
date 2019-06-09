@@ -26,3 +26,5 @@ require (
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 	honnef.co/go/tools v0.0.0-20190607181801-497c8f037f5a // indirect
 )
+
+replace gitlab.com/tortuemat/yulmails/services/conservation => ./services/conservation
