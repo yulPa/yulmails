@@ -4,6 +4,12 @@ RUN apk add --update \
 WORKDIR /opt
 ENV GO111MODULE=on
 
+# download dependencies
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+# build project
 COPY . .
 RUN CG0_ENABLED=0 GOOS=linux go build -o conservation
 
