@@ -20,16 +20,27 @@ spec:
         image: registry.gitlab.com/tortuemat/yulmails/services/conservation
         env:
         - name: POSTGRES_DB
-          value: yulmails
+          value: conservation
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD
           value: postgres
         - name: POSTGRES_HOST
-          value: database
+          value: conservation
         ports:
         - containerPort: 9090
         - containerPort: 8080
+      - name: database
+        image: registry.gitlab.com/tortuemat/yulmails/datasets/conservation
+        env:
+        - name: POSTGRES_DB
+          value: conservation
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        ports:
+        - containerPort: 5432
       imagePullSecrets:
       - name: gitlab-reg
 ---
@@ -50,4 +61,6 @@ spec:
   - protocol: TCP
     port: 9090
     name: grpc
-
+  - protocol: TCP
+    port: 5432
+    name: postgres
