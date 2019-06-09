@@ -18,6 +18,13 @@ spec:
       containers:
       - name: conservation
         image: registry.gitlab.com/tortuemat/yulmails/services/conservation
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
         env:
         - name: POSTGRES_DB
           value: conservation
