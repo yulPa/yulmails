@@ -1,0 +1,34 @@
+syntax = 'proto3';
+
+package v1beta1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+// Conservation is the service to manage 
+// conservation rules
+service ConservationService {
+	// ListConservation returns a stream of List of Conservation
+	rpc ListConservation(google.protobuf.Empty) returns (stream Conservation) {
+		option(google.api.http) = {
+			get: "/v1/conservation"
+		};
+	}
+}
+
+// Conservation is database representation
+message Conservation {
+	// database unique identifier
+	int64	ID = 1;
+	// creation date (timestamp without time zone)
+	string	created = 2;
+	// number of sent email to keep
+	int64	sent = 3;
+	// number of unsent email to keep
+	int64	unsent = 4;
+	// keep email content (depend of country law)
+	bool	keep_email_content = 5;
+}
+
+
+	
