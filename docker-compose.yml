@@ -1,25 +1,14 @@
 version: "3.6"
 
 services:
-  database:
-    image: registry.gitlab.com/tortuemat/yulmails/services/database
+  database-conservation:
+    image: registry.gitlab.com/tortuemat/yulmails/datasets/conservation
     container_name: database
     hostname: database
     environment:
-      - POSTGRES_DB=yulmails
+      - POSTGRES_DB=conservation
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  dataccess:
-    image: registry.gitlab.com/tortuemat/yulmails/services/dataccess
-    container_name: dataccess
-    ports:
-      - "8080:8080"
-    hostname: dataccess 
-    environment:
-      - POSTGRES_DB=yulmails
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=database
   conservation:
     image: registry.gitlab.com/tortuemat/yulmails/services/conservation
     container_name: conservation
@@ -27,5 +16,10 @@ services:
     ports:
       - "9090:9090"
       - "8080:8080"
+    environment:
+      - POSTGRES_DB=conservation
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=database-conservation
 
 
