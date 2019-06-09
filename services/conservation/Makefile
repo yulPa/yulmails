@@ -10,9 +10,17 @@ protoc=/usr/bin/protoc
 go=/usr/bin/go
 
 generate-stub:
-	$(protoc) -I /usr/local/include \
+	@$(protoc) -I /usr/local/include \
 		-I $${PWD}/v1beta1 \
 		-I $${GOPATH}/src \
 		-I $${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 		--go_out=plugins=grpc:v1beta1 \
+		$${PWD}/v1beta1/api.proto
+
+generate-swagger:
+	@$(protoc) -I /usr/local/include \
+		-I $${PWD}/v1beta1 \
+		-I $${GOPATH}/src \
+		-I $${GOPATH}/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+		--swagger_out=logtostderr=true:v1beta1 \
 		$${PWD}/v1beta1/api.proto
