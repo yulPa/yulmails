@@ -41,3 +41,32 @@ func (d *Dao) GetConservations() ([]pb.Conservation, error) {
 	}
 	return conservations, nil
 }
+
+// CreateConservation add a conservation
+// into the db
+func (d *Dao) CreateConservation(conservation *pb.Conservation) error {
+	tx, err := d.db.Begin()
+	if err != nil {
+		return err
+	}
+	insertConservation, err := tx.Prepare(
+		"INSERT INTO conservation(created,sent,unsent,keep_email_content) " +
+		"VALUES ($1, $2, $3, $4) RETURNING id;",
+	)
+	if err != nil {
+		return err
+	}
+	if err := tx.Stmt(insertConservation).QueryRow(
+		conservation.GetCreated(),
+		conservation.GetSent(),
+		conservation.GetUnsent(),
+		conservation.GetKeepEmailContent(),
+	).Scan(&conservation.ID); err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := tx.Commit(); err != nil {
+		return err
+	}
+	return nil
+}

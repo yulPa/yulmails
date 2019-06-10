@@ -30,6 +30,31 @@
         "tags": [
           "ConservationService"
         ]
+      },
+      "post": {
+        "summary": "CreateConservation insert a conservation in dataset",
+        "operationId": "CreateConservation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1beta1Conservation"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1beta1Conservation"
+            }
+          }
+        ],
+        "tags": [
+          "ConservationService"
+        ]
       }
     }
   },
