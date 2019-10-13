@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"gitlab.com/tortuemat/yulmails/cmd"
-
 )
 
 func main() {
