@@ -1,25 +1,25 @@
 version: "3.6"
 
 services:
-  database-conservation:
-    image: registry.gitlab.com/tortuemat/yulmails/datasets/conservation
-    container_name: database
-    hostname: database
-    environment:
-      - POSTGRES_DB=conservation
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-  conservation:
-    image: registry.gitlab.com/tortuemat/yulmails/services/conservation
-    container_name: conservation
-    hostname: conservation
-    ports:
-      - "9090:9090"
-      - "8080:8080"
-    environment:
-      - POSTGRES_DB=conservation
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST=database-conservation
+  queue-entrypoint:
+    image: "redis:5.0.6-alpine"
+    container_name: "queue-entrypoint"
+    hostname: "queue-entrypoint"
 
+  entrypoint:
+    image: "yulmails:0.1.0"
+    container_name: "entrypoint"
+    hostname: "entrypoint"
+    command: [
+        "yulctl",
+        "entrypoint",
+        "--smtp-config",
+        "/tmp/entrypoint.json.sample"
+    ]
+    volumes:
+      # to be changed following your needs
+      - "${PWD}/conf/entrypoint.json.sample:/tmp/entrypoint.json.sample:ro"
+    ports:
+      - "2525:2525"
+    
 
