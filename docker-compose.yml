@@ -7,7 +7,7 @@ services:
     hostname: "queue-entrypoint"
 
   entrypoint:
-    image: "yulmails:0.1.0"
+    image: "yulmails:0.1.1"
     container_name: "entrypoint"
     hostname: "entrypoint"
     command: [
@@ -22,4 +22,15 @@ services:
     ports:
       - "2525:2525"
     
+  worker-1:
+    image: "yulmails:0.1.1"
+    command: [
+        "yulctl",
+        "worker",
+        "--worker-config",
+        "/tmp/worker.json.sample"
+    ]
+    volumes:
+      # to be changed following your needs
+      - "${PWD}/conf/worker.json.sample:/tmp/worker.json.sample:ro"
 
