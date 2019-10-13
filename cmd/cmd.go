@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/urfave/cli"
+
+	"gitlab.com/tortuemat/yulmails/services/entrypoint"
 )
 
 var App = cli.App{
@@ -18,9 +18,15 @@ var App = cli.App{
 			Aliases:     []string{"e"},
 			Usage:       "start the entrypoint",
 			Description: "the entrypoint is a SMTP server in order to receive emails",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name: "smtp-config",
+					Value: "/etc/yulmails/smtp.json",
+					Usage: "absolute path to the SMTP config file",
+				},
+			},
 			Action: func(c *cli.Context) error {
-				fmt.Println("entrypoint lol")
-				return nil
+				return entrypoint.StartSMTP(c.String("smtp-config"))
 			},
 		},
 	},
