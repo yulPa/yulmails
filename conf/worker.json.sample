@@ -1,0 +1,5 @@
+{
+	"queue_addr": "queue-entrypoint:6379",
+	"queue_name": "queue-entrypoint",
+	"nb_consumer": 4
+}

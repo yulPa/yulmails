@@ -4,6 +4,7 @@ import (
 	"github.com/urfave/cli"
 
 	"gitlab.com/tortuemat/yulmails/services/entrypoint"
+	"gitlab.com/tortuemat/yulmails/services/worker"
 )
 
 var App = cli.App{
@@ -16,17 +17,33 @@ var App = cli.App{
 		cli.Command{
 			Name:        "entrypoint",
 			Aliases:     []string{"e"},
-			Usage:       "start the entrypoint",
+			Usage:       "start an entrypoint",
 			Description: "the entrypoint is a SMTP server in order to receive emails",
 			Flags: []cli.Flag{
 				cli.StringFlag{
-					Name: "smtp-config",
+					Name:  "smtp-config",
 					Value: "/etc/yulmails/smtp.json",
 					Usage: "absolute path to the SMTP config file",
 				},
 			},
 			Action: func(c *cli.Context) error {
 				return entrypoint.StartSMTP(c.String("smtp-config"))
+			},
+		},
+		cli.Command{
+			Name:        "worker",
+			Aliases:     []string{"w"},
+			Usage:       "start a worker",
+			Description: "a worker is a dedicated resource in order to fetch emails from the queue and compute them",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "worker-config",
+					Value: "/etc/yulmails/worker.json",
+					Usage: "absolute path to the worker config file",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				return worker.StartWorker(c.String("worker-config"))
 			},
 		},
 	},
