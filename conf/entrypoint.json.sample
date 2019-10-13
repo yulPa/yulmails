@@ -1,0 +1,13 @@
+{
+	"log_file": "/tmp/guerrilla.log",
+	"allowed_hosts": ["arch-x250"],
+	"backend_config": {
+		"save_process": "Hasher|RedisQueue",
+		"redis_addr": "127.0.0.1:6379"
+	},
+	"servers": [{
+		"is_enabled": true,
+		"listen_interface": "0.0.0.0:2525"
+	}]
+}
+

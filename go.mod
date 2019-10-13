@@ -4,8 +4,6 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.40.0 // indirect
-	github.com/asaskevich/EventBus v0.0.0-20180315140547-d46933a94f05 // indirect
-	github.com/flashmob/go-guerrilla v0.0.0-20191003142654-05e8e941f765 // indirect
 	github.com/golang/mock v1.3.1 // indirect
 	github.com/google/btree v1.0.0 // indirect
 	github.com/google/pprof v0.0.0-20190515194954-54271f7e092f // indirect
@@ -13,8 +11,8 @@ require (
 	github.com/kr/pty v1.1.4 // indirect
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
-	github.com/sirupsen/logrus v1.4.2 // indirect
 	gitlab.com/tortuemat/yulmails/cmd v0.0.0-00010101000000-000000000000 // indirect
+	gitlab.com/tortuemat/yulmails/services/entrypoint v0.0.0-00010101000000-000000000000 // indirect
 	go.opencensus.io v0.22.0 // indirect
 	golang.org/x/exp v0.0.0-20190510132918-efd6b22b2522 // indirect
 	golang.org/x/image v0.0.0-20190523035834-f03afa92d3ff // indirect
@@ -33,4 +31,5 @@ require (
 replace (
 	gitlab.com/tortuemat/yulmails/cmd => ./cmd
 	gitlab.com/tortuemat/yulmails/services/conservation => ./services/conservation
+	gitlab.com/tortuemat/yulmails/services/entrypoint => ./services/entrypoint
 )

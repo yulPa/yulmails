@@ -4,6 +4,10 @@ cloud.google.com/go v0.38.0/go.mod h1:990N+gfupTy94rShfmMCWGDn0LpTmnzTp2qbd1dvSR
 cloud.google.com/go v0.40.0/go.mod h1:Tk58MuI9rbLMKlAjeO/bDnteAx7tX2gJIXw4T5Jwlro=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
+github.com/adjust/rmq v1.0.0 h1:VTD1iLXIQD3tr4mQlgOOOkz6jMbIiKdnpDXQyAqPOLQ=
+github.com/adjust/rmq v1.0.0/go.mod h1:R3ayojJEWi4WQ7I6q1GYzgeBiHC58+y/6eQc2usiWh4=
+github.com/adjust/uniuri v0.0.0-20130923163420-498743145e60 h1:ogL5Ct/E8o3w/QiBWDFJV9fOXglEiXI+YaYIqWNCJ8Y=
+github.com/adjust/uniuri v0.0.0-20130923163420-498743145e60/go.mod h1:pgVmNTYfZOWG+PrCVPcvgUy5Z/uowI78tK8ARMsdVXw=
 github.com/asaskevich/EventBus v0.0.0-20180315140547-d46933a94f05 h1:Shem5lRG4gJyrrg9YMIl7dOQazyWCq0Daz4LjompZ28=
 github.com/asaskevich/EventBus v0.0.0-20180315140547-d46933a94f05/go.mod h1:JS7hed4L1fj0hXcyEejnW57/7LCetXggd+vwrRnYeII=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
@@ -13,6 +17,8 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/flashmob/go-guerrilla v0.0.0-20191003142654-05e8e941f765 h1:MZO+0a7trLF69iUe+v083vsAvPaJtDlZ0ivMK+KhCcI=
 github.com/flashmob/go-guerrilla v0.0.0-20191003142654-05e8e941f765/go.mod h1:ZT9TRggRsSY4ZVndoyx8TRUxi3tM/nOYtKWKDX94H0I=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
+github.com/go-redis/redis v6.15.6+incompatible h1:H9evprGPLI8+ci7fxQx6WNZHJSb7be8FqJQRhdQZ5Sg=
+github.com/go-redis/redis v6.15.6+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfUlaOkMMuAQtPIUF8ecWP5IEl/CR7VP2Q=
 github.com/golang/mock v1.1.1/go.mod h1:oTYuIxOrZwtPieC+H1uAHpcLFnEyAGVDL/k47Jfbm0A=
 github.com/golang/mock v1.2.0/go.mod h1:oTYuIxOrZwtPieC+H1uAHpcLFnEyAGVDL/k47Jfbm0A=
@@ -142,9 +148,13 @@ google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZi
 google.golang.org/grpc v1.20.1/go.mod h1:10oTOabMzJvdu6/UiuZezV6QK5dSlG84ov/aaiqXj38=
 google.golang.org/grpc v1.21.1 h1:j6XxA85m/6txkUCHvzlV5f+HBNl/1r5cZ2A/3IEFOO8=
 google.golang.org/grpc v1.21.1/go.mod h1:oYelfM1adQP15Ek0mdvEgi9Df8B9CZIaU1084ijfRaM=
+gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a h1:stTHdEoWg1pQ8riaP5ROrjS6zy6wewH/Q2iwnLCQUXY=
+gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a/go.mod h1:KF9sEfUPAXdG8Oev9e99iLGnl2uJMjc5B+4y3O7x610=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/errgo.v2 v2.1.0/go.mod h1:hNsd1EY+bozCKY1Ytp96fpM3vjJbqLJn88ws8XvfDNI=
+gopkg.in/redis.v3 v3.6.4 h1:u7XgPH1rWwsdZnR+azldXC6x9qDU2luydOIeU/l52fE=
+gopkg.in/redis.v3 v3.6.4/go.mod h1:6XeGv/CrsUFDU9aVbUdNykN7k1zVmoeg83KC9RbQfiU=
 gopkg.in/resty.v1 v1.12.0/go.mod h1:mDo4pnntr5jdWRML875a/NmxYqAlA73dVijT2AXvQQo=
 gopkg.in/yaml.v2 v2.0.0-20170812160011-eb3733d160e7/go.mod h1:JAlM8MvJe8wmxCU4Bli9HhUf9+ttbYbLASfIpnQbh74=
 gopkg.in/yaml.v2 v2.2.2/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
