@@ -1,4 +1,4 @@
-package worker
+package sender
 
 import (
 	"github.com/adjust/rmq"
@@ -12,25 +12,22 @@ import (
 )
 
 type Configuration struct {
-	QueueAddr      string `json:"queue_addr"`
-	QueueName      string `json:"queue_name"`
-	StoreQueueName string `json:"store_queue_name"`
-	NbConsumer     int    `json:"nb_consumer"`
+	QueueAddr  string `json:"queue_addr"`
+	QueueName  string `json:"queue_name"`
+	NbConsumer int    `json:"nb_consumer"`
 }
 
 type Consumer struct {
 	name   string
 	count  int
 	before time.Time
-	conf	*Configuration
 }
 
-func NewConsumer(tag int, c *Configuration) *Consumer {
+func NewConsumer(tag int) *Consumer {
 	return &Consumer{
 		name:   fmt.Sprintf("worker-%d", tag),
 		count:  0,
 		before: time.Now(),
-		conf: c,
 	}
 }
 
@@ -48,24 +45,12 @@ func NewConfiguration(path string) (*Configuration, error) {
 
 func (c *Consumer) Consume(del rmq.Delivery) {
 	c.count++
-	// start the logic to perform YM checks
-	m := del.Payload()
-	fmt.Print(m)
+	fmt.Print(del.Payload())
 	del.Ack()
-	// now we can store the email if its ready to be sent
-	if ok := c.storeEmail(m); !ok {
-		log.Printf("consumer: %s - unable to store email", c.name)
-	}
 }
 
-func (c *Consumer) storeEmail(m string) bool {
-	connection := rmq.OpenConnection("emailsService", "tcp", c.conf.QueueAddr, 1)
-	queue := connection.OpenQueue(c.conf.StoreQueueName)
-	return queue.Publish(m)
-}
-
-// StartWorker will start a worker in order to consume DB with consumers
-func StartWorker(confPath string) error {
+// StartSender will start a sender in order to consume DB with consumers and send them
+func StartSender(confPath string) error {
 	conf, err := NewConfiguration(confPath)
 	if err != nil {
 		return err
@@ -75,8 +60,8 @@ func StartWorker(confPath string) error {
 	queue.StartConsuming(1000, 500*time.Millisecond)
 	host, _ := os.Hostname()
 	for i := 0; i < conf.NbConsumer; i++ {
-		log.Printf("adding consumer: %d to worker: %s\n", i, host)
-		queue.AddConsumer(host, NewConsumer(i, conf))
+		log.Printf("adding consumer: %d to sender: %s\n", i, host)
+		queue.AddConsumer(host, NewConsumer(i))
 	}
 	select {}
 }

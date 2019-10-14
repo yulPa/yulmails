@@ -2,8 +2,8 @@ package entrypoint
 
 import (
 	"errors"
-	"time"
 	"fmt"
+	"time"
 
 	"github.com/flashmob/go-guerrilla"
 	"gitlab.com/tortuemat/yulmails/services/entrypoint/processor"

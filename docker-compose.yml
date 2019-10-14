@@ -34,3 +34,14 @@ services:
       # to be changed following your needs
       - "${PWD}/conf/worker.json.sample:/tmp/worker.json.sample:ro"
 
+  sender-1:
+    image: "yulmails:0.1.1"
+    command: [
+        "yulctl",
+        "sender",
+        "--sender-config",
+        "/tmp/sender.json.sample"
+    ]
+    volumes:
+      # to be changed following your needs
+      - "${PWD}/conf/sender.json.sample:/tmp/sender.json.sample:ro"

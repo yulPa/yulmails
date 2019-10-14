@@ -51,7 +51,7 @@ func (d *Dao) CreateConservation(conservation *pb.Conservation) error {
 	}
 	insertConservation, err := tx.Prepare(
 		"INSERT INTO conservation(created,sent,unsent,keep_email_content) " +
-		"VALUES ($1, $2, $3, $4) RETURNING id;",
+			"VALUES ($1, $2, $3, $4) RETURNING id;",
 	)
 	if err != nil {
 		return err

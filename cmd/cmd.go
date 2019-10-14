@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/tortuemat/yulmails/services/entrypoint"
 	"gitlab.com/tortuemat/yulmails/services/worker"
+	"gitlab.com/tortuemat/yulmails/services/sender"
 )
 
 var App = cli.App{
@@ -44,6 +45,22 @@ var App = cli.App{
 			},
 			Action: func(c *cli.Context) error {
 				return worker.StartWorker(c.String("worker-config"))
+			},
+		},
+		cli.Command{
+			Name:        "sender",
+			Aliases:     []string{"s"},
+			Usage:       "start a sender",
+			Description: "a sender is a dedicated resource in order to fetch emails from the queue and send them",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "sender-config",
+					Value: "/etc/yulmails/sender.json",
+					Usage: "absolute path to the sender config file",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				return sender.StartSender(c.String("sender-config"))
 			},
 		},
 	},
