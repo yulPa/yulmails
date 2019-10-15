@@ -7,7 +7,7 @@ services:
     hostname: "queue-entrypoint"
 
   entrypoint:
-    image: "yulmails:0.1.1"
+    image: "registry.gitlab.com/tortuemat/yulmails:latest"
     container_name: "entrypoint"
     hostname: "entrypoint"
     command: [
@@ -23,7 +23,7 @@ services:
       - "2525:2525"
     
   worker-1:
-    image: "yulmails:0.1.1"
+    image: "registry.gitlab.com/tortuemat/yulmails:latest"
     command: [
         "yulctl",
         "worker",
@@ -35,7 +35,7 @@ services:
       - "${PWD}/conf/worker.json.sample:/tmp/worker.json.sample:ro"
 
   sender-1:
-    image: "yulmails:0.1.1"
+    image: "registry.gitlab.com/tortuemat/yulmails:latest"
     command: [
         "yulctl",
         "sender",
@@ -45,3 +45,10 @@ services:
     volumes:
       # to be changed following your needs
       - "${PWD}/conf/sender.json.sample:/tmp/sender.json.sample:ro"
+
+  spamassassin-plugin:
+    image: "registry.gitlab.com/tortuemat/yulmails/plugins/spamassassin:latest"
+    container_name: "spamassassin-plugin"
+    hostname: "spamassassin-plugin"
+    command: "spamassassin-plugin"
+

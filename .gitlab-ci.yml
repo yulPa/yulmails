@@ -8,6 +8,8 @@ docker-build-master:
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
     - docker push "$CI_REGISTRY_IMAGE"
+    - docker build --pull -t registry.gitlab.com/tortuemat/yulmails/plugins/spamassassin plugins/spamassassin
+    - docker push registry.gitlab.com/tortuemat/yulmails/plugins/spamassassin
   only:
     - master
 
