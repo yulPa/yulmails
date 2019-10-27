@@ -1,7 +1,5 @@
 package sdk
 
-import "encoding/json"
-
 // Plugin is will be the interface for all plugins development
 type Plugin interface {
 	// CheckMail will run the test itself: is a spam or not,
@@ -32,5 +30,3 @@ type Result struct {
 	// Headers are the custom headers to add to the mail
 	Headers []map[string]string `json:"headers"`
 }
-
-
