@@ -2,10 +2,10 @@ package worker
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
+	"bytes"
 
-	"gitlab.com/tortuemat/yulmail/plugins/sdk"
+	"gitlab.com/tortuemat/yulmails/plugins/sdk"
 )
 
 type plugin struct {
@@ -31,10 +31,10 @@ func (p *plugin) SendEmail(email string) (*sdk.Result, error) {
 		return nil, err
 	}
 	var result sdk.Result
-	if err != json.NewDecoder(resp.Body).Decode(&result); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
 	}
-	return result, nil
+	return &result, nil
 }
 
 // NewPlugin returns a plugin created from pluginAddr
