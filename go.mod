@@ -1,4 +1,4 @@
-module gitlab.com/tortuemat/yulmails
+module github.com/yulpa/yulmails
 
 go 1.13
 
