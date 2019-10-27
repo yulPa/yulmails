@@ -60,6 +60,7 @@ func (c *Consumer) Consume(del rmq.Delivery) {
 	fmt.Println("version: ", res.Version)
 	fmt.Println("exec time: ", res.ExecTime)
 	fmt.Println("score: ", res.Score)
+	fmt.Println("headers to add: ", res.Headers)
 	del.Ack()
 	// now we can store the email if its ready to be sent
 	if ok := c.storeEmail(m); !ok {
