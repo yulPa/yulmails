@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.com/tortuemat/yulmails/plugins/sdk"
+	"github.com/yulpa/yulmails/plugins/sdk"
 )
 
 var (

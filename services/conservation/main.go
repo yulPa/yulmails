@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	gw "gitlab.com/tortuemat/yulmails/services/conservation/v1beta1"
+	gw "github.com/yulpa/yulmails/services/conservation/v1beta1"
 )
 
 func run(db *sql.DB) error {

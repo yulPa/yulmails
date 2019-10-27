@@ -5,7 +5,7 @@ import (
 
 	empty "github.com/golang/protobuf/ptypes/empty"
 
-	pb "gitlab.com/tortuemat/yulmails/services/conservation/v1beta1"
+	pb "github.com/yulpa/yulmails/services/conservation/v1beta1"
 )
 
 type ConservationService struct{ DaoService *Dao }

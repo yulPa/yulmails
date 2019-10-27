@@ -3,9 +3,9 @@ package cmd
 import (
 	"github.com/urfave/cli"
 
-	"gitlab.com/tortuemat/yulmails/services/entrypoint"
-	"gitlab.com/tortuemat/yulmails/services/worker"
-	"gitlab.com/tortuemat/yulmails/services/sender"
+	"github.com/yulpa/yulmails/services/entrypoint"
+	"github.com/yulpa/yulmails/services/worker"
+	"github.com/yulpa/yulmails/services/sender"
 )
 
 var App = cli.App{
