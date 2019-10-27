@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"gitlab.com/tortuemat/yulmails/cmd"
+	"github.com/yulpa/yulmails/cmd"
 )
 
 func main() {

@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/flashmob/go-guerrilla"
-	"gitlab.com/tortuemat/yulmails/services/entrypoint/processor"
+	"github.com/yulpa/yulmails/services/entrypoint/processor"
 )
 
 // StartSMTP will start the SMTP server with the configuration file

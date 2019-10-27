@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	pb "gitlab.com/tortuemat/yulmails/services/conservation/v1beta1"
+	pb "github.com/yulpa/yulmails/services/conservation/v1beta1"
 
 	_ "github.com/lib/pq"
 )

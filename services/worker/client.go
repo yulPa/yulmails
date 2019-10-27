@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"bytes"
 
-	"gitlab.com/tortuemat/yulmails/plugins/sdk"
+	"github.com/yulpa/yulmails/plugins/sdk"
 )
 
 type plugin struct {
