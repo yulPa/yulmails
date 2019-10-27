@@ -17,8 +17,13 @@ import (
 )
 
 var (
-	pluginName = "spamassassin"
-	version    = "0.1.0"
+	pluginName    = "spamassassin"
+	version       = "0.1.0"
+	customHeaders = []string{
+		"X-Spam-Checker-Version",
+		"X-Spam-Level",
+		"X-Spam-Status",
+	}
 )
 
 func newResult(s int, d string, exec int64) *sdk.Result {
@@ -31,15 +36,7 @@ func newResult(s int, d string, exec int64) *sdk.Result {
 	}
 }
 
-func getScore(o []byte) (int, error) {
-	// since o is an email, we can parse it
-	// with net/mail
-	r := strings.NewReader(string(o))
-	m, err := mail.ReadMessage(r)
-	if err != nil {
-		return 5, err
-	}
-
+func getScore(m *mail.Message) (int, error) {
 	header := m.Header
 	status := header.Get("X-spam-status")
 	re := regexp.MustCompile(`score=([0-9]*\.?[0-9]*)`)
@@ -55,12 +52,20 @@ func getScore(o []byte) (int, error) {
 	return score, nil
 }
 
+func getCustomHeaders(m *mail.Message) []map[string]string {
+	headers := make([]map[string]string, 0, len(customHeaders))
+	for _, h := range customHeaders {
+		headers = append(headers, map[string]string{h: m.Header.Get(h)})
+	}
+	return headers
+}
+
 func testEmailAPI(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Fprintf(w, err.Error())
 	}
-	res, exec, err := spamassassinCheck(body)
+	res, exec, raw, err := spamassassinCheck(body)
 	if err != nil {
 		// TODO: status code + stack error + JSON
 		fmt.Fprintf(w, err.Error())
@@ -70,7 +75,10 @@ func testEmailAPI(w http.ResponseWriter, r *http.Request) {
 		// TODO: status code + stack error + JSON
 		fmt.Fprintf(w, err.Error())
 	}
-	result := newResult(s, string(res), exec)
+	result := newResult(s, raw, exec)
+	if len(customHeaders) > 0 {
+		result.Headers = getCustomHeaders(res)
+	}
 	payload, err := json.Marshal(result)
 	if err != nil {
 		// TODO: status code + stack error + JSON
@@ -80,15 +88,22 @@ func testEmailAPI(w http.ResponseWriter, r *http.Request) {
 	w.Write(payload)
 }
 
-func spamassassinCheck(m []byte) ([]byte, int64, error) {
+func spamassassinCheck(m []byte) (*mail.Message, int64, string, error) {
 	start := time.Now()
 	cmd := fmt.Sprintf("echo %s | spamassassin", m)
 	delta := time.Since(start)
 	output, err := exec.Command("sh", "-c", cmd).Output()
 	if err != nil {
-		return nil, 0, err
+		return nil, 0, "", err
 	}
-	return output, int64(delta), nil
+	// since o is an email, we can parse it
+	// with net/mail
+	r := strings.NewReader(string(output))
+	email, err := mail.ReadMessage(r)
+	if err != nil {
+		return nil, 0, "", err
+	}
+	return email, int64(delta), string(output), nil
 }
 
 func main() {
