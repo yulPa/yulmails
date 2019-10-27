@@ -56,7 +56,10 @@ func (c *Consumer) Consume(del rmq.Delivery) {
 	if err != nil {
 		log.Printf("consumer: %s - unable to check email: %v", c.name, err)
 	}
-	fmt.Print(string(res))
+	fmt.Println("plugin name: ", res.Name)
+	fmt.Println("version: ", res.Version)
+	fmt.Println("exec time: ", res.ExecTime)
+	fmt.Println("score: ", res.Score)
 	del.Ack()
 	// now we can store the email if its ready to be sent
 	if ok := c.storeEmail(m); !ok {

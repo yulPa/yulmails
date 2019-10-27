@@ -1,8 +1,11 @@
 package worker
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
+
+	"gitlab.com/tortuemat/yulmail/plugins/sdk"
 )
 
 type plugin struct {
@@ -11,14 +14,27 @@ type plugin struct {
 }
 
 // SendEmail will send an email to the plugin
-func (p *plugin) SendEmail(email string) ([]byte, error) {
-	// TODO: protocol must be customizable
-	resp, err := p.client.Get("http://" + p.pluginAddr + "/check")
+func (p *plugin) SendEmail(email string) (*sdk.Result, error) {
+	payload, err := json.Marshal(map[string]string{
+		"email": email,
+	})
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
-	return ioutil.ReadAll(resp.Body)
+	// TODO: protocol must be customizable
+	resp, err := p.client.Post(
+		"http://"+p.pluginAddr+"/check",
+		"application/json",
+		bytes.NewBuffer(payload),
+	)
+	if err != nil {
+		return nil, err
+	}
+	var result sdk.Result
+	if err != json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+	return result, nil
 }
 
 // NewPlugin returns a plugin created from pluginAddr
