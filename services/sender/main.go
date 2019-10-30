@@ -7,7 +7,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/mail"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -47,6 +49,23 @@ func (c *Consumer) Consume(del rmq.Delivery) {
 	c.count++
 	fmt.Print(del.Payload())
 	del.Ack()
+}
+
+func listRecipients(msg string) ([]string, error) {
+	m, err := mail.ReadMessage(strings.NewReader(msg))
+	if err != nil {
+		return nil, err
+	}
+	header := m.Header
+	addr, err := header.AddressList("To")
+	if err != nil {
+		return nil, err
+	}
+	recipients := make([]string, 0, len(addr))
+	for _, a := range addr {
+		recipients = append(recipients, a.Address)
+	}
+	return recipients, nil
 }
 
 // StartSender will start a sender in order to consume DB with consumers and send them
