@@ -76,7 +76,7 @@ VGVsbCBtZSwgdGVtcHRlciwgd2hhdCBkbyB5b3UgaGF2ZSBpbiB5b3VyIHBhbnRzPw0KSXMgaXQg
 		},
 	}
 	for _, test := range tests {
-		recipients, err := listRecipients(test.mail)
+		recipients, _ := listRecipients(test.mail)
 		assert.Equal(t, test.recipients, len(recipients))
 	}
 }
