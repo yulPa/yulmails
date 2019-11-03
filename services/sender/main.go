@@ -57,13 +57,19 @@ func listRecipients(msg string) ([]string, error) {
 		return nil, err
 	}
 	header := m.Header
-	addr, err := header.AddressList("To")
-	if err != nil {
-		return nil, err
-	}
-	recipients := make([]string, 0, len(addr))
-	for _, a := range addr {
-		recipients = append(recipients, a.Address)
+	fields := []string{"To", "Bcc", "Cc"}
+	recipients := make([]string, 0)
+	for _, f := range fields {
+		if header.Get(f) == "" {
+			continue
+		}
+		addr, err := header.AddressList(f)
+		if err != nil {
+			return nil, err
+		}
+		for _, a := range addr {
+			recipients = append(recipients, a.Address)
+		}
 	}
 	return recipients, nil
 }
