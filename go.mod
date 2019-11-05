@@ -23,5 +23,6 @@ require (
 	google.golang.org/grpc v1.24.0
 	gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a // indirect
 	gopkg.in/redis.v3 v3.6.4 // indirect
+	gopkg.in/yaml.v2 v2.2.2
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )

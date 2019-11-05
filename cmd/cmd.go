@@ -6,6 +6,7 @@ import (
 	"github.com/yulpa/yulmails/services/entrypoint"
 	"github.com/yulpa/yulmails/services/worker"
 	"github.com/yulpa/yulmails/services/sender"
+	"github.com/yulpa/yulmails/services/proxy"
 )
 
 var App = cli.App{
@@ -61,6 +62,22 @@ var App = cli.App{
 			},
 			Action: func(c *cli.Context) error {
 				return sender.StartSender(c.String("sender-config"))
+			},
+		},
+		cli.Command{
+			Name:        "proxy",
+			Aliases:     []string{"p"},
+			Usage:       "start YM proxy",
+			Description: "proxy will ensure authentication between YM and the internet",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "proxy-config",
+					Value: "/etc/yulmails/proxy.json",
+					Usage: "absolute path to the proxy config file",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				return proxy.StartProxy(c.String("proxy-config"))
 			},
 		},
 	},
