@@ -1,54 +1,62 @@
+---
 version: "3.6"
-
 services:
   queue-entrypoint:
     image: "redis:5.0.6-alpine"
     container_name: "queue-entrypoint"
     hostname: "queue-entrypoint"
-
+  proxy:
+    image: "registry.gitlab.com/tortuemat/yulmails:latest"
+    container_name: "proxy"
+    hostname: "proxy"
+    command: [
+      "yulctl",
+      "proxy",
+      "--proxy-config",
+      "/tmp/proxy.yaml.sample"
+    ]
+    volumes:
+      # to be changed following your needs
+      - "${PWD}/conf/proxy.yaml.sample:/tmp/proxy.yaml.sample:ro"
+    ports:
+      - "12800:12800"
   entrypoint:
     image: "registry.gitlab.com/tortuemat/yulmails:latest"
     container_name: "entrypoint"
     hostname: "entrypoint"
     command: [
-        "yulctl",
-        "entrypoint",
-        "--smtp-config",
-        "/tmp/entrypoint.json.sample"
+      "yulctl",
+      "entrypoint",
+      "--smtp-config",
+      "/tmp/entrypoint.json.sample"
     ]
     volumes:
       # to be changed following your needs
       - "${PWD}/conf/entrypoint.json.sample:/tmp/entrypoint.json.sample:ro"
-    ports:
-      - "2525:2525"
-    
   worker-1:
     image: "registry.gitlab.com/tortuemat/yulmails:latest"
     command: [
-        "yulctl",
-        "worker",
-        "--worker-config",
-        "/tmp/worker.json.sample"
+      "yulctl",
+      "worker",
+      "--worker-config",
+      "/tmp/worker.json.sample"
     ]
     volumes:
       # to be changed following your needs
       - "${PWD}/conf/worker.json.sample:/tmp/worker.json.sample:ro"
-
   sender-1:
     image: "registry.gitlab.com/tortuemat/yulmails:latest"
     command: [
-        "yulctl",
-        "sender",
-        "--sender-config",
-        "/tmp/sender.json.sample"
+      "yulctl",
+      "sender",
+      "--sender-config",
+      "/tmp/sender.json.sample"
     ]
     volumes:
       # to be changed following your needs
       - "${PWD}/conf/sender.json.sample:/tmp/sender.json.sample:ro"
-
   spamassassin-plugin:
     image: "registry.gitlab.com/tortuemat/yulmails/plugins/spamassassin:latest"
     container_name: "spamassassin-plugin"
     hostname: "spamassassin-plugin"
     command: "spamassassin-plugin"
-
