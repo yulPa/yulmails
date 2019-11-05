@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -39,6 +40,7 @@ func (b *backend) Login(state *smtp.ConnectionState, username, password string) 
 	if username != "username" || password != "password" {
 		return nil, errors.New("invalid credentials")
 	}
+	log.Println("successful authentication: ", state.RemoteAddr.String())
 	return &session{
 		to:     make([]string, 0),
 		ymAddr: b.ymAddr,
@@ -64,11 +66,11 @@ func (s *session) Rcpt(to string) error {
 
 // Data will return the whole email
 func (s *session) Data(r io.Reader) error {
-	if _, err := ioutil.ReadAll(r); err != nil {
+	if b, err := ioutil.ReadAll(r); err != nil {
 		return err
 	} else {
 		// send the actual to YM
-		if err := smtp.SendMail(s.ymAddr, nil, s.from, s.to, r); err != nil {
+		if err := smtp.SendMail(s.ymAddr, nil, s.from, s.to, bytes.NewReader(b)); err != nil {
 			return err
 		}
 		// reset the session
