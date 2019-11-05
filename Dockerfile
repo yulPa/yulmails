@@ -11,4 +11,5 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o yulctl
 FROM alpine:3.10
 
 COPY --from=builder /go/src/gitlab.com/tortuemat/yulmails/yulctl /usr/local/bin
-
+# Expose YM entrypoint...
+EXPOSE 2525
