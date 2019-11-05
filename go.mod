@@ -7,6 +7,7 @@ require (
 	github.com/adjust/rmq v1.0.0
 	github.com/adjust/uniuri v0.0.0-20130923163420-498743145e60 // indirect
 	github.com/asaskevich/EventBus v0.0.0-20180315140547-d46933a94f05 // indirect
+	github.com/emersion/go-smtp v0.11.2
 	github.com/flashmob/go-guerrilla v0.0.0-20191003142654-05e8e941f765
 	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.4.1 // indirect

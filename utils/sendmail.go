@@ -23,7 +23,8 @@ LiBDb21lIGFuZCBwcm92ZSB0aGF0IHlvdSBhcmUgYSByZWFsIHN0YWxsaW9uIQ0KDQpodHRwOi8v
 d3d3LmZpbmRjb21wdXRlcmdlZWsuY29tL2J2Z3k3OXgvd3NmZnMwY3oucGhwP1kyOXVkR0ZqZEVC
 NWRXeHdZUzVwYnc9PQ0K
 `)
-	if err := smtp.SendMail("127.0.0.1:2525", nil, "sender@example.org", to, msg); err != nil {
+	a := smtp.PlainAuth("", "username", "password", "127.0.0.1")
+	if err := smtp.SendMail("127.0.0.1:12800", a, "sender@example.org", to, msg); err != nil {
 		log.Fatal(err)
 	}
 }

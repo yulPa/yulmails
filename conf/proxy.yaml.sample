@@ -1,2 +1,5 @@
 ---
 port: 12800
+listen_address: 0.0.0.0
+max_recipients: 100
+yulmails_address: entrypoint:2525
