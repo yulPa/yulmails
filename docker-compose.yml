@@ -18,6 +18,8 @@ services:
     volumes:
       # to be changed following your needs
       - "${PWD}/conf/proxy.yaml.sample:/tmp/proxy.yaml.sample:ro"
+      - "${PWD}/conf/ssl/:/tmp/ssl/:ro"
+
     ports:
       - "12800:12800"
   entrypoint:
