@@ -26,7 +26,7 @@ var (
 	}
 )
 
-func newResult(s int, d string, exec int64) *sdk.Result {
+func newResult(s float64, d string, exec int64) *sdk.Result {
 	return &sdk.Result{
 		Score:    s,
 		Name:     pluginName,
@@ -36,18 +36,18 @@ func newResult(s int, d string, exec int64) *sdk.Result {
 	}
 }
 
-func getScore(m *mail.Message) (int, error) {
+func getScore(m *mail.Message) (float64, error) {
 	header := m.Header
-	status := header.Get("X-spam-status")
+	status := header.Get("X-Spam-Status")
 	re := regexp.MustCompile(`score=([0-9]*\.?[0-9]*)`)
 	match := re.FindStringSubmatch(status)
 	s := match[1]
 	if s == "" {
-		return 5, nil
+		return 5.0, nil
 	}
-	score, err := strconv.Atoi(s)
+	score, err := strconv.ParseFloat(s, 64)
 	if err != nil {
-		return 5, nil
+		return 5.0, nil
 	}
 	return score, nil
 }
