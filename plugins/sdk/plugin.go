@@ -14,7 +14,7 @@ type Result struct {
 	// Version of the plugin
 	Version string `json:"version"`
 	// Score of the spam test
-	Score int `json:"score"`
+	Score float64 `json:"score"`
 	// Details are additional information for the check
 	Details string `json:"details"`
 	// TimeIn is the time when we send the email(in ms)
