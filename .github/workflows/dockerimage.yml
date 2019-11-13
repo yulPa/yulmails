@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build & push the Docker image
+      run: |
+        docker build . --file Dockerfile --tag docker.pkg.github.com/yulpa/yulmails/yulctl:latest
+        echo "${{ secrets.PASSWORD_GITHUB_REGISTRY }}" | docker login docker.pkg.github.com -u "${{ secrets.USERNAME_GITHUB_REGISTRY}}" --password-stdin
+        docker push docker.pkg.github.com/yulpa/yulmails/yulctl:latest
