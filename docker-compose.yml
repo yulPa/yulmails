@@ -6,7 +6,7 @@ services:
     container_name: "queue-entrypoint"
     hostname: "queue-entrypoint"
   proxy:
-    image: "registry.gitlab.com/tortuemat/yulmails:latest"
+    image: "docker.pkg.github.com/yulpa/yulmails/yulctl:latest"
     container_name: "proxy"
     hostname: "proxy"
     command: [
@@ -21,7 +21,7 @@ services:
     ports:
       - "12800:12800"
   entrypoint:
-    image: "registry.gitlab.com/tortuemat/yulmails:latest"
+    image: "docker.pkg.github.com/yulpa/yulmails/yulctl:latest"
     container_name: "entrypoint"
     hostname: "entrypoint"
     command: [
@@ -34,7 +34,7 @@ services:
       # to be changed following your needs
       - "${PWD}/conf/entrypoint.json.sample:/tmp/entrypoint.json.sample:ro"
   worker-1:
-    image: "registry.gitlab.com/tortuemat/yulmails:latest"
+    image: "docker.pkg.github.com/yulpa/yulmails/yulctl:latest"
     command: [
       "yulctl",
       "worker",
@@ -45,7 +45,7 @@ services:
       # to be changed following your needs
       - "${PWD}/conf/worker.json.sample:/tmp/worker.json.sample:ro"
   sender-1:
-    image: "registry.gitlab.com/tortuemat/yulmails:latest"
+    image: "docker.pkg.github.com/yulpa/yulmails/yulctl:latest"
     command: [
       "yulctl",
       "sender",
@@ -56,7 +56,7 @@ services:
       # to be changed following your needs
       - "${PWD}/conf/sender.json.sample:/tmp/sender.json.sample:ro"
   spamassassin-plugin:
-    image: "registry.gitlab.com/tortuemat/yulmails/plugins/spamassassin:latest"
+    image: "docker.pkg.github.com/yulpa/yulmails/spamassassin:latest"
     container_name: "spamassassin-plugin"
     hostname: "spamassassin-plugin"
     command: "spamassassin-plugin"
