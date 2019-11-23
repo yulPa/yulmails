@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -19,14 +18,39 @@ type entity struct {
 	Description string `json:"description"`
 }
 
+type httpError struct {
+	Err            error `json:"-"` // low-level runtime error
+	HTTPStatusCode int   `json:"-"` // http response status code
+
+	StatusText string `json:"status"`          // user-level status message
+	AppCode    int64  `json:"code,omitempty"`  // application-specific error code
+	ErrorText  string `json:"error,omitempty"` // application-level error message, for debugging
+}
+
+func (e *httpError) Render(w http.ResponseWriter, r *http.Request) error {
+	render.Status(r, e.HTTPStatusCode)
+	return nil
+}
+
 type handler struct{ repo EntityRepo }
 
-// List writes the list of entities in the response writer
+// List returns to the user a list of enties godoc
+// @Summary List entities
+// @Description list entities
+// @ID list-entities
+// @Produce  json
+// @Success 200 {array} entity
+// @Success 503 {object} httpError
+// @Router /entities [get]
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	e, err := h.repo.ListEntity()
-	fmt.Println(len(e))
 	if err != nil {
-		http.Error(w, fmt.Sprintf("unable to list entities: %s", err), http.StatusServiceUnavailable)
+		render.Render(w, r, &httpError{
+			ErrorText: err.Error(),
+			Err:    err,
+			StatusText: "unable to list entities",
+			HTTPStatusCode: http.StatusServiceUnavailable,
+		})
 		return
 	}
 	render.JSON(w, r, e)

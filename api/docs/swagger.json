@@ -1,0 +1,84 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Manage Yulmails resources from this API",
+        "title": "YulmailsAPI",
+        "termsOfService": "https://yulpa.io",
+        "contact": {
+            "name": "Mathieu Tortuyaux",
+            "email": "mathieu.tortuyaux@yulpa.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.1.0"
+    },
+    "host": "api-dev.yulmails.io",
+    "basePath": "/",
+    "paths": {
+        "/entities": {
+            "get": {
+                "description": "list entities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List entities",
+                "operationId": "list-entities",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.entity"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/entity.httpError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.entity": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.httpError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "application-specific error code",
+                    "type": "integer"
+                },
+                "error": {
+                    "description": "application-level error message, for debugging",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "user-level status message",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

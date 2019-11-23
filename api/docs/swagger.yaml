@@ -1,0 +1,57 @@
+basePath: /
+definitions:
+  entity.entity:
+    properties:
+      created:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  entity.httpError:
+    properties:
+      code:
+        description: application-specific error code
+        type: integer
+      error:
+        description: application-level error message, for debugging
+        type: string
+      status:
+        description: user-level status message
+        type: string
+    type: object
+host: api-dev.yulmails.io
+info:
+  contact:
+    email: mathieu.tortuyaux@yulpa.io
+    name: Mathieu Tortuyaux
+  description: Manage Yulmails resources from this API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://yulpa.io
+  title: YulmailsAPI
+  version: 0.1.0
+paths:
+  /entities:
+    get:
+      description: list entities
+      operationId: list-entities
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.entity'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/entity.httpError'
+      summary: List entities
+swagger: "2.0"

@@ -8,6 +8,8 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+
+	_ "github.com/swaggo/http-swagger/example/go-chi/docs"
 )
 
 // Configuration is the global configuration of the API server
@@ -37,6 +39,19 @@ type ConfSrv struct {
 	Port int `json:"port"`
 }
 
+// @title YulmailsAPI
+// @version 0.1.0
+// @description Manage Yulmails resources from this API
+// @termsOfService https://yulpa.io
+
+// @contact.name Mathieu Tortuyaux
+// @contact.email mathieu.tortuyaux@yulpa.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host api-dev.yulmails.io
+// @BasePath /
 func StartAPI(apiConfig string) error {
 	r := chi.NewRouter()
 
