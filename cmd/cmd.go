@@ -81,6 +81,7 @@ var App = cli.App{
 				return proxy.StartProxy(c.String("proxy-config"))
 			},
 		},
+		cli.Command{
 			Name:        "api",
 			Aliases:     []string{"a"},
 			Usage:       "start the API server ",
