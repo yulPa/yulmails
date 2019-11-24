@@ -2,6 +2,7 @@ package abuse
 
 import (
 	"net/http"
+	"database/sql"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -20,7 +21,7 @@ type AbuseRepo interface {
 	ListAbuse() ([]*abuse, error)
 }
 
-type abuseRepo struct{}
+type abuseRepo struct{d *sql.DB}
 
 // ListAbuse will return a list of abuses from the database
 func (a *abuseRepo) ListAbuse() ([]*abuse, error) {
@@ -56,14 +57,14 @@ func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 
 // NewAbuseRepo returns a struct that implements abuse repo
 // with a database connection
-func NewAbuseRepo() *abuseRepo {
-	return &abuseRepo{}
+func NewAbuseRepo(db *sql.DB) *abuseRepo {
+	return &abuseRepo{d: db}
 }
 
 // NewRouter returns a mux router
-func NewRouter() *chi.Mux {
+func NewRouter(db *sql.DB) *chi.Mux {
 	r := chi.NewRouter()
-	repo := NewAbuseRepo()
+	repo := NewAbuseRepo(db)
 	h := &handler{repo}
 	r.Get("/", h.List)
 	return r

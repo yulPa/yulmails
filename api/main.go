@@ -67,7 +67,7 @@ func StartAPI(apiConfig string) error {
 		return errors.Wrap(err, "unable to load configuration")
 	}
 	conn := fmt.Sprintf(
-		"user=%s dbname=%s sslmode=false password=%s host=%s port=%d",
+		"user=%s dbname=%s sslmode=disable password=%s host=%s port=%d",
 		c.Database.Username, c.Database.Name, c.Database.Password, c.Database.Host, c.Database.Port,
 	)
 	db, err := sql.Open("postgres", conn)
@@ -100,7 +100,7 @@ func StartAPI(apiConfig string) error {
 		r.Mount("/", entity.NewRouter())
 	})
 	r.Route("/abuses", func(r chi.Router) {
-		r.Mount("/", abuse.NewRouter())
+		r.Mount("/", abuse.NewRouter(db))
 	})
 
 	if err := http.ListenAndServe(":12800", r); err != nil {
