@@ -5,6 +5,8 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+
+	"github.com/yulpa/yulmails/api/utils"
 )
 
 type EntityRepo interface {
@@ -45,12 +47,9 @@ type handler struct{ repo EntityRepo }
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	e, err := h.repo.ListEntity()
 	if err != nil {
-		render.Render(w, r, &httpError{
-			ErrorText: err.Error(),
-			Err:    err,
-			StatusText: "unable to list entities",
-			HTTPStatusCode: http.StatusServiceUnavailable,
-		})
+		render.Render(w, r, utils.NewHTTPError(
+			err, http.StatusServiceUnavailable, "unable to list entities", err.Error(),
+		))
 		return
 	}
 	render.JSON(w, r, e)
