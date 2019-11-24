@@ -60,3 +60,15 @@ services:
     container_name: "spamassassin-plugin"
     hostname: "spamassassin-plugin"
     command: "spamassassin-plugin"
+  api-database:
+    image: "postgres:9.6.15"
+    container_name: "api-database"
+    hostname: "api-database"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "${PWD}/services/database/yulmails.sql:/docker-entrypoint-initdb.d/yulmails.sql:ro"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-yulmails2019}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-yulmails}
