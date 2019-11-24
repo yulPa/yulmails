@@ -1,8 +1,8 @@
 ---
 database:
-  username: yulmails
+  username: postgres
   password: yulmails2019
-  host: database
+  host: 127.0.0.1
   port: 5432
   name: yulmails
 server:
