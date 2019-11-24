@@ -1,11 +1,12 @@
 package abuse
 
 import (
-	"net/http"
 	"database/sql"
+	"net/http"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"github.com/pkg/errors"
 
 	"github.com/yulpa/yulmails/api/utils"
 )
@@ -21,17 +22,33 @@ type AbuseRepo interface {
 	ListAbuse() ([]*abuse, error)
 }
 
-type abuseRepo struct{d *sql.DB}
+type abuseRepo struct{ d *sql.DB }
 
 // ListAbuse will return a list of abuses from the database
 func (a *abuseRepo) ListAbuse() ([]*abuse, error) {
-	return []*abuse{
-		&abuse{
-			Id:      1,
-			Name:    "abuse@local.tld",
-			Created: "2019-01-25 13:34:32",
-		},
-	}, nil
+	query := "SELECT * from abuse;"
+	abuses := make([]*abuse, 0)
+	res, err := a.d.Query(query)
+	if err != nil {
+		return abuses, errors.Wrapf(err, "unable to query db: %s", query)
+	}
+	defer res.Close()
+	for res.Next() {
+		var (
+			id      int
+			name    string
+			created string
+		)
+		if err := res.Scan(&id, &name, &created); err != nil {
+			return abuses, errors.Wrap(err, "unable to extract result")
+		}
+		abuses = append(abuses, &abuse{
+			Id:      id,
+			Name:    name,
+			Created: created,
+		})
+	}
+	return abuses, nil
 }
 
 type handler struct{ repo AbuseRepo }
