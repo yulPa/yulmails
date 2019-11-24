@@ -61,8 +61,9 @@ func NewAbuseRepo() *abuseRepo {
 }
 
 // NewRouter returns a mux router
-func NewRouter(repo AbuseRepo) *chi.Mux {
+func NewRouter() *chi.Mux {
 	r := chi.NewRouter()
+	repo := NewAbuseRepo()
 	h := &handler{repo}
 	r.Get("/", h.List)
 	return r

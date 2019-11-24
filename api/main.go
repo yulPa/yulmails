@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/yulpa/yulmails/api/entity"
+	"github.com/yulpa/yulmails/api/abuse"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -70,9 +71,11 @@ func StartAPI(apiConfig string) error {
 		w.Write([]byte("hi"))
 	})
 
-	// RESTy routes for "articles" resource
 	r.Route("/entities", func(r chi.Router) {
 		r.Mount("/", entity.NewRouter())
+	})
+	r.Route("/abuses", func(r chi.Router) {
+		r.Mount("/", abuse.NewRouter())
 	})
 
 	if err := http.ListenAndServe(":12800", r); err != nil {
