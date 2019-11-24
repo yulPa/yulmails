@@ -61,6 +61,7 @@ type handler struct{ repo AbuseRepo }
 // @Success 200 {array} abuse
 // @Success 503 {object} utils.httpError
 // @Router /abuses [get]
+// @Tags abuse
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	e, err := h.repo.ListAbuse()
 	if err != nil {

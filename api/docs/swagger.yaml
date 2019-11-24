@@ -59,6 +59,8 @@ paths:
           schema:
             $ref: '#/definitions/utils.httpError'
       summary: List abuses address
+      tags:
+      - abuse
   /entities:
     get:
       description: list entities
@@ -78,3 +80,6 @@ paths:
             $ref: '#/definitions/utils.httpError'
       summary: List entities
 swagger: "2.0"
+tags:
+- name: entity
+- name: abuse

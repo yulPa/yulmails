@@ -23,6 +23,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "abuse"
+                ],
                 "summary": "List abuses address",
                 "operationId": "list-abuses",
                 "responses": {
@@ -116,5 +119,13 @@
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "entity"
+        },
+        {
+            "name": "abuse"
+        }
+    ]
 }

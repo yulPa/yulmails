@@ -57,6 +57,8 @@ type ConfSrv struct {
 
 // @host api-dev.yulmails.io
 // @BasePath /
+// @tag.name entity
+// @tag.name abuse
 func StartAPI(apiConfig string) error {
 	content, err := ioutil.ReadFile(apiConfig)
 	if err != nil {
