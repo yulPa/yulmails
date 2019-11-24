@@ -42,7 +42,7 @@ type handler struct{ repo EntityRepo }
 // @ID list-entities
 // @Produce  json
 // @Success 200 {array} entity
-// @Success 503 {object} httpError
+// @Success 503 {object} utils.httpError
 // @Router /entities [get]
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	e, err := h.repo.ListEntity()

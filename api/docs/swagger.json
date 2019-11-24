@@ -17,6 +17,33 @@
     "host": "api-dev.yulmails.io",
     "basePath": "/",
     "paths": {
+        "/abuses": {
+            "get": {
+                "description": "list abuses",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List abuses address",
+                "operationId": "list-abuses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/abuse.abuse"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/entities": {
             "get": {
                 "description": "list entities",
@@ -38,7 +65,7 @@
                     "503": {
                         "description": "Service Unavailable",
                         "schema": {
-                            "$ref": "#/definitions/entity.httpError"
+                            "$ref": "#/definitions/utils.httpError"
                         }
                     }
                 }
@@ -46,6 +73,21 @@
         }
     },
     "definitions": {
+        "abuse.abuse": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Name is the abuse address",
+                    "type": "string"
+                }
+            }
+        },
         "entity.entity": {
             "type": "object",
             "properties": {
@@ -63,19 +105,13 @@
                 }
             }
         },
-        "entity.httpError": {
+        "utils.httpError": {
             "type": "object",
             "properties": {
-                "code": {
-                    "description": "application-specific error code",
-                    "type": "integer"
-                },
                 "error": {
-                    "description": "application-level error message, for debugging",
                     "type": "string"
                 },
                 "status": {
-                    "description": "user-level status message",
                     "type": "string"
                 }
             }

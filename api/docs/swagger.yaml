@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  abuse.abuse:
+    properties:
+      created:
+        type: string
+      id:
+        type: integer
+      name:
+        description: Name is the abuse address
+        type: string
+    type: object
   entity.entity:
     properties:
       created:
@@ -11,16 +21,11 @@ definitions:
       name:
         type: string
     type: object
-  entity.httpError:
+  utils.httpError:
     properties:
-      code:
-        description: application-specific error code
-        type: integer
       error:
-        description: application-level error message, for debugging
         type: string
       status:
-        description: user-level status message
         type: string
     type: object
 host: api-dev.yulmails.io
@@ -36,6 +41,24 @@ info:
   title: YulmailsAPI
   version: 0.1.0
 paths:
+  /abuses:
+    get:
+      description: list abuses
+      operationId: list-abuses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/abuse.abuse'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: List abuses address
   /entities:
     get:
       description: list entities
@@ -52,6 +75,6 @@ paths:
         "503":
           description: Service Unavailable
           schema:
-            $ref: '#/definitions/entity.httpError'
+            $ref: '#/definitions/utils.httpError'
       summary: List entities
 swagger: "2.0"

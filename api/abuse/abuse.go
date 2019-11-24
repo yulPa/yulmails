@@ -59,7 +59,7 @@ type handler struct{ repo AbuseRepo }
 // @ID list-abuses
 // @Produce  json
 // @Success 200 {array} abuse
-// @Success 503 {object} httpError
+// @Success 503 {object} utils.httpError
 // @Router /abuses [get]
 func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 	e, err := h.repo.ListAbuse()
