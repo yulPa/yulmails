@@ -61,6 +61,34 @@ paths:
       summary: List abuses address
       tags:
       - abuse
+  /abuses/{id}:
+    get:
+      description: Returns an abuse adress by its ID
+      operationId: get-abuse
+      parameters:
+      - description: Abuse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/abuse.abuse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.httpError'
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Get an abuse adress by its ID
+      tags:
+      - abuse
   /entities:
     get:
       description: list entities

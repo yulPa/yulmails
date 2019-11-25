@@ -47,6 +47,48 @@
                 }
             }
         },
+        "/abuses/{id}": {
+            "get": {
+                "description": "Returns an abuse adress by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "abuse"
+                ],
+                "summary": "Get an abuse adress by its ID",
+                "operationId": "get-abuse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Abuse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/abuse.abuse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/entities": {
             "get": {
                 "description": "list entities",
