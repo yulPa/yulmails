@@ -1,10 +1,13 @@
 package utils
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/go-chi/render"
 )
+
+var NotFound = errors.New("not found")
 
 type httpError struct {
 	Err            error  `json:"-"`

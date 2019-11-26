@@ -24,6 +24,7 @@ type abuse struct {
 type AbuseRepo interface {
 	ListAbuse() ([]*abuse, error)
 	GetAbuse(id int) (*abuse, error)
+	DeleteAbuse(id int) error
 }
 
 type abuseRepo struct{ d *sql.DB }
@@ -78,6 +79,23 @@ func (a *abuseRepo) GetAbuse(id int) (*abuse, error) {
 
 }
 
+// DeleteAbuse removes an entity selected from the DB with its ID
+func (a *abuseRepo) DeleteAbuse(id int) error {
+	// first we assert that the record exists
+	abuse, err := a.GetAbuse(id)
+	if err != nil {
+		return errors.Wrapf(err, "unable to fetch abuse address: %d", id)
+	}
+	if abuse == nil {
+		return utils.NotFound
+	}
+	query := fmt.Sprintf("DELETE FROM abuse WHERE id = %d", id)
+	if _, err := a.d.Exec(query); err != nil {
+		return errors.Wrapf(err, "unable to delete abuse: %d", id)
+	}
+	return nil
+}
+
 type handler struct{ repo AbuseRepo }
 
 // List returns to the user a list of abuse adresses godoc
@@ -106,7 +124,7 @@ func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 // @ID get-abuse
 // @Produce  json
 // @Success 200 {object} abuse
-// @Success 404 {object} utils.httpError
+// @Success 404 "Not Found"
 // @Success 503 {object} utils.httpError
 // @Router /abuses/{id} [get]
 // @Tags abuse
@@ -114,7 +132,6 @@ func (h *handler) List(w http.ResponseWriter, r *http.Request) {
 func (h *handler) Get(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	abuseID := ctx.Value("abuse_id").(int)
-	fmt.Println(abuseID)
 	a, err := h.repo.GetAbuse(abuseID)
 	if err != nil {
 		render.Render(w, r, utils.NewHTTPError(
@@ -127,6 +144,33 @@ func (h *handler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	render.JSON(w, r, a)
+}
+
+// Delete removes an abuse adress godoc
+// @Summary Remove an abuse adress by its ID
+// @Description Remove an abuse adress by its ID
+// @ID delete-abuse
+// @Success 204 "No Content"
+// @Success 404 "Not Found"
+// @Success 503 {object} utils.httpError
+// @Router /abuses/{id} [delete]
+// @Tags abuse
+// @Param id path int true "Abuse ID"
+func (h *handler) Delete(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	abuseID := ctx.Value("abuse_id").(int)
+	switch err := h.repo.DeleteAbuse(abuseID); err {
+	case nil:
+		w.WriteHeader(http.StatusNoContent)
+		return
+	case utils.NotFound:
+		w.WriteHeader(http.StatusNotFound)
+		return
+	default:
+		render.Render(w, r, utils.NewHTTPError(
+			err, http.StatusServiceUnavailable, "unable to delete abuse adresses", err.Error(),
+		))
+	}
 }
 
 func abuseCtx(next http.Handler) http.Handler {
@@ -153,6 +197,7 @@ func NewRouter(db *sql.DB) *chi.Mux {
 	r.Route("/{id}", func(r chi.Router) {
 		r.Use(abuseCtx)
 		r.Get("/", h.Get)
+		r.Delete("/", h.Delete)
 	})
 	return r
 }

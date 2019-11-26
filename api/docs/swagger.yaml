@@ -62,6 +62,27 @@ paths:
       tags:
       - abuse
   /abuses/{id}:
+    delete:
+      description: Remove an abuse adress by its ID
+      operationId: delete-abuse
+      parameters:
+      - description: Abuse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Remove an abuse adress by its ID
+      tags:
+      - abuse
     get:
       description: Returns an abuse adress by its ID
       operationId: get-abuse
@@ -80,8 +101,6 @@ paths:
             $ref: '#/definitions/abuse.abuse'
         "404":
           description: Not Found
-          schema:
-            $ref: '#/definitions/utils.httpError'
         "503":
           description: Service Unavailable
           schema:

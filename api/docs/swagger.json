@@ -75,10 +75,38 @@
                         }
                     },
                     "404": {
-                        "description": "Not Found",
+                        "description": "Not Found"
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
                         "schema": {
                             "$ref": "#/definitions/utils.httpError"
                         }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove an abuse adress by its ID",
+                "tags": [
+                    "abuse"
+                ],
+                "summary": "Remove an abuse adress by its ID",
+                "operationId": "delete-abuse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Abuse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found"
                     },
                     "503": {
                         "description": "Service Unavailable",
