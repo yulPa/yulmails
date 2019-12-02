@@ -61,6 +61,34 @@ paths:
       summary: List abuses address
       tags:
       - abuse
+    post:
+      consumes:
+      - application/json
+      description: Insert an abuse address in DB
+      operationId: insert-abuse
+      parameters:
+      - description: insert abuse
+        in: body
+        name: abuse
+        required: true
+        schema:
+          $ref: '#/definitions/abuse.abuse'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/abuse.abuse'
+        "406":
+          description: Not Acceptable. A parameter is missing
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Insert an abuse address in DB
+      tags:
+      - abuse
   /abuses/{id}:
     delete:
       description: Remove an abuse adress by its ID

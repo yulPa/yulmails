@@ -1,7 +1,9 @@
 package abuse
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"net/http"
 	"net/http/httptest"
@@ -49,6 +51,45 @@ func (e *abuseMock) DeleteAbuse(id int) error {
 		return errors.New("db error")
 	default:
 		return nil
+	}
+}
+
+func (e *abuseMock) InsertAbuse(a *abuse) error {
+	switch a.Name {
+	case "abuse-1":
+		return errors.New("db error")
+	default:
+		return nil
+	}
+}
+
+func TestInsertAbuse(t *testing.T) {
+	tests := []struct {
+		name       string
+		statusCode int
+	}{
+		{
+			name:       "abuse-1",
+			statusCode: 503,
+		},
+		{
+			name:       "",
+			statusCode: 406,
+		},
+		{
+			name:       "abuse-2",
+			statusCode: 201,
+		},
+	}
+	repo := &abuseMock{}
+	h := &handler{repo}
+	handler := http.HandlerFunc(h.Insert)
+	for _, test := range tests {
+		payload, _ := json.Marshal(map[string]string{"name": test.name})
+		req, _ := http.NewRequest(http.MethodPost, "/", bytes.NewBuffer(payload))
+		rr := httptest.NewRecorder()
+		handler.ServeHTTP(rr, req)
+		assert.Equal(t, test.statusCode, rr.Result().StatusCode)
 	}
 }
 

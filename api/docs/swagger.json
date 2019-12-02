@@ -45,6 +45,48 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "Insert an abuse address in DB",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "abuse"
+                ],
+                "summary": "Insert an abuse address in DB",
+                "operationId": "insert-abuse",
+                "parameters": [
+                    {
+                        "description": "insert abuse",
+                        "name": "abuse",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/abuse.abuse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/abuse.abuse"
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable. A parameter is missing"
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
             }
         },
         "/abuses/{id}": {

@@ -3,9 +3,11 @@ package abuse
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -15,16 +17,17 @@ import (
 )
 
 type abuse struct {
-	Id int `json:"id"`
+	Id int `json:"id,omitempty"`
 	// Name is the abuse address
 	Name    string `json:"name"`
-	Created string `json:"created"`
+	Created string `json:"created,omitempty"`
 }
 
 type AbuseRepo interface {
 	ListAbuse() ([]*abuse, error)
 	GetAbuse(id int) (*abuse, error)
 	DeleteAbuse(id int) error
+	InsertAbuse(*abuse) error
 }
 
 type abuseRepo struct{ d *sql.DB }
@@ -82,17 +85,29 @@ func (a *abuseRepo) GetAbuse(id int) (*abuse, error) {
 // DeleteAbuse removes an entity selected from the DB with its ID
 func (a *abuseRepo) DeleteAbuse(id int) error {
 	// first we assert that the record exists
-	abuse, err := a.GetAbuse(id)
+	ab, err := a.GetAbuse(id)
 	if err != nil {
 		return errors.Wrapf(err, "unable to fetch abuse address: %d", id)
 	}
-	if abuse == nil {
+	if ab == nil {
 		return utils.NotFound
 	}
 	query := fmt.Sprintf("DELETE FROM abuse WHERE id = %d", id)
 	if _, err := a.d.Exec(query); err != nil {
 		return errors.Wrapf(err, "unable to delete abuse: %d", id)
 	}
+	return nil
+}
+
+// InsertAbuse creates and returns an entity
+func (a *abuseRepo) InsertAbuse(ab *abuse) error {
+	ab.Created = time.Now().Format(time.RFC3339)
+	query := fmt.Sprintf("INSERT INTO abuse(created, name) VALUES( '%s', '%s' ) RETURNING id;", ab.Created, ab.Name)
+	var id int
+	if err := a.d.QueryRow(query).Scan(&id); err != nil {
+		return errors.Wrapf(err, "unable to insert abuse adress: %d", id)
+	}
+	ab.Id = id
 	return nil
 }
 
@@ -173,6 +188,36 @@ func (h *handler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Insert creates and returns an abuse adress godoc
+// @Summary Insert an abuse address in DB
+// @Description Insert an abuse address in DB
+// @ID insert-abuse
+// @Success 201 {object} abuse
+// @Success 406 "Not Acceptable. A parameter is missing"
+// @Success 503 {object} utils.httpError
+// @Router /abuses [post]
+// @Tags abuse
+// @Accept json
+// @Produce  json
+// @Param abuse body abuse.abuse true "insert abuse"
+func (h *handler) Insert(w http.ResponseWriter, r *http.Request) {
+	var a abuse
+	if err := json.NewDecoder(r.Body).Decode(&a); err != nil {
+		w.WriteHeader(http.StatusNotAcceptable)
+		return
+	}
+	if len(a.Name) == 0 {
+		w.WriteHeader(http.StatusNotAcceptable)
+	}
+	if err := h.repo.InsertAbuse(&a); err != nil {
+		render.Render(w, r, utils.NewHTTPError(
+			err, http.StatusServiceUnavailable, "unable to insert abuse adresses", err.Error(),
+		))
+	}
+	w.WriteHeader(http.StatusCreated)
+	render.JSON(w, r, a)
+}
+
 func abuseCtx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
@@ -194,6 +239,7 @@ func NewRouter(db *sql.DB) *chi.Mux {
 	repo := NewAbuseRepo(db)
 	h := &handler{repo}
 	r.Get("/", h.List)
+	r.Post("/", h.Insert)
 	r.Route("/{id}", func(r chi.Router) {
 		r.Use(abuseCtx)
 		r.Get("/", h.Get)
