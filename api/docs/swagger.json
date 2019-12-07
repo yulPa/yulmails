@@ -34,7 +34,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/abuse.abuse"
+                                "$ref": "#/definitions/abuse.Abuse"
                             }
                         }
                     },
@@ -62,11 +62,11 @@
                 "parameters": [
                     {
                         "description": "insert abuse",
-                        "name": "abuse",
+                        "name": "Abuse",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/abuse.abuse"
+                            "$ref": "#/definitions/abuse.Abuse"
                         }
                     }
                 ],
@@ -74,7 +74,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/abuse.abuse"
+                            "$ref": "#/definitions/abuse.Abuse"
                         }
                     },
                     "406": {
@@ -113,7 +113,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/abuse.abuse"
+                            "$ref": "#/definitions/abuse.Abuse"
                         }
                     },
                     "404": {
@@ -188,7 +188,7 @@
         }
     },
     "definitions": {
-        "abuse.abuse": {
+        "abuse.Abuse": {
             "type": "object",
             "properties": {
                 "created": {

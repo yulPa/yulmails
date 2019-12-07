@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  abuse.abuse:
+  abuse.Abuse:
     properties:
       created:
         type: string
@@ -52,7 +52,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/abuse.abuse'
+              $ref: '#/definitions/abuse.Abuse'
             type: array
         "503":
           description: Service Unavailable
@@ -69,17 +69,17 @@ paths:
       parameters:
       - description: insert abuse
         in: body
-        name: abuse
+        name: Abuse
         required: true
         schema:
-          $ref: '#/definitions/abuse.abuse'
+          $ref: '#/definitions/abuse.Abuse'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/abuse.abuse'
+            $ref: '#/definitions/abuse.Abuse'
         "406":
           description: Not Acceptable. A parameter is missing
         "503":
@@ -126,7 +126,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/abuse.abuse'
+            $ref: '#/definitions/abuse.Abuse'
         "404":
           description: Not Found
         "503":

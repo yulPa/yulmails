@@ -17,9 +17,9 @@ import (
 
 type abuseMock struct{}
 
-func (e *abuseMock) ListAbuse() ([]*abuse, error) {
-	return []*abuse{
-		&abuse{
+func (e *abuseMock) ListAbuse() ([]*Abuse, error) {
+	return []*Abuse{
+		&Abuse{
 			Id:      1,
 			Name:    "abuse-1",
 			Created: "2019-01-25 13:34:32",
@@ -27,7 +27,7 @@ func (e *abuseMock) ListAbuse() ([]*abuse, error) {
 	}, nil
 }
 
-func (e *abuseMock) GetAbuse(id int) (*abuse, error) {
+func (e *abuseMock) GetAbuse(id int) (*Abuse, error) {
 	switch id {
 	case 1:
 		// not found
@@ -35,7 +35,7 @@ func (e *abuseMock) GetAbuse(id int) (*abuse, error) {
 	case 2:
 		return nil, errors.New("db error")
 	default:
-		return &abuse{
+		return &Abuse{
 			Id:      1,
 			Name:    "abuse-1",
 			Created: "2019-01-25 13:34:32",
@@ -54,7 +54,7 @@ func (e *abuseMock) DeleteAbuse(id int) error {
 	}
 }
 
-func (e *abuseMock) InsertAbuse(a *abuse) error {
+func (e *abuseMock) InsertAbuse(a *Abuse) error {
 	switch a.Name {
 	case "abuse-1":
 		return errors.New("db error")
