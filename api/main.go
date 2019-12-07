@@ -105,7 +105,7 @@ func StartAPI(apiConfig string) error {
 		r.Mount("/", abuse.NewRouter(db))
 	})
 
-	if err := http.ListenAndServe(":12800", r); err != nil {
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", c.Server.Port), r); err != nil {
 		return err
 	}
 	return nil

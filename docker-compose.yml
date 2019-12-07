@@ -64,11 +64,22 @@ services:
     image: "postgres:9.6.15"
     container_name: "api-database"
     hostname: "api-database"
-    ports:
-      - "5432:5432"
     volumes:
       - "${PWD}/services/database/yulmails.sql:/docker-entrypoint-initdb.d/yulmails.sql:ro"
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-yulmails2019}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-yulmails}
+  api:
+    image: "docker.pkg.github.com/yulpa/yulmails/yulctl:latest"
+    command: [
+      "yulctl",
+      "api",
+      "--api-config",
+      "/tmp/api.yaml.sample"
+    ]
+    volumes:
+      # to be changed following your needs
+      - "${PWD}/conf/api.yaml.sample:/tmp/api.yaml.sample:ro"
+    ports:
+      - "8080:8080"
