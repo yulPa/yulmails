@@ -1,0 +1,9 @@
+---
+database:
+  username: postgres
+  password: yulmails2019
+  host: api-database
+  port: 5432
+  name: yulmails
+server:
+  port: 8080

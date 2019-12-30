@@ -7,6 +7,7 @@ import (
 	"github.com/yulpa/yulmails/services/worker"
 	"github.com/yulpa/yulmails/services/sender"
 	"github.com/yulpa/yulmails/services/proxy"
+	"github.com/yulpa/yulmails/api"
 )
 
 var App = cli.App{
@@ -78,6 +79,22 @@ var App = cli.App{
 			},
 			Action: func(c *cli.Context) error {
 				return proxy.StartProxy(c.String("proxy-config"))
+			},
+		},
+		cli.Command{
+			Name:        "api",
+			Aliases:     []string{"a"},
+			Usage:       "start the API server ",
+			Description: "API server to manage your Yulmails resources",
+			Flags: []cli.Flag{
+				cli.StringFlag{
+					Name:  "api-config",
+					Value: "/etc/yulmails/api.json",
+					Usage: "absolute path to the api config file",
+				},
+			},
+			Action: func(c *cli.Context) error {
+				return api.StartAPI(c.String("api-config"))
 			},
 		},
 	},

@@ -1,0 +1,160 @@
+basePath: /
+definitions:
+  abuse.Abuse:
+    properties:
+      created:
+        type: string
+      id:
+        type: integer
+      name:
+        description: Name is the abuse address
+        type: string
+    type: object
+  entity.entity:
+    properties:
+      created:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  utils.httpError:
+    properties:
+      error:
+        type: string
+      status:
+        type: string
+    type: object
+host: api-dev.yulmails.io
+info:
+  contact:
+    email: mathieu.tortuyaux@yulpa.io
+    name: Mathieu Tortuyaux
+  description: Manage Yulmails resources from this API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://yulpa.io
+  title: YulmailsAPI
+  version: 0.1.0
+paths:
+  /abuses:
+    get:
+      description: list abuses
+      operationId: list-abuses
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/abuse.Abuse'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: List abuses address
+      tags:
+      - abuse
+    post:
+      consumes:
+      - application/json
+      description: Insert an abuse address in DB
+      operationId: insert-abuse
+      parameters:
+      - description: insert abuse
+        in: body
+        name: Abuse
+        required: true
+        schema:
+          $ref: '#/definitions/abuse.Abuse'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/abuse.Abuse'
+        "406":
+          description: Not Acceptable. A parameter is missing
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Insert an abuse address in DB
+      tags:
+      - abuse
+  /abuses/{id}:
+    delete:
+      description: Remove an abuse adress by its ID
+      operationId: delete-abuse
+      parameters:
+      - description: Abuse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Remove an abuse adress by its ID
+      tags:
+      - abuse
+    get:
+      description: Returns an abuse adress by its ID
+      operationId: get-abuse
+      parameters:
+      - description: Abuse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/abuse.Abuse'
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Get an abuse adress by its ID
+      tags:
+      - abuse
+  /entities:
+    get:
+      description: list entities
+      operationId: list-entities
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.entity'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: List entities
+swagger: "2.0"
+tags:
+- name: entity
+- name: abuse
