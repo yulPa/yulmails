@@ -9,6 +9,7 @@ import (
 
 	"github.com/yulpa/yulmails/api/abuse"
 	"github.com/yulpa/yulmails/api/entity"
+	"github.com/yulpa/yulmails/api/conservation"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -59,6 +60,7 @@ type ConfSrv struct {
 // @BasePath /
 // @tag.name entity
 // @tag.name abuse
+// @tag.name conservation 
 func StartAPI(apiConfig string) error {
 	content, err := ioutil.ReadFile(apiConfig)
 	if err != nil {
@@ -103,6 +105,9 @@ func StartAPI(apiConfig string) error {
 	})
 	r.Route("/abuses", func(r chi.Router) {
 		r.Mount("/", abuse.NewRouter(db))
+	})
+	r.Route("/conservations", func(r chi.Router) {
+		r.Mount("/", conservation.NewRouter(db))
 	})
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", c.Server.Port), r); err != nil {

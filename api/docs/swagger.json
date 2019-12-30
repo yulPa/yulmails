@@ -159,6 +159,148 @@
                 }
             }
         },
+        "/conservations": {
+            "get": {
+                "description": "list conservations",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "conservation"
+                ],
+                "summary": "List conservation rules",
+                "operationId": "list-conservations",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/conservation.Conservation"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Insert a conservation rule in DB",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "conservation"
+                ],
+                "summary": "Insert a conservation in DB",
+                "operationId": "insert-conservation",
+                "parameters": [
+                    {
+                        "description": "insert conservation",
+                        "name": "Conservation",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/conservation.Conservation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/conservation.Conservation"
+                        }
+                    },
+                    "406": {
+                        "description": "Not Acceptable. A parameter is missing"
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            }
+        },
+        "/conservations/{id}": {
+            "get": {
+                "description": "Returns a conservation rule by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "conservation"
+                ],
+                "summary": "Get a conservation rule by its ID",
+                "operationId": "get-conservation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Conservation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/conservation.Conservation"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Remove a conservation rule by its ID",
+                "tags": [
+                    "conservation"
+                ],
+                "summary": "Remove a conservation rule by its ID",
+                "operationId": "delete-conservation",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Conservation ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "$ref": "#/definitions/utils.httpError"
+                        }
+                    }
+                }
+            }
+        },
         "/entities": {
             "get": {
                 "description": "list entities",
@@ -203,6 +345,29 @@
                 }
             }
         },
+        "conservation.Conservation": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "keep_email_content": {
+                    "description": "KeepEmailContent will keep the body in DB",
+                    "type": "boolean"
+                },
+                "sent": {
+                    "description": "Sent is the number of day to keep the email in DB",
+                    "type": "integer"
+                },
+                "unsent": {
+                    "description": "Unsent is the number of day to keep unsent email in DB",
+                    "type": "integer"
+                }
+            }
+        },
         "entity.entity": {
             "type": "object",
             "properties": {
@@ -238,6 +403,9 @@
         },
         {
             "name": "abuse"
+        },
+        {
+            "name": "conservation"
         }
     ]
 }

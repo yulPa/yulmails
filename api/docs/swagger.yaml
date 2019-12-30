@@ -10,6 +10,22 @@ definitions:
         description: Name is the abuse address
         type: string
     type: object
+  conservation.Conservation:
+    properties:
+      created:
+        type: string
+      id:
+        type: integer
+      keep_email_content:
+        description: KeepEmailContent will keep the body in DB
+        type: boolean
+      sent:
+        description: Sent is the number of day to keep the email in DB
+        type: integer
+      unsent:
+        description: Unsent is the number of day to keep unsent email in DB
+        type: integer
+    type: object
   entity.entity:
     properties:
       created:
@@ -136,6 +152,101 @@ paths:
       summary: Get an abuse adress by its ID
       tags:
       - abuse
+  /conservations:
+    get:
+      description: list conservations
+      operationId: list-conservations
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/conservation.Conservation'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: List conservation rules
+      tags:
+      - conservation
+    post:
+      consumes:
+      - application/json
+      description: Insert a conservation rule in DB
+      operationId: insert-conservation
+      parameters:
+      - description: insert conservation
+        in: body
+        name: Conservation
+        required: true
+        schema:
+          $ref: '#/definitions/conservation.Conservation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/conservation.Conservation'
+        "406":
+          description: Not Acceptable. A parameter is missing
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Insert a conservation in DB
+      tags:
+      - conservation
+  /conservations/{id}:
+    delete:
+      description: Remove a conservation rule by its ID
+      operationId: delete-conservation
+      parameters:
+      - description: Conservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Remove a conservation rule by its ID
+      tags:
+      - conservation
+    get:
+      description: Returns a conservation rule by its ID
+      operationId: get-conservation
+      parameters:
+      - description: Conservation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/conservation.Conservation'
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Get a conservation rule by its ID
+      tags:
+      - conservation
   /entities:
     get:
       description: list entities
@@ -158,3 +269,4 @@ swagger: "2.0"
 tags:
 - name: entity
 - name: abuse
+- name: conservation
