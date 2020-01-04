@@ -26,8 +26,12 @@ definitions:
         description: Unsent is the number of day to keep unsent email in DB
         type: integer
     type: object
-  entity.entity:
+  entity.Entity:
     properties:
+      abuse_id:
+        type: integer
+      conservation_id:
+        type: integer
       created:
         type: string
       description:
@@ -35,6 +39,7 @@ definitions:
       id:
         type: integer
       name:
+        description: Name is the entity address
         type: string
     type: object
   utils.httpError:
@@ -258,13 +263,90 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/entity.entity'
+              $ref: '#/definitions/entity.Entity'
             type: array
         "503":
           description: Service Unavailable
           schema:
             $ref: '#/definitions/utils.httpError'
       summary: List entities
+      tags:
+      - entity
+    post:
+      consumes:
+      - application/json
+      description: Insert an entity in DB
+      operationId: insert-entity
+      parameters:
+      - description: insert entity
+        in: body
+        name: Entity
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Entity'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "406":
+          description: Not Acceptable. A parameter is missing
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Insert an entity in DB
+      tags:
+      - entity
+  /entities/{id}:
+    delete:
+      description: Remove an entity adress by its ID
+      operationId: delete-entity
+      parameters:
+      - description: Entity ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Remove an entity adress by its ID
+      tags:
+      - entity
+    get:
+      description: Returns an entity by its ID
+      operationId: get-entity
+      parameters:
+      - description: Entity ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Entity'
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Get an entity by its ID
+      tags:
+      - entity
 swagger: "2.0"
 tags:
 - name: entity

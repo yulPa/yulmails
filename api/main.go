@@ -101,7 +101,7 @@ func StartAPI(apiConfig string) error {
 	})
 
 	r.Route("/entities", func(r chi.Router) {
-		r.Mount("/", entity.NewRouter())
+		r.Mount("/", entity.NewRouter(db))
 	})
 	r.Route("/abuses", func(r chi.Router) {
 		r.Mount("/", abuse.NewRouter(db))
