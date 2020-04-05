@@ -26,6 +26,20 @@ definitions:
         description: Unsent is the number of day to keep unsent email in DB
         type: integer
     type: object
+  domain.Domain:
+    properties:
+      conservation_id:
+        type: integer
+      created:
+        type: string
+      environment_id:
+        type: integer
+      id:
+        type: integer
+      name:
+        description: Name is the domain address
+        type: string
+    type: object
   entity.Entity:
     properties:
       abuse_id:
@@ -252,6 +266,101 @@ paths:
       summary: Get a conservation rule by its ID
       tags:
       - conservation
+  /domains:
+    get:
+      description: list domains
+      operationId: list-domains
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Domain'
+            type: array
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: List domains
+      tags:
+      - domain
+    post:
+      consumes:
+      - application/json
+      description: Insert an domain in DB
+      operationId: insert-domain
+      parameters:
+      - description: insert entity
+        in: body
+        name: Domain
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Domain'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/domain.Domain'
+        "406":
+          description: Not Acceptable. A parameter is missing
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Insert an domain in DB
+      tags:
+      - domain
+  /domains/{id}:
+    delete:
+      description: Remove an domain adress by its ID
+      operationId: delete-domain
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Remove an domain adress by its ID
+      tags:
+      - domain
+    get:
+      description: Returns an domain by its ID
+      operationId: get-domain
+      parameters:
+      - description: Domain ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Domain'
+        "404":
+          description: Not Found
+        "503":
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/utils.httpError'
+      summary: Get an domain by its ID
+      tags:
+      - domain
   /entities:
     get:
       description: list entities
