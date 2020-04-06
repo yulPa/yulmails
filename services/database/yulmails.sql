@@ -137,6 +137,17 @@ WITH (
 ALTER TABLE public."domain_quotas"
 	OWNER to postgres;
 
+CREATE TABLE public."whitelist"
+(
+	ip character varying(15) NOT NULL
+)
+WITH (
+	OIDS=FALSE
+);
+
+ALTER TABLE public."whitelist"
+	OWNER to postgres;
+
 /*
  _ __ ___   ___   ___| | __
 | '_ ` _ \ / _ \ / __| |/ /
@@ -242,3 +253,8 @@ INSERT INTO public."domain_quotas"(domain_id, quota_id) VALUES (5, 2);
 INSERT INTO public."domain_quotas"(domain_id, quota_id) VALUES (5, 3);
 INSERT INTO public."domain_quotas"(domain_id, quota_id) VALUES (5, 4);
 INSERT INTO public."domain_quotas"(domain_id, quota_id) VALUES (5, 5);
+
+--Add default whitelist
+INSERT INTO public."whitelist"(ip) VALUES ('111.200.212.202');
+INSERT INTO public."whitelist"(ip) VALUES ('167.78.13.87');
+INSERT INTO public."whitelist"(ip) VALUES ('148.5.239.3');
