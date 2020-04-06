@@ -11,6 +11,7 @@ import (
 	"github.com/yulpa/yulmails/api/conservation"
 	"github.com/yulpa/yulmails/api/domain"
 	"github.com/yulpa/yulmails/api/entity"
+	"github.com/yulpa/yulmails/api/whitelist"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -118,6 +119,9 @@ func StartAPI(apiConfig string) error {
 	})
 	r.Route("/domains", func(r chi.Router) {
 		r.Mount("/", domain.NewRouter(db))
+	})
+	r.Route("/whitelist", func(r chi.Router) {
+		r.Mount("/", whitelist.NewRouter(db))
 	})
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", c.Server.Port), r); err != nil {
