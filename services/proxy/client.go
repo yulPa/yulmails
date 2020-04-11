@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"time"
 
+	"github.com/patrickmn/go-cache"
 	"github.com/pkg/errors"
 
 	"github.com/yulpa/yulmails/api/domain"
@@ -25,6 +28,7 @@ type Yulmails interface {
 type client struct {
 	api string
 	h   *http.Client
+	c   *cache.Cache
 }
 
 // yulmails is the http address of yulmails api server
@@ -33,6 +37,8 @@ func newClient(yulmails string) *client {
 	return &client{
 		api: yulmails,
 		h:   &http.Client{},
+		// 5min of TTL / 10 min before being purged
+		c: cache.New(5*time.Minute, 10*time.Minute),
 	}
 }
 
@@ -65,6 +71,10 @@ func (c *client) GetDomain(name string) (*domain.Domain, error) {
 }
 
 func (c *client) GetWhitelist() ([]string, error) {
+	if ips, ok := c.c.Get("whitelist"); ok {
+		log.Printf("using cached whitelist\n")
+		return ips.([]string), nil
+	}
 	resp, err := c.h.Get(fmt.Sprintf("%s/whitelist", c.api))
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get whitelist")
@@ -82,5 +92,6 @@ func (c *client) GetWhitelist() ([]string, error) {
 	if err := json.Unmarshal(body, &ips); err != nil {
 		return nil, errors.Wrapf(err, "unable to read JSON")
 	}
+	c.c.Set("whitelist", ips, cache.DefaultExpiration)
 	return ips, nil
 }
