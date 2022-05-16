@@ -20,7 +20,7 @@ require (
 	github.com/lib/pq v1.2.0
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.8.1
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	github.com/stretchr/testify v1.3.0
@@ -31,6 +31,6 @@ require (
 	google.golang.org/grpc v1.24.0
 	gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a // indirect
 	gopkg.in/redis.v3 v3.6.4 // indirect
-	gopkg.in/yaml.v2 v2.2.2
+	gopkg.in/yaml.v2 v2.2.8
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
