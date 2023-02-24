@@ -20,13 +20,13 @@ require (
 	github.com/lib/pq v1.2.0
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
-	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.8.1
 	github.com/sirupsen/logrus v1.4.2 // indirect
 	github.com/stretchr/testify v1.3.0
 	github.com/swaggo/swag v1.6.3
 	github.com/urfave/cli v1.22.1
-	golang.org/x/net v0.0.0-20191011234655-491137f69257
+	golang.org/x/net v0.7.0
 	google.golang.org/genproto v0.0.0-20191009194640-548a555dbc03
 	google.golang.org/grpc v1.24.0
 	gopkg.in/bsm/ratelimit.v1 v1.0.0-20160220154919-db14e161995a // indirect
